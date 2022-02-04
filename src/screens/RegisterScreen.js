@@ -75,8 +75,9 @@ const RegisterScreen = () => {
             <Text>Date of Birth</Text>
             <Button title={"Pick Date"} onPress={() => setOpen(!open)}/>
             {open ? <NumberPlease
-                digits={date}
-                value={birthday}/> : null}
+            digits={date}
+            values={birthday}
+            onChange={value1 => setBirthday(value1)}/> : null}
             <Text>Age</Text>
             <TextInput style={[styles.input, styles.inputContainer]}
                        placeholder={"AGE"}
