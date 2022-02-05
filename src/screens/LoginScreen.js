@@ -40,6 +40,14 @@ const LoginScreen = ({ navigation }) => {
         >
           <Text style={styles.buttonOutlineText}>Register</Text>
         </TouchableOpacity>
+        <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("Flipcard");
+            }}
+            style={styles.button}
+        >
+          <Text style={styles.buttonText}>Flipcard</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
