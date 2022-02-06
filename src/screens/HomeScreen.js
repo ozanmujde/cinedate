@@ -5,7 +5,7 @@ import {TouchableOpacity} from "react-native-gesture-handler";
 const HomeScreen = () => {
   return (
     <View>
-      <Text>Home Screen</Text>
+      <Text style={{fontSize:50}} >Home Screen</Text>
     </View>
   );
 };
