@@ -14,7 +14,6 @@ export default class FlipcardComponent extends Component {
     super(props);
     this.card = React.createRef();
   }
-
   render() {
     return (
         <View style={styles.container}>
@@ -31,7 +30,7 @@ export default class FlipcardComponent extends Component {
                          onPress={() => this.card.flipHorizontal()}>
                 <Image style={styles.profilePhoto} source={require('../../assets/profilePhoto.jpg')} />
                 <Text>Film: Lord Of the Rings</Text>
-                <Text>Owner: Omer Faruk Polat </Text>
+                <Text>Owner: {this.props.name} </Text>
                 <TouchableOpacity
                     onPress={() => {
                       alert("Your appeal has been sent to the owner");
