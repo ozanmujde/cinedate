@@ -44,15 +44,9 @@ const router = () => {
       ) : (
         <Tab.Navigator
           initialRouteName="Home"
-          // screenOptions={{
-          //   tabBarOptions: {
-          //     activeTintColor: "tomato",
-          //     inactiveTintColor: "gray",
-          //   },
-          //   style: {
-          //     ...styles.shadow,
-          //   },
-          // }}
+          screenOptions={{
+            headerShown: false,
+          }}
         >
           <Tab.Screen
             name="Home"
