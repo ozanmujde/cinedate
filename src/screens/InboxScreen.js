@@ -1,11 +1,11 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
-
+import { SafeAreaView } from "react-navigation";
 const InboxScreen = () => {
   return (
-    <View>
+    <SafeAreaView forceInset={{ top: "always" }}>
       <Text style={{fontSize:50}}>InboxScreen</Text>
-    </View>
+    </SafeAreaView>
   );
 };
 

@@ -1,7 +1,10 @@
 import { StyleSheet, Text, View, KeyboardAvoidingView } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
+import { Context as AuthContext } from "../context/AuthContext";
+
 const LoginScreen = ({ navigation }) => {
+  const { signin } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -13,6 +16,7 @@ const LoginScreen = ({ navigation }) => {
           placeholder="Email"
           style={styles.input}
           value={email}
+          autoCapitalize="none"
           onChangeText={(text) => setEmail(text)}
         />
         <TextInput
@@ -20,13 +24,14 @@ const LoginScreen = ({ navigation }) => {
           secureTextEntry
           style={styles.input}
           value={password}
+          autoCapitalize="none"
           onChangeText={(text) => setPassword(text)}
         />
       </View>
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate("Home");
+            signin({ email, password });
           }}
           style={styles.button}
         >
@@ -41,10 +46,10 @@ const LoginScreen = ({ navigation }) => {
           <Text style={styles.buttonOutlineText}>Register</Text>
         </TouchableOpacity>
         <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("Flipcard");
-            }}
-            style={styles.button}
+          onPress={() => {
+            // navigation.navigate("Flipcard");
+          }}
+          style={styles.button}
         >
           <Text style={styles.buttonText}>Flipcard</Text>
         </TouchableOpacity>
