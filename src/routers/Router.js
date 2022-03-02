@@ -8,7 +8,7 @@ import { createStackNavigator } from "react-navigation-stack";
 import LoginScreen from "../screens/LoginScreen";
 import HomeScreen from "../screens/HomeScreen";
 import RegisterScreen from "../screens/RegisterScreen";
-import FlipcardComponent from "../components/FlipcardComponent";
+import FlipcardComponent from "../Components/FlipcardComponent";
 import SearchScreen from "../screens/SearchScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import InboxScreen from "../screens/InboxScreen";

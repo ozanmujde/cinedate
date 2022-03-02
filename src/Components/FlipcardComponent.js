@@ -5,7 +5,7 @@ import {
   Button,
   StyleSheet,
   TouchableOpacity,
-  Pressable, Image, TouchableHighlight,
+  Pressable, Image, TouchableHighlight, SafeAreaView,
 } from 'react-native';
 import FlipCard from "react-native-flip-card-plus";
 
@@ -13,10 +13,11 @@ export default class FlipcardComponent extends Component {
   constructor(props) {
     super(props);
     this.card = React.createRef();
+    this.footer = React.createRef();
   }
   render() {
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <FlipCard
                 flipDirection={"h"}
                 style={styles.cardContainer}
@@ -29,19 +30,30 @@ export default class FlipcardComponent extends Component {
               <Pressable style={styles.card}
                          onPress={() => this.card.flipHorizontal()}>
                 <Image style={styles.profilePhoto} source={require('../../assets/profilePhoto.jpg')} />
-                <Text>Film: Lord Of the Rings</Text>
-                <Text>Owner: {this.props.name} </Text>
+                <Text>Film: {this.props.filmName}</Text>
+                <Text>Owner: {this.props.ownerName} </Text>
                 <TouchableOpacity
                     onPress={() => {
+                      const appeal = [{
+                        filmName: this.props.filmName,
+                        ownerName: this.props.ownerName,
+                      }]
                       alert("Your appeal has been sent to the owner");
                     }}
                     style={[styles.button]}
                 >
-                  <Text style={styles.button}>Join</Text>
+                  <Text style={styles.button} >Join</Text>
                 </TouchableOpacity>
               </Pressable>
             </FlipCard>
-        </View>
+          <SafeAreaView style={styles.footer}  ref={(footer) => (this.footer = footer)}>
+            <SafeAreaView style={{alignItems: "flex-end"}}>
+              <Text style={{marginLeft:20}}>{this.props.filmName}</Text>
+              <Text>{this.props.ownerName}</Text>
+            </SafeAreaView>
+            <Image source={require('../../assets/profilePhoto.jpg')} style={styles.profilePhotoFooter}/>
+          </SafeAreaView>
+        </SafeAreaView>
     );
   }
 }
@@ -49,17 +61,19 @@ export default class FlipcardComponent extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
+    marginTop: 30,
+    margin:10
   },
   cardContainer: {
-    width: 220,
-    height: 270,
+    width: '100%',
+    height: 500,
   },
   card: {
-    width: 220,
-    height: 270,
+    width: '100%',
+    height: '100%',
     alignItems: 'center',
     backgroundColor: '#ffaeae',
     borderRadius: 5,
@@ -94,8 +108,17 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
   },
   cardImage : {
-    width: 220,
-    height: 270,
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
+    backgroundColor: '#ffaeae',
+    borderRadius: 5,
+    shadowColor: 'rgba(0,0,0,0.5)',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    justifyContent: 'center'
   },
    profilePhoto: {
     width: 50,
@@ -110,5 +133,21 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 20
   },
-
+  footer: {
+    bottom: 0,
+    width: '100%',
+    height: 50,
+    backgroundColor: '#fff',
+    borderTopWidth: 1,
+    borderTopColor: '#fff',
+    flexDirection: 'row',
+  },
+  profilePhotoFooter: {
+    width: 30,
+    height: 30,
+    borderRadius: 50,
+    borderWidth: 1,
+    borderColor: '#fff',
+    marginTop: 10,
+  },
 });
