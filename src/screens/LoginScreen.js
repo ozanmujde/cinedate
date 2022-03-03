@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, KeyboardAvoidingView } from "react-native";
+import { StyleSheet, Text, SafeAreaView, View,StatusBar } from "react-native";
 import React, { useState, useContext } from "react";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import { Context as AuthContext } from "../context/AuthContext";
@@ -10,7 +10,12 @@ const LoginScreen = ({ navigation }) => {
 
   return (
     // the keyboard ll not cover the keyboard
-    <View style={styles.container} behavior="padding">
+    <SafeAreaView style={styles.container} forceInset={{ top: "always" }}>
+      {/* TODO: Make status bar changeable in the future */}
+      <StatusBar barStyle="dark-content" 
+      backgroundColor="#61dafb"
+      animated={true}
+      />
       <View style={styles.inputContainer}>
         <TextInput
           placeholder="Email"
@@ -45,16 +50,8 @@ const LoginScreen = ({ navigation }) => {
         >
           <Text style={styles.buttonOutlineText}>Register</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            // navigation.navigate("Flipcard");
-          }}
-          style={styles.button}
-        >
-          <Text style={styles.buttonText}>Flipcard</Text>
-        </TouchableOpacity>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 

@@ -1,4 +1,4 @@
-import {Button, Keyboard, StyleSheet, Text, View} from 'react-native';
+import {Button, Keyboard, StyleSheet, Text, View, SafeAreaView} from 'react-native';
 import React, {useState} from 'react';
 import {TextInput, TouchableOpacity, TouchableWithoutFeedback} from "react-native-gesture-handler";
 import User from "../classes/User";
@@ -84,7 +84,10 @@ const RegisterScreen = () => {
     };
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView 
+        style={styles.container}
+        forceInset={{ top: "always" }}
+        >
             <Text>Email</Text>
             <TextInput style={[styles.input, styles.inputContainer]}
                        onChangeText={(text) => setEmail(text)} placeholder={"EMAIL"}
@@ -148,7 +151,7 @@ const RegisterScreen = () => {
                 handleSubmit()}}>
                 <Text>Submit</Text>
             </TouchableOpacity>
-        </View>
+        </SafeAreaView>
     );
 };
 

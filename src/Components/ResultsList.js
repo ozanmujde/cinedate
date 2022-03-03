@@ -8,21 +8,16 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-navigation";
 
-// import { withNavigation } from "react-navigation";
+import { useNavigation } from "@react-navigation/native";
 import ResultsDetail from "./ResultsDetail";
 
-const ResultsList = ({ results, navigation }) => {
+const ResultsList = ({ results }) => {
   if (!results.length) {
     // there is no result dont show anything
     return null;
   }
-  const getHeader = () => {
-    return <Text>{"My Title"}</Text>;
-  };
+  const navigation = useNavigation();
 
-  const getFooter = () => {
-    return <Text>{"Loading..."}</Text>;
-  };
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
@@ -35,7 +30,7 @@ const ResultsList = ({ results, navigation }) => {
           return (
             <TouchableOpacity
               onPress={() => {
-                // navigation.navigate("ResultsShow", { id: item.id }); // with that we can pass id information to ResultsShowScreen
+                navigation.navigate("Profile", { id: item.id }); // with that we can pass id information to ResultsShowScreen
               }}
             >
               <ResultsDetail result={item} navigation={navigation} />
