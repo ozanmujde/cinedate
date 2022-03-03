@@ -1,9 +1,9 @@
 import { StyleSheet, Text, ScrollView } from "react-native";
 import React, { useState } from "react";
-import SearchBar from "../components/SearchBar";
+import SearchBar from "../Components/SearchBar";
 import useResults from "../hooks/useResults";
 import { SafeAreaView } from "react-navigation";
-import ResultsList from "../components/ResultsList";
+import ResultsList from "../Components/ResultsList";
 
 const SearchScreen = () => {
   const [searchTerm, setSearchTerm] = useState("");
