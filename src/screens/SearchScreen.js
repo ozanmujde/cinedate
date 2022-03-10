@@ -7,14 +7,14 @@ import ResultsList from "../Components/ResultsList";
 
 const SearchScreen = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [searchApi, errorMessage, results] = useResults();
+  const [searchMovieApi,  errorMessage, results] = useResults();
 
   return (
     <SafeAreaView style={styles.container} forceInset={{ top: "always" }}>
       <SearchBar
         term={searchTerm}
         onTermChange={setSearchTerm} // same as above
-        onTermSubmit={() => searchApi(searchTerm)}
+        onTermSubmit={() => searchMovieApi(searchTerm)}
       />
       {errorMessage ? (
         <Text style={styles.errorText}>{errorMessage}</Text>

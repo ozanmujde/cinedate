@@ -13,7 +13,7 @@ import SearchScreen from "../screens/SearchScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import InboxScreen from "../screens/InboxScreen";
 import SetScreen from "../screens/SetScreen";
-import ResultShowScreen from "../screens/ResultShowScreen";
+import ResultScreen from "../screens/ResultScreen";
 import ChatScreen from "../screens/ChatScreen";
 import { Ionicons } from "@expo/vector-icons";
 import {
@@ -105,7 +105,7 @@ const router = () => {
               ),
             }}
           />
-          <Stack.Screen name="ResultShow" component={ResultShowScreen} />
+          <Stack.Screen name="ResultShow" component={ResultScreen} />
         </Tab.Navigator>
       )}
     </NavigationContainer>
