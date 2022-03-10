@@ -30,7 +30,7 @@ const ResultsList = ({ results }) => {
           return (
             <TouchableOpacity
               onPress={() => {
-                navigation.navigate("ResultShow", { id: item.id }); // with that we can pass id information to ResultsShowScreen
+                navigation.navigate("ResultScreen", { id: item.id }); // with that we can pass id information to ResultsShowScreen
               }}
             >
               <ResultsDetail result={item} navigation={navigation} />

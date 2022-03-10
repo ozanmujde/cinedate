@@ -105,7 +105,7 @@ const router = () => {
               ),
             }}
           />
-          <Stack.Screen name="ResultShow" component={ResultScreen} />
+          <Stack.Screen name="ResultScreen" component={ResultScreen} />
         </Tab.Navigator>
       )}
     </NavigationContainer>
