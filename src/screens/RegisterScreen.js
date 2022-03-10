@@ -10,19 +10,19 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 
 
 const RegisterScreen = () => {
-    const [email, setEmail] = useState("");
-    const [name, setName] = useState("");
-    const [surname, setSurname] = useState("");
-    const [sex, setSex] = useState("");
-    const [adverts, setAdverts] = useState([]);
-    const [age, setAge] = useState("");
-    const [location, setLocation] = useState("");
-    const [bio, setBio] = useState("");
-    const [profilePhoto, setProfilePhoto] = useState("");
-    const [likedFilms, setLikedFilms] = useState([]);
-    const [watchedFilms, setWatchedFilms] = useState([]);
+    const [email, setEmail] = React.useState("");
+    const [name, setName] = React.useState("");
+    const [surname, setSurname] = React.useState("");
+    const [sex, setSex] = React.useState("");
+    const [adverts, setAdverts] = React.useState([]);
+    const [age, setAge] = React.useState("");
+    const [location, setLocation] = React.useState("");
+    const [bio, setBio] = React.useState("");
+    const [profilePhoto, setProfilePhoto] = React.useState("");
+    const [likedFilms, setLikedFilms] = React.useState([]);
+    const [watchedFilms, setWatchedFilms] = React.useState([]);
 
-    const [user,setUser] = useState(new User("","","","",
+    const [user,setUser] = React.useState(new User("","","","",
         [],-1, "","","",[]));
 
     const initialBirthday = [
@@ -30,9 +30,9 @@ const RegisterScreen = () => {
         { id: "month", value: 4 },
         { id: "year", value: 1970 },
     ];
-    const [birthday, setBirthday] = useState(initialBirthday);
+    const [birthday, setBirthday] = React.useState(initialBirthday);
 
-    const [open,setOpen] = useState(false);
+    const [open,setOpen] = React.useState(false);
     const date = [
         { id: "day", label: "", min: 1, max: 31 },
         { id: "month", label: "", min: 1, max: 12 },
@@ -44,8 +44,8 @@ const RegisterScreen = () => {
         {label: 'Other', value: 2}
     ];
 
-    const [value, setValue] = useState(null);
-    const [isFocus, setIsFocus] = useState(false);
+    const [value, setValue] = React.useState(null);
+    const [isFocus, setIsFocus] = React.useState(false);
 
     function setCountryCode(country){
         setLocation(country);

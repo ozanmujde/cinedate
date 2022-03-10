@@ -21,11 +21,13 @@ export default class PendingAppealsComponent extends Component {
   }
   render() {
     return (
-        <SafeAreaView style={styles.container}>
-          <Text style={styles.title}>Pending Appeals</Text>
+        <TouchableOpacity style={[styles.container,styles.separator]}
+        onPress={
+
+        }>
           <Text style={styles.text}>{this.props.filmName}</Text>
           <Text style={styles.text}>{this.props.ownerName}</Text>
-        </SafeAreaView>
+        </TouchableOpacity>
     );
   }
 
@@ -35,10 +37,13 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     height: '100%',
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#0d9fe0',
+    backgroundColor: '#0d9fe0'
+  },
+  separator: {
+    flex: 1,
+    borderWidth: 1,
   },
   label: {
     textAlign: 'center',
@@ -48,7 +53,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   text: {
-    textAlign: 'center',
+    textAlign: 'left',
     fontSize: 20,
     fontFamily: 'System',
     color: 'rgba(0,0,255,0.58)',
