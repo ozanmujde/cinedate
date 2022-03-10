@@ -13,6 +13,8 @@ import SearchScreen from "../screens/SearchScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import InboxScreen from "../screens/InboxScreen";
 import SetScreen from "../screens/SetScreen";
+import ResultShowScreen from "../screens/ResultShowScreen";
+import ChatScreen from "../screens/ChatScreen";
 import { Ionicons } from "@expo/vector-icons";
 import {
   Provider as AuthProvider,
@@ -78,6 +80,7 @@ const router = () => {
               ),
             }}
           />
+
           <Tab.Screen
             name="Inbox"
             component={InboxScreen}
@@ -102,6 +105,7 @@ const router = () => {
               ),
             }}
           />
+          <Stack.Screen name="ResultShow" component={ResultShowScreen} />
         </Tab.Navigator>
       )}
     </NavigationContainer>

@@ -3,12 +3,12 @@ import createDataContext from "./createDataContext";
 const authReducer = (state, action) => {
   switch (action.type) {
     case "signin":
-      if (
-        action.payload.email === "admin" &&
-        action.payload.password === "123"
-      ) {
+      // if (
+      //   action.payload.email === "admin" &&
+      //   action.payload.password === "123"
+      // ) {
         return { ...state, isSignedIn: true };
-      }
+      // }
     default:
       return state;
   }

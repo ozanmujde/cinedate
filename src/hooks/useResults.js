@@ -1,5 +1,6 @@
 import  { useState, useEffect } from "react";
 import yelp from "../api/yelp";
+import tmdb from "../api/tmdb";
 
 export default () => {
   // to extract the searchApi from the useResults function first take everything associated with
@@ -9,16 +10,15 @@ export default () => {
 
   const searchApi = async (searchTerm) => {
     try {
-      const responce = await yelp.get("/search", {
+      const responce = await tmdb.get("/search/movie", {
         params: {
           // any key value pair can be passed to url with that like search?limit=50
           limit: 50,
-          term: searchTerm,
-          // term, // same as above if its term : term
-          location: "san jose",
+          query: searchTerm,
         },
       });
-      setResults(responce.data.businesses);
+      console.log(responce.data);
+      setResults(responce.data.results);
     } catch (err) {
       setErrorMessage("Something went wrong");
     }
