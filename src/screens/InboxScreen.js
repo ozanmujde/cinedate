@@ -1,9 +1,11 @@
-import {FlatList, Image, StyleSheet, Text, View} from 'react-native';
+import {FlatList, Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import { SafeAreaView } from "react-navigation";
 import PendingAppealsComponent from "../Components/PendingAppealsComponent";
 import Advert from "../classes/Advert";
 import FlipcardComponent from "../Components/FlipcardComponent";
+import {useNavigation} from "@react-navigation/native";
+import useResults from "../hooks/useResults";
 
 
 function InboxScreen() {
@@ -23,12 +25,25 @@ function InboxScreen() {
     ];
   const [adverts, setAdverts] = React.useState(new Advert(1,1,"1/1/2022","1/1/2022","1/1/2022",
         10, "Both",[1,2,3], "active", 1));
+  const navigation = useNavigation();
+  const [searchMovieApi,  errorMessage, results] = useResults();
+  const result = [];
+  function getFilms() {
+    data.map(film => {
+      searchMovieApi(film.filmName);
+      result.push(results.id);
+    });
+    console.log(result);
+    return results;
+  }
+
   return (
       <SafeAreaView style={styles.container} forceInset={{ top: "always" }}>
         <Image source={require('../../assets/wlobby.png')} style={styles.logo} />
         <FlatList style={{height:'100%', width:'100%', }}
                   data={data}
-                  renderItem={({item}) => <PendingAppealsComponent filmName={item.filmName} ownerName={item.ownerName}/>}
+                  renderItem={({item}) =>
+                          <PendingAppealsComponent filmName={item.filmName} ownerName={item.ownerName} navigation={navigation}/>}
                   keyExtractor={(item, index) => index.toString()}></FlatList>
       </SafeAreaView>
       );

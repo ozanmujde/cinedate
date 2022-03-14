@@ -8,8 +8,11 @@ import {
   Pressable, Image, TouchableHighlight,
 } from 'react-native';
 import {SafeAreaView} from "react-navigation";
+import {useNavigation} from "@react-navigation/native";
+import tmdb from "../api/tmdb";
 
-
+let result;
+let uri;
 export default class PendingAppealsComponent extends Component {
   constructor(props) {
     super(props);
@@ -17,14 +20,31 @@ export default class PendingAppealsComponent extends Component {
       isLoading: true,
       dataSource: []
     };
-
   }
+
+  function1 = async () => {
+    try {
+      const response = await tmdb.get("/search/movie", {
+        params: {
+          query: this.props.filmName,
+        },
+      });
+      // console.log(response.data);
+      result = response.data.results[0];
+    } catch (err) {
+      console.log("Something went wrong");
+    }
+    console.log(result);
+    uri = "https://image.tmdb.org/t/p/w185_and_h278_bestv2/" + result.poster_path;
+    this.props.navigation.navigate('ResultScreen', {id: result.id, image: uri});
+  };
+
   render() {
     return (
-        <TouchableOpacity style={[styles.container,styles.separator]}
-        onPress={
-
-        }>
+        <TouchableOpacity style={[styles.container,styles.separator]} onPress={() => {
+          this.function1();
+        }}
+        >
           <Text style={styles.text}>{this.props.filmName}</Text>
           <Text style={styles.text}>{this.props.ownerName}</Text>
         </TouchableOpacity>

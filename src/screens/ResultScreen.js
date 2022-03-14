@@ -29,6 +29,7 @@ const ResultScreen = ({ route: { params } }) => {
       <FlipcardComponent
         filmName={result.original_title}
         ownerName={"ozanin Kodu"}
+        filmImage={uri}
       />
     </SafeAreaView>
   );

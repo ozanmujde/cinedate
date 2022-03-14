@@ -3,6 +3,7 @@ import React from 'react';
 import {TouchableOpacity} from "react-native-gesture-handler";
 import FlipcardComponent from '../Components/FlipcardComponent';
 import { SafeAreaView } from "react-navigation";
+import tmdb from "../api/tmdb";
 
 const HomeScreen = () => {
   const data = [
@@ -18,7 +19,6 @@ const HomeScreen = () => {
       "filmName": "Star Wars",
       "ownerName": "Sara",
     },
-
   ];
   return (
     <SafeAreaView style={styles.container} forceInset={{ top: "always" }}>
@@ -33,8 +33,6 @@ const HomeScreen = () => {
         backgroundColor="#61dafb"
         animated={true}
       />
-      <Text style={{ fontSize: 50 }}>Home Screen</Text>
-      <FlipcardComponent name="anan" />
     </SafeAreaView>
   );
 };

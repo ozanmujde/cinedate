@@ -1,15 +1,5 @@
-import React, { Component, useState } from "react";
-import {
-  Text,
-  View,
-  Button,
-  StyleSheet,
-  TouchableOpacity,
-  Pressable,
-  Image,
-  TouchableHighlight,
-  SafeAreaView,
-} from "react-native";
+import React, {Component} from "react";
+import {Image, Pressable, SafeAreaView, StyleSheet, Text, TouchableHighlight, TouchableOpacity,} from "react-native";
 import FlipCard from "react-native-flip-card-plus";
 
 export default class FlipcardComponent extends Component {
@@ -41,7 +31,9 @@ export default class FlipcardComponent extends Component {
           >
             <Image
               style={styles.cardImage}
-              source={require("../../assets/lotr.jpg")}
+              source={this.props.filmImage ? {
+                uri: this.props.filmImage,
+              }: require("../../assets/lotr.jpg")}
             />
           </TouchableHighlight>
           <Pressable
