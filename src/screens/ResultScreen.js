@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { SafeAreaView, Text, StyleSheet, Image, FlatList } from "react-native";
+import React, {useEffect, useState} from "react";
+import {SafeAreaView, StyleSheet} from "react-native";
 import tmdb from "../api/tmdb";
 import FlipcardComponent from "../Components/FlipcardComponent";
 
-const ResultScreen = ({ route: { params } }) => {
+const ResultScreen = ({route: {params}}) => {
   const [result, setResult] = useState(null);
-  const { id } = params;
+  const {id} = params;
   //   const id = navigation.getParam("id"); // this is how we get id from navigation
   //const getResult = useSelector((state) => state.results.result);
 
@@ -25,15 +25,16 @@ const ResultScreen = ({ route: { params } }) => {
   const uri =
     "https://image.tmdb.org/t/p/w185_and_h278_bestv2/" + result.poster_path;
   return (
-    <SafeAreaView style={styles.container} forceInset={{ top: "always" }}>
-      <FlipcardComponent
-        filmName={result.original_title}
-        ownerName={"ozanin Kodu"}
-        filmImage={uri}
-        isDetailScreen ={true}
-        comments={"Çok iyi film olcak hacı gel kesin"}
-      />
-    </SafeAreaView>
+      <SafeAreaView style={styles.container}>
+        <FlipcardComponent
+            style={{height: '100%', width: '100%'}}
+            filmName={result.original_title}
+            ownerName={"ozanin Kodu"}
+            filmImage={uri}
+            isDetailScreen={true}
+            comments={"Çok iyi film olcak hacı gel kesin"}
+        />
+      </SafeAreaView>
   );
 };
 
@@ -45,6 +46,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "white",
+    width: "100%",
+    height: "100%",
+    marginTop: 20,
   },
 });
 

@@ -1,7 +1,8 @@
 import React, {Component} from "react";
 import {Image, Pressable, SafeAreaView, StyleSheet, TouchableHighlight, TouchableOpacity,} from "react-native";
 import FlipCard from "react-native-flip-card-plus";
-import {Avatar, Button, Headline, TextInput} from 'react-native-paper';
+import {Avatar, Button, Headline, Subheading, Text, TextInput} from 'react-native-paper';
+import {normalize} from "react-native-elements";
 
 export default class FlipcardComponent extends Component {
   constructor(props) {
@@ -17,6 +18,10 @@ export default class FlipcardComponent extends Component {
       this.card.flipHorizontal();
     }
   }
+  trunc(text) {
+    return text.length > 20 ? `${text.substr(0, 20)}...` : text;
+  }
+
   render() {
     return (
         <SafeAreaView>
@@ -24,11 +29,11 @@ export default class FlipcardComponent extends Component {
               style={styles.footer}
               ref={(footer) => (this.footer = footer)}
           >
-            <SafeAreaView style={{alignItems: "flex-end", margin:10}}>
-              <Headline style={{marginLeft: 20}}>{this.props.filmName}</Headline>
+            <SafeAreaView style={{margin:10}}>
+              <Subheading>{this.trunc(this.props.filmName)}</Subheading>
             </SafeAreaView>
-            <SafeAreaView style={{alignItems: "flex-end", flexDirection: "row", marginRight: 20}}>
-              <Headline style={{paddingRight: 20}}>{this.props.ownerName}</Headline>
+            <SafeAreaView style={{ flexDirection: "row", marginRight: 20, justifyContent: "center", alignItems:"center"}}>
+              <Subheading style={{paddingRight: 20}} adjustsFontSizeToFit>{this.props.ownerName}</Subheading>
               <Avatar.Image style={{alignSelf: 'center'}} size={30} source={require('../../assets/profilePhoto.jpg')}/>
             </SafeAreaView>
           </SafeAreaView>
@@ -58,8 +63,8 @@ export default class FlipcardComponent extends Component {
                     <Avatar.Image style={{alignSelf: 'center'}} size={50}
                                   source={require('../../assets/profilePhoto.jpg')}/>
                   </TouchableOpacity>
-                  <TextInput style={styles.textInput} disabled={true} label={"Film"} value={this.props.filmName}/>
-                  <TextInput style={styles.textInput} disabled={true} label={"Owner"} value={this.props.ownerName}/>
+                  <TextInput style={styles.textInput} adjustsFontSizeToFit disabled={true} label={"Film" } multiline={true} value={this.props.filmName}/>
+                  <TextInput style={styles.textInput} disabled={true} label={"Owner"} multiline={true} value={this.props.ownerName}/>
                   <TextInput style={styles.textInput} disabled={true} multiline={true} label={"Comments"}
                              value={this.props.comments}/>
                   <TextInput style={styles.textInput} disabled={true} label={"Date"}
@@ -92,7 +97,6 @@ export default class FlipcardComponent extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "flex-end",
     alignItems: "center",
     backgroundColor: "#F5FCFF",
     margin: 10,
@@ -189,7 +193,8 @@ const styles = StyleSheet.create({
   },
   textInput: {
     marginVertical: 10,
-    borderRadius:15
+    borderRadius:15,
+    flexWrap: 'wrap',
   },
   backendContainer: {
     flex: 1,
