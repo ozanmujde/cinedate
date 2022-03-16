@@ -2,6 +2,8 @@ import React, { useContext } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+
 import { StyleSheet } from "react-native";
 import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
@@ -15,6 +17,7 @@ import InboxScreen from "../screens/InboxScreen";
 import SetScreen from "../screens/SetScreen";
 import ResultScreen from "../screens/ResultScreen";
 import ChatScreen from "../screens/ChatScreen";
+
 import { Ionicons } from "@expo/vector-icons";
 import {
   Provider as AuthProvider,
@@ -95,8 +98,8 @@ const BottomTabNavigator = () => {
       />
 
       <Tab.Screen
-        name="Inbox"
-        component={InboxScreen}
+        name="InboxRoot"
+        component={TopTabNavigator}
         options={{
           tabBarLabel: "Inbox",
           tabBarIcon: ({ color, size }) => (
@@ -115,6 +118,21 @@ const BottomTabNavigator = () => {
         }}
       />
     </Tab.Navigator>
+  );
+};
+
+const TopTabNavigator = () => {
+  const TopTab = createMaterialTopTabNavigator();
+  return (
+    <TopTab.Navigator
+      initialRouteName="Inbox"
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <TopTab.Screen name="Inbox" component={InboxScreen} />
+      <TopTab.Screen name="ChatScreen" component={ChatScreen} />
+    </TopTab.Navigator>
   );
 };
 
