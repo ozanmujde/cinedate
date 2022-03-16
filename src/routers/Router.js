@@ -24,8 +24,6 @@ import {
 const router = () => {
   const { state } = useContext(AuthContext);
   const Stack = createNativeStackNavigator();
-  const Tab = createBottomTabNavigator();
-
   //TODO: Add the AuthContext to the App component
   return (
     <NavigationContainer>
@@ -44,83 +42,80 @@ const router = () => {
           <Stack.Screen name="Flipcard" component={FlipcardComponent} />
         </Stack.Navigator>
       ) : (
-        <Tab.Navigator
-          initialRouteName="Home"
-          screenOptions={{
-            headerShown: false,
-          }}
-        >
-          <Tab.Screen
-            name="Home"
-            component={HomeScreen}
-            options={{
-              tabBarLabel: "Home",
-              tabBarIcon: ({ color, size }) => (
-                <Ionicons name="ios-home" color={color} size={size} />
-              ),
-            }}
-          />
-          <Tab.Screen
-            name="Search"
-            component={SearchScreen}
-            options={{
-              tabBarLabel: "Search",
-              tabBarIcon: ({ color, size }) => (
-                <Ionicons name="ios-search" color={color} size={size} />
-              ),
-            }}
-          />
-          <Tab.Screen
-            name="Set"
-            component={SetScreen}
-            options={{
-              tabBarLabel: "Set",
-              tabBarIcon: ({ color, size }) => (
-                <Ionicons name="add-circle-outline" color={color} size={size} />
-              ),
-            }}
-          />
-
-          <Tab.Screen
-            name="Inbox"
-            component={InboxScreen}
-            options={{
-              tabBarLabel: "Inbox",
-              tabBarIcon: ({ color, size }) => (
-                <Ionicons name="ios-mail" color={color} size={size} />
-              ),
-            }}
-          />
-          <Tab.Screen
-            name="Profile"
-            component={ProfileScreen}
-            options={{
-              tabBarLabel: "Profile",
-              tabBarIcon: ({ color, size }) => (
-                <Ionicons
-                  name="person-circle-outline"
-                  color={color}
-                  size={size}
-                />
-              ),
-            }}
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Tab"
+            component={BottomTabNavigator}
+            options={{ headerShown: false }}
           />
           <Stack.Screen name="ResultScreen" component={ResultScreen} />
-        </Tab.Navigator>
+        </Stack.Navigator>
       )}
     </NavigationContainer>
   );
+};
+const BottomTabNavigator = () => {
+  const Tab = createBottomTabNavigator();
+  return (
+    <Tab.Navigator
+      initialRouteName="Home"
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <Tab.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          tabBarLabel: "Home",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="ios-home" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Search"
+        component={SearchScreen}
+        options={{
+          tabBarLabel: "Search",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="ios-search" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Set"
+        component={SetScreen}
+        options={{
+          tabBarLabel: "Set",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="add-circle-outline" color={color} size={size} />
+          ),
+        }}
+      />
 
-  //     >
-  //       <Tab.Screen name="Home" component={HomeScreen} />
-  //       <Tab.Screen name="Search" component={SearchScreen} />
-  //       <Tab.Screen name="Set" component={SetScreen} />
-  //       <Tab.Screen name="Profile" component={ProfileScreen} />
-  //       <Tab.Screen name="Inbox" component={InboxScreen} />
-  //     </Tab.Navigator>
-  //   )}
-  // </NavigationContainer>
-  // );
+      <Tab.Screen
+        name="Inbox"
+        component={InboxScreen}
+        options={{
+          tabBarLabel: "Inbox",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="ios-mail" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{
+          tabBarLabel: "Profile",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="person-circle-outline" color={color} size={size} />
+          ),
+        }}
+      />
+    </Tab.Navigator>
+  );
 };
 
 const styles = StyleSheet.create({
