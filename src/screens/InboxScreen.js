@@ -33,7 +33,6 @@ function InboxScreen() {
       searchMovieApi(film.filmName);
       result.push(results.id);
     });
-    console.log(result);
     return results;
   }
 

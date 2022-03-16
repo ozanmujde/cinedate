@@ -34,7 +34,6 @@ export default class PendingAppealsComponent extends Component {
     } catch (err) {
       console.log("Something went wrong");
     }
-    console.log(result);
     uri = "https://image.tmdb.org/t/p/w185_and_h278_bestv2/" + result.poster_path;
     this.props.navigation.navigate('ResultScreen', {id: result.id, image: uri});
   };

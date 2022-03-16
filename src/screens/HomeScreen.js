@@ -1,9 +1,10 @@
-import {FlatList, Image, StyleSheet, Text, StatusBar} from 'react-native';
+import {FlatList, Image, StyleSheet, Text, StatusBar, SafeAreaView} from 'react-native';
 import React from 'react';
 import {TouchableOpacity} from "react-native-gesture-handler";
 import FlipcardComponent from '../Components/FlipcardComponent';
-import { SafeAreaView } from "react-navigation";
 import tmdb from "../api/tmdb";
+import {FAB} from "react-native-paper";
+import {useNavigation} from "@react-navigation/native";
 
 const HomeScreen = () => {
   const data = [
@@ -20,6 +21,9 @@ const HomeScreen = () => {
       "ownerName": "Sara",
     },
   ];
+
+  const navigation = useNavigation();
+
   return (
     <SafeAreaView style={styles.container} forceInset={{ top: "always" }}>
       <Image source={require('../../assets/wlobby.png')} style={styles.logo} />
@@ -32,6 +36,12 @@ const HomeScreen = () => {
         barStyle="dark-content"
         backgroundColor="#61dafb"
         animated={true}
+      />
+      <FAB
+          style={styles.fab}
+          medium
+          icon="plus"
+          onPress={() => navigation.navigate("Set")}
       />
     </SafeAreaView>
   );
@@ -49,5 +59,12 @@ const styles = StyleSheet.create({
   logo: {
     width: '100%',
     height: '20%',
+  },
+  fab: {
+    position: 'absolute',
+    margin: 16,
+    right: 0,
+    bottom: 0,
+    backgroundColor: '#6d00e5',
   },
 });
