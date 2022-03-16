@@ -1,6 +1,7 @@
 import React, {Component} from "react";
-import {Image, Pressable, SafeAreaView, StyleSheet, Text, TouchableHighlight, TouchableOpacity,} from "react-native";
+import {Image, Pressable, SafeAreaView, StyleSheet, TouchableHighlight, TouchableOpacity,} from "react-native";
 import FlipCard from "react-native-flip-card-plus";
+import {Avatar, Button, Headline, TextInput} from 'react-native-paper';
 
 export default class FlipcardComponent extends Component {
   constructor(props) {
@@ -16,66 +17,74 @@ export default class FlipcardComponent extends Component {
       this.card.flipHorizontal();
     }
   }
-
   render() {
     return (
-      <SafeAreaView style={styles.container}>
-        <FlipCard
-          flipDirection={"h"}
-          style={styles.cardContainer}
-          ref={(card) => (this.card = card)}
-        >
-          <TouchableHighlight
-            style={styles.card}
-            onPress={() => this.card.flipHorizontal()}
+        <SafeAreaView>
+          <SafeAreaView
+              style={styles.footer}
+              ref={(footer) => (this.footer = footer)}
           >
-            <Image
-              style={styles.cardImage}
-              source={this.props.filmImage ? {
-                uri: this.props.filmImage,
-              }: require("../../assets/lotr.jpg")}
-            />
-          </TouchableHighlight>
-          <Pressable
-            style={styles.card}
-            onPress={() => this.card.flipHorizontal()}
-          >
-            <Image
-              style={styles.profilePhoto}
-              source={require("../../assets/profilePhoto.jpg")}
-            />
-            <Text>Film: {this.props.filmName}</Text>
-            <Text>Owner: {this.props.ownerName} </Text>
-            <TouchableOpacity
-              onPress={() => {
-                const appeal = [
-                  {
-                    filmName: this.props.filmName,
-                    ownerName: this.props.ownerName,
-                  },
-                ];
-                alert("Your appeal has been sent to the owner");
-              }}
-              style={[styles.button]}
-            >
-              <Text style={styles.button}>Join</Text>
-            </TouchableOpacity>
-          </Pressable>
-        </FlipCard>
-        <SafeAreaView
-          style={styles.footer}
-          ref={(footer) => (this.footer = footer)}
-        >
-          <SafeAreaView style={{ alignItems: "flex-end" }}>
-            <Text style={{ marginLeft: 20 }}>{this.props.filmName}</Text>
-            <Text>{this.props.ownerName}</Text>
+            <SafeAreaView style={{alignItems: "flex-end", margin:10}}>
+              <Headline style={{marginLeft: 20}}>{this.props.filmName}</Headline>
+            </SafeAreaView>
+            <SafeAreaView style={{alignItems: "flex-end", flexDirection: "row", marginRight: 20}}>
+              <Headline style={{paddingRight: 20}}>{this.props.ownerName}</Headline>
+              <Avatar.Image style={{alignSelf: 'center'}} size={30} source={require('../../assets/profilePhoto.jpg')}/>
+            </SafeAreaView>
           </SafeAreaView>
-          <Image
-            source={require("../../assets/profilePhoto.jpg")}
-            style={styles.profilePhotoFooter}
-          />
+          <SafeAreaView style={styles.container}>
+            <FlipCard
+                flipDirection={"h"}
+                style={styles.cardContainer}
+                ref={(card) => (this.card = card)}
+            >
+              <TouchableHighlight
+                  style={styles.card}
+                  onPress={() => this.card.flipHorizontal()}
+              >
+                <Image
+                    style={styles.cardImage}
+                    source={this.props.filmImage ? {
+                      uri: this.props.filmImage,
+                    } : require("../../assets/lotr.jpg")}
+                />
+              </TouchableHighlight>
+              <Pressable
+                  style={styles.card}
+                  onPress={() => this.card.flipHorizontal()}
+              >
+                <SafeAreaView style={styles.backendContainer}>
+                  <TouchableOpacity onPress={() => this.props.navigation.navigate("Profile",{name: this.props.ownerName, surname: this.props.filmName})}>
+                    <Avatar.Image style={{alignSelf: 'center'}} size={50}
+                                  source={require('../../assets/profilePhoto.jpg')}/>
+                  </TouchableOpacity>
+                  <TextInput style={styles.textInput} disabled={true} label={"Film"} value={this.props.filmName}/>
+                  <TextInput style={styles.textInput} disabled={true} label={"Owner"} value={this.props.ownerName}/>
+                  <TextInput style={styles.textInput} disabled={true} multiline={true} label={"Comments"}
+                             value={this.props.comments}/>
+                  <TextInput style={styles.textInput} disabled={true} label={"Date"}
+                             value={new Date().toLocaleString()}/>
+                  <TextInput style={styles.textInput} disabled={true} label={"Time"}
+                             value={new Date().getHours().toString().padStart(2, '0')
+                                 + ":" + new Date().getMinutes().toString().padStart(2, '0')}/>
+                  <Button style={styles.button} icon="account-plus" mode="contained"
+                          disabled={this.props.isDetailScreen}
+                          onPress={() => {
+                            const appeal = [
+                              {
+                                filmName: this.props.filmName,
+                                ownerName: this.props.ownerName,
+                              },
+                            ];
+                            alert("Your appeal has been sent to the owner");
+                          }}>
+                    {this.props.isDetailScreen ? "Your appeal has been sent to the owner" : "Send appeal"}
+                  </Button>
+                </SafeAreaView>
+              </Pressable>
+            </FlipCard>
+          </SafeAreaView>
         </SafeAreaView>
-      </SafeAreaView>
     );
   }
 }
@@ -86,17 +95,16 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
     alignItems: "center",
     backgroundColor: "#F5FCFF",
-    marginTop: 30,
     margin: 10,
+    marginTop: 0,
   },
   cardContainer: {
     width: "100%",
-    height: 500,
+    height: 600,
   },
   card: {
     width: "100%",
     height: "100%",
-    alignItems: "center",
     backgroundColor: "#ffaeae",
     borderRadius: 5,
     shadowColor: "rgba(0,0,0,0.5)",
@@ -133,7 +141,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     alignItems: "center",
-    backgroundColor: "#ffaeae",
+    backgroundColor: "#6200ed",
     borderRadius: 5,
     shadowColor: "rgba(0,0,0,0.5)",
     shadowOffset: {
@@ -150,18 +158,26 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   button: {
-    backgroundColor: "#0782F9",
-    padding: 15,
-    borderRadius: 20,
+    marginTop: 20,
+    marginHorizontal: 20,
+    marginVertical: 20,
+    borderRadius: 10
   },
   footer: {
     bottom: 0,
-    width: "100%",
-    height: 50,
+    width: "95%",
+    marginBottom: 0,
     backgroundColor: "#fff",
     borderTopWidth: 1,
-    borderTopColor: "#fff",
+    borderTopColor: "#ffaeae",
+    borderLeftColor: "#ffaeae",
+    borderLeftWidth: 1,
+    borderRightColor: "#ffaeae",
+    borderRightWidth: 1,
     flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    alignSelf:  "center",
   },
   profilePhotoFooter: {
     width: 30,
@@ -171,4 +187,15 @@ const styles = StyleSheet.create({
     borderColor: "#fff",
     marginTop: 10,
   },
+  textInput: {
+    marginVertical: 10,
+    borderRadius:15
+  },
+  backendContainer: {
+    flex: 1,
+    width: "70%",
+    height: "100%",
+    alignSelf: "center",
+    justifyContent: "center",
+  }
 });

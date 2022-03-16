@@ -30,6 +30,8 @@ const ResultScreen = ({ route: { params } }) => {
         filmName={result.original_title}
         ownerName={"ozanin Kodu"}
         filmImage={uri}
+        isDetailScreen ={true}
+        comments={"Çok iyi film olcak hacı gel kesin"}
       />
     </SafeAreaView>
   );

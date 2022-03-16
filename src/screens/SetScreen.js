@@ -1,18 +1,14 @@
-import {Image, StyleSheet, Text} from 'react-native';
-import React, {useState} from 'react';
-import { SafeAreaView } from "react-navigation";
-import { HelperText, TextInput, Button, Paragraph, Dialog, Portal, Provider, Switch } from 'react-native-paper';
-import {
-  enGB,
-  registerTranslation,
-  DatePickerModal, DatePickerInput, TimePickerModal
-} from 'react-native-paper-dates'
-import {SafeAreaContext} from "react-native-safe-area-context";
+import {Image, ScrollView, StyleSheet} from 'react-native';
+import React from 'react';
+import {SafeAreaView} from "react-navigation";
+import {Button, Divider, Headline, HelperText, Switch, TextInput} from 'react-native-paper';
+import {DatePickerInput, enGB, registerTranslation, TimePickerModal} from 'react-native-paper-dates'
+
 registerTranslation('en-GB', enGB);
 
 const SetScreen = () => {
   const [filmName, setFilmName] = React.useState('');
-  const [quota,setQuota] = React.useState('');
+  const [quota, setQuota] = React.useState('');
 
   const onChangeFilmName = filmName => setFilmName(filmName);
   const onChangeQuota = quota => setQuota(quota);
@@ -34,25 +30,38 @@ const SetScreen = () => {
   }, [setVisible])
 
   const onConfirm = React.useCallback(
-      ({ hours, minutes }) => {
+      ({hours, minutes}) => {
         setVisible(false);
-        setTime(`${hours.toString().padStart(2,'0')}:${minutes.toString().padStart(2, '0')}`);
+        setTime(`${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`);
       },
       [setVisible]
   );
 
-  const [isSwitchOn, setIsSwitchOn] = React.useState(false);
+  const [menSwitch, setMenSwitch] = React.useState(false);
+  const [womenSwitch, setWomenSwitch] = React.useState(false);
+  const [comment, setComment] = React.useState("");
 
-  const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
+  const onToggleMenSwitch = () => setMenSwitch(!menSwitch);
+  const onToggleWomenSwitch = () => setWomenSwitch(!womenSwitch);
 
   return (
-      <SafeAreaView style={styles.container}>
-        <Image source={require('../../assets/wlobby.png')} style={styles.logo} />
-        <TextInput style={styles.textInput} label="Film Name" value={filmName} onChangeText={onChangeFilmName} />
-        <TextInput style={styles.textInput} label="Number Of Attendees" value={quota} keyboardType='numeric' onChangeText={onChangeQuota} />
-        <HelperText type="error" visible={hasErrors()}>
-          Number Of Attendees must be less than 10
+      <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: '100%' }} >
+        <Image source={require('../../assets/wlobby.png')} style={styles.logo}/>
+        <TextInput style={styles.textInput} label="Film Name" value={filmName} onChangeText={onChangeFilmName}/>
+        <TextInput style={styles.textInput} label="Number Of Attendees" value={quota} keyboardType='numeric'
+                   onChangeText={onChangeQuota}/>
+        <HelperText style={{margin: -10}} type="error" visible={hasErrors()}>
+          Number Of Attendees must be less than 10!
         </HelperText>
+        <TextInput style={styles.textInput}
+                   label="Comments"
+                   multiline={true}
+                   error={comment.length > 100}
+                   value={comment} onChangeText={setComment}
+                   placeholder="Type something about session"
+                   maxLength={100}
+                   right={<TextInput.Affix text={"/" + (100 - comment.length)}/>}
+        />
         <DatePickerInput
             locale="en"
             label="Date Of Film Session"
@@ -75,18 +84,24 @@ const SetScreen = () => {
             confirmLabel="Ok"
             animationType="fade"
         />
-        <Button onPress={()=> setVisible(true)}>
+        <Button style={{marginTop: -15}} onPress={() => setVisible(true)}>
           Pick time
         </Button>
-        <TextInput label="Time" value={time} />
+        <TextInput label="Time" value={time}/>
+        <SafeAreaView style={styles.switchContainer}>
+          <SafeAreaView style={styles.menSwitch}>
+            <Switch value={menSwitch} onValueChange={onToggleMenSwitch} color={'#6200ed'}/>
+            <Headline style={{fontSize: 20, paddingLeft: 10}}>Men Can Appeal</Headline>
+          </SafeAreaView>
+          <SafeAreaView style={styles.womenSwitch}>
+            <Switch value={womenSwitch} onValueChange={onToggleWomenSwitch} color={'#6200ed'}/>
+            <Headline style={{fontSize: 20, paddingLeft: 10}}>Women Can Appeal</Headline>
+          </SafeAreaView>
+        </SafeAreaView>
         <Button style={styles.button} icon="popcorn" mode="contained" onPress={() => alert("Advert Has Been Created")}>
           Let's Watch
         </Button>
-        <SafeAreaView>
-          <Paragraph>SDKJSADAS</Paragraph>
-          <Switch value={isSwitchOn} onValueChange={onToggleSwitch} />
-        </SafeAreaView>
-      </SafeAreaView>
+      </ScrollView>
   );
 };
 
@@ -94,16 +109,41 @@ export default SetScreen;
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: "center",
     paddingTop: 50,
+    width: '94%',
+    alignSelf: 'center',
   },
   textInput: {
     marginVertical: 10,
   },
-  button : {
+  button: {
     marginTop: 20,
     marginHorizontal: 20,
     marginVertical: 20,
+    borderRadius: 10
+  },
+  switchContainer: {
+    borderWidth:1,
+    justifyContent: 'center',
     borderRadius: 10,
+    marginTop: 10,
+    borderColor: '#6200ed',
+  },
+  menSwitch: {
+    margin: 10,
+    marginTop:0,
+    marginBottom: 0,
+    flexDirection: 'row',
+    marginLeft: 20,
+  },
+  womenSwitch: {
+    margin: 10,
+    marginTop: 0,
+    flexDirection: 'row',
+    marginLeft: 20,
+  },
+  logo: {
+    width: '100%',
+    height: '20%',
   },
 });

@@ -1,14 +1,26 @@
-import {Button, Keyboard, StyleSheet, Text, View, SafeAreaView} from 'react-native';
+import {Keyboard, StyleSheet, Text, View, SafeAreaView, ScrollView} from 'react-native';
 import React, {useState} from 'react';
-import {TextInput, TouchableOpacity, TouchableWithoutFeedback} from "react-native-gesture-handler";
+import {TouchableOpacity, TouchableWithoutFeedback} from "react-native-gesture-handler";
 import User from "../classes/User";
 import NumberPlease from "react-native-number-please";
-import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
 import {countries} from "../countries";
 import { Dropdown } from 'react-native-element-dropdown';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-
-
+import {
+    HelperText,
+    TextInput,
+    Button,
+    Paragraph,
+    Dialog,
+    Portal,
+    Provider,
+    Switch,
+    Divider,
+    Headline,
+    RadioButton,
+    Subheading, Colors, IconButton
+} from 'react-native-paper';
+import {DatePickerInput} from "react-native-paper-dates";
 const RegisterScreen = () => {
     const [email, setEmail] = React.useState("");
     const [name, setName] = React.useState("");
@@ -30,7 +42,7 @@ const RegisterScreen = () => {
         { id: "month", value: 4 },
         { id: "year", value: 1970 },
     ];
-    const [birthday, setBirthday] = React.useState(initialBirthday);
+    const [birthday, setBirthday] = React.useState(new Date());
 
     const [open,setOpen] = React.useState(false);
     const date = [
@@ -47,6 +59,12 @@ const RegisterScreen = () => {
     const [value, setValue] = React.useState(null);
     const [isFocus, setIsFocus] = React.useState(false);
 
+    const [visible, setVisible] = React.useState(false);
+
+    const showDialog = () => setVisible(true);
+
+    const hideDialog = () => setVisible(false);
+
     function setCountryCode(country){
         setLocation(country);
     }
@@ -55,7 +73,7 @@ const RegisterScreen = () => {
     }
 
     function handleSubmit() {
-        if(email != "" && name != "" && surname != "" && location != "") {
+        if(email !== "" && name !== "" && surname !== "" && location !== "") {
             setUser(new User(email, name, surname, sex,[],
                 age,location,"","",[],[]));
             console.log(user);
@@ -84,74 +102,87 @@ const RegisterScreen = () => {
     };
 
     return (
-        <SafeAreaView 
-        style={styles.container}
-        forceInset={{ top: "always" }}
+        <ScrollView
         >
-            <Text>Email</Text>
-            <TextInput style={[styles.input, styles.inputContainer]}
-                       onChangeText={(text) => setEmail(text)} placeholder={"EMAIL"}
-            />
-
-            <Text>Name</Text>
-            <TextInput style={[styles.input, styles.inputContainer]}
-                       placeholder={"NAME"}
-            onChangeText={text => setName(text)}></TextInput>
-
-            <Text>Surname</Text>
-                <TextInput style={[styles.input, styles.inputContainer]}
-                           placeholder={"SURNAME"}
-                           onChangeText={text => setSurname(text)}></TextInput>
-            <Text>Date of Birth</Text>
-            <Button title={"Pick Date"} onPress={() => setOpen(!open)}/>
-            {open ? <NumberPlease
-            digits={date}
-            values={birthday}
-            onChange={value1 => setBirthday(value1)}/> : null}
-            <Text>{birthday[0].value + "/" + birthday[1].value + "/" + birthday[2].value}</Text>
-            <Text>Age</Text>
-            <TextInput style={[styles.input, styles.inputContainer]}
-                       placeholder={"AGE"}
-                       onChangeText={text => setAge(text)}
-                       keyboardType='numeric'></TextInput>
-            <Text>Sex</Text>
-            <RadioForm
-                radio_props={radio_props}
-                initial={0}
-                formHorizontal={true}
-                labelHorizontal={true}
-                buttonColor={'#2196f3'}
-                animation={true}
-                onPress={(value) => setSex(value)}
-            />
-            <Text>Country</Text>
-            <Dropdown
-                style={styles.dropdown}
-                placeholderStyle={styles.placeholderStyle}
-                selectedTextStyle={styles.selectedTextStyle}
-                inputSearchStyle={styles.inputSearchStyle}
-                iconStyle={styles.iconStyle}
-                data={countries}
-                search
-                maxHeight={300}
-                labelField="label"
-                valueField="value"
-                placeholder="Select item"
-                searchPlaceholder="Search..."
-                value={value}
-                onChange={item => {
-                    setLocation(item.value);
-                }}
-                renderLeftIcon={() => (
-                    <AntDesign style={styles.icon} color="black" name="Safety" size={20} />
-                )}
-                renderItem={renderItem}
-            />
-            <TouchableOpacity style={styles.button} onPress={() => {
-                handleSubmit()}}>
-                <Text>Submit</Text>
-            </TouchableOpacity>
-        </SafeAreaView>
+            <SafeAreaView>
+                <Headline style={styles.headline}>WELCOME TO WLOBBY</Headline>
+                <IconButton
+                    style={{alignSelf: 'center'}}
+                    icon="camera-plus"
+                    color={'#6200ed'}
+                    size={50}
+                    onPress={() => alert("Upload a profile photo")}
+                />
+                <TextInput style={styles.textInput} label="Email" value={email} onChangeText={email => setEmail(email)} />
+                <TextInput style={styles.textInput} label="Name" value={name} onChangeText={name => setName(name)} />
+                <TextInput style={styles.textInput} label="Surname" value={surname} onChangeText={surname => setSurname(surname)} />
+                <DatePickerInput
+                    style={styles.textInput}
+                    locale="en"
+                    label="Birthday"
+                    value={birthday}
+                    onChange={(d) => setBirthday(d)}
+                    inputMode="start"
+                    validRange={{
+                        endDate: new Date(),
+                    }}
+                    saveLabel="Save"
+                    animationType="slide"
+                />
+                <TextInput disabled={true} label="Age" value={(new Date().getFullYear() - birthday.getFullYear()).toString()}/>
+                <Divider style={{borderWidth:0.4}}/>
+                <Divider style={{borderWidth:0.1}}/>
+                <Provider>
+                    <View style={{borderWidth: 1, width:"50%", borderRadius:5,margin:5, alignSelf:"center", borderColor:"#6200ed"}}>
+                        <Button onPress={showDialog}>{sex ? sex : "Select Sex"}</Button>
+                        <Portal>
+                            <Dialog visible={visible} onDismiss={hideDialog}>
+                                <Dialog.Title>Select Sex</Dialog.Title>
+                                <Dialog.Content>
+                                    <RadioButton.Group  onValueChange={value => setSex(value)} value={sex}>
+                                        <RadioButton.Item style={{width: '100%'}} color="#6200ed"  label="Male" value="male" />
+                                        <RadioButton.Item style={{width: '100%'}} color="#6200ed"  label="Female" value="female" />
+                                        <RadioButton.Item style={{width: '100%'}} color="#6200ed"  label="Other" value="other" />
+                                    </RadioButton.Group>
+                                </Dialog.Content>
+                                <Dialog.Actions>
+                                    <Button onPress={hideDialog}>Done</Button>
+                                </Dialog.Actions>
+                            </Dialog>
+                        </Portal>
+                    </View>
+                </Provider>
+                <Divider style={{borderWidth:0.4}}/>
+                <View style={{flexDirection:'row', alignItems: 'center'}}>
+                    <Subheading style={{paddingLeft:10}}>Country</Subheading>
+                    <Dropdown
+                        style={styles.dropdown}
+                        placeholderStyle={styles.placeholderStyle}
+                        selectedTextStyle={styles.selectedTextStyle}
+                        inputSearchStyle={styles.inputSearchStyle}
+                        iconStyle={styles.iconStyle}
+                        data={countries}
+                        search
+                        maxHeight={300}
+                        labelField="label"
+                        valueField="value"
+                        placeholder="Select item"
+                        searchPlaceholder="Search..."
+                        value={value}
+                        onChange={item => {
+                            setCountryCode(item.value);
+                        }}
+                        renderLeftIcon={() => (
+                            <AntDesign style={styles.icon} color="black" name="Safety" size={20} />
+                        )}
+                        renderItem={renderItem}
+                    />
+                </View>
+                <Button style={styles.button} icon="check" mode="contained" onPress={() => alert("Advert Has Been Created")}>
+                    Submit
+                </Button>
+            </SafeAreaView>
+        </ScrollView>
     );
 };
 
@@ -182,12 +213,10 @@ const styles = StyleSheet.create({
         alignItems: "center",
         marginTop: 30,
     },
-    button: {
-        backgroundColor: "#0782F9",
-        padding: 15,
-        borderRadius: 20,
-        width: "100%",
-        alignItems: "center",
+    button : {
+        marginTop: 10,
+        marginHorizontal: 20,
+        borderRadius: 10
     },
     buttonText: {
         color: "#fff",
@@ -211,24 +240,36 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
     },
     dropdown: {
+        margin: 16,
         height: 50,
-        minWidth: 200,
-        borderColor: "gray",
-        borderWidth: 0.5,
-        borderRadius: 8,
-        paddingHorizontal: 8,
+        borderRadius: 12,
+        borderStyle: "solid",
+        borderWidth: 1,
+        borderColor: "#6200ed",
+        backgroundColor: "#fff",
+        padding: 12,
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.2,
+        shadowRadius: 1.41,
+        elevation: 2,
+        width: "70%",
     },
     icon: {
         marginRight: 5,
     },
-    label: {
-        position: "absolute",
-        backgroundColor: "white",
-        left: 22,
-        top: 8,
-        zIndex: 999,
-        paddingHorizontal: 8,
-        fontSize: 14,
+    item: {
+        padding: 17,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    textItem: {
+        flex: 1,
+        fontSize: 16,
     },
     placeholderStyle: {
         fontSize: 16,
@@ -244,5 +285,24 @@ const styles = StyleSheet.create({
         height: 40,
         fontSize: 16,
     },
+    label: {
+        position: "absolute",
+        backgroundColor: "white",
+        left: 22,
+        top: 8,
+        zIndex: 999,
+        paddingHorizontal: 8,
+        fontSize: 14,
+    },
+    textInput: {
+        marginTop: 10,
+    },
+    headline: {
+        fontSize: 24,
+        fontWeight: "bold",
+        marginBottom: 10,
+        textAlign: "center",
+    },
+
 
 });

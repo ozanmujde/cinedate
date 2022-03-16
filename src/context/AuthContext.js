@@ -8,6 +8,8 @@ const authReducer = (state, action) => {
       //   action.payload.password === "123"
       // ) {
         return { ...state, isSignedIn: true };
+    case "signout":
+      return { ...state, isSignedIn: false };
       // }
     default:
       return state;
@@ -39,7 +41,7 @@ const signin = (dispatch) => {
 
 const signout = (dispatch) => {
   return () => {
-    // somehow sign out!!!
+    dispatch({ type: "signout", payload: {} });
   };
 };
 

@@ -1,8 +1,6 @@
-import {FlatList, Image, StyleSheet, Text, StatusBar, SafeAreaView} from 'react-native';
+import {FlatList, Image, SafeAreaView, StatusBar, StyleSheet} from 'react-native';
 import React from 'react';
-import {TouchableOpacity} from "react-native-gesture-handler";
 import FlipcardComponent from '../Components/FlipcardComponent';
-import tmdb from "../api/tmdb";
 import {FAB} from "react-native-paper";
 import {useNavigation} from "@react-navigation/native";
 
@@ -21,16 +19,32 @@ const HomeScreen = () => {
       "ownerName": "Sara",
     },
   ];
+  let FlatListItemSeparator;
+  FlatListItemSeparator = () => {
+    return (
+        <SafeAreaView
+            style={{
+              height: 1,
+              alignSelf: 'center',
+              width: "90%",
+              backgroundColor: "#6200ed",
+            }}
+        />
+    );
+  }
 
   const navigation = useNavigation();
 
   return (
-    <SafeAreaView style={styles.container} forceInset={{ top: "always" }}>
-      <Image source={require('../../assets/wlobby.png')} style={styles.logo} />
-      <FlatList style={{height:'100%', width:'100%'}}
-        data={data}
-        renderItem={({item}) => <FlipcardComponent ownerName={item.ownerName} filmName={item.filmName}/>}
-        keyExtractor={(item, index) => index.toString()}></FlatList>
+      <SafeAreaView style={styles.container} forceInset={{top: "always"}}>
+        <Image source={require('../../assets/wlobby.png')} style={styles.logo}/>
+        <FlatList style={{height: '100%', width: '100%'}}
+                  data={data}
+                  renderItem={({item}) => <FlipcardComponent ownerName={item.ownerName} filmName={item.filmName}
+                                                             isDetailScreen={false}
+                                                             comments={"Çok iyi film olcak hacı gel kesin"}
+                  navigation={navigation}/>}
+                  keyExtractor={(item, index) => index.toString()}></FlatList>
       {/* TODO: Make status bar changeable in the future */}
       <StatusBar
         barStyle="dark-content"
@@ -65,6 +79,6 @@ const styles = StyleSheet.create({
     margin: 16,
     right: 0,
     bottom: 0,
-    backgroundColor: '#6d00e5',
+    backgroundColor: '#6200ed',
   },
 });
