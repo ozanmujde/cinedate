@@ -1,7 +1,7 @@
-import React, {Component} from "react";
-import {Image, Pressable, SafeAreaView, StyleSheet, TouchableHighlight, TouchableOpacity,} from "react-native";
+import React, {Component, useState} from "react";
+import {Image, Pressable, SafeAreaView, StyleSheet, TouchableHighlight, TouchableOpacity, View,} from "react-native";
 import FlipCard from "react-native-flip-card-plus";
-import {Avatar, Button, Headline, Subheading, Text, TextInput} from 'react-native-paper';
+import {Avatar, Button, Headline, Snackbar, Subheading, Text, TextInput} from 'react-native-paper';
 import {normalize} from "react-native-elements";
 
 export default class FlipcardComponent extends Component {
@@ -64,7 +64,7 @@ export default class FlipcardComponent extends Component {
                                   source={require('../../assets/profilePhoto.jpg')}/>
                   </TouchableOpacity>
                   <TextInput style={styles.textInput} adjustsFontSizeToFit disabled={true} label={"Film" } multiline={true} value={this.props.filmName}/>
-                  <TextInput style={styles.textInput} disabled={true} label={"Owner"} multiline={true} value={this.props.ownerName}/>
+                  <TextInput style={styles.textInput} disabled={true} label="Owner" multiline={true} value={this.props.ownerName}/>
                   <TextInput style={styles.textInput} disabled={true} multiline={true} label={"Comments"}
                              value={this.props.comments}/>
                   <TextInput style={styles.textInput} disabled={true} label={"Date"}
@@ -194,7 +194,6 @@ const styles = StyleSheet.create({
   textInput: {
     marginVertical: 10,
     borderRadius:15,
-    flexWrap: 'wrap',
   },
   backendContainer: {
     flex: 1,

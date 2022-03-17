@@ -10,6 +10,7 @@ import {
 import {SafeAreaView} from "react-navigation";
 import {useNavigation} from "@react-navigation/native";
 import tmdb from "../api/tmdb";
+import {Avatar, Card, Paragraph, Title} from "react-native-paper";
 
 let result;
 let uri;
@@ -35,18 +36,23 @@ export default class PendingAppealsComponent extends Component {
       console.log("Something went wrong");
     }
     uri = "https://image.tmdb.org/t/p/w185_and_h278_bestv2/" + result.poster_path;
-    this.props.navigation.navigate('ResultScreen', {id: result.id, image: uri});
+    this.props.navigation.navigate('ResultScreen', {id: result.id, image: uri, isDetailScreen: true});
   };
 
   render() {
     return (
-        <TouchableOpacity style={[styles.container,styles.separator]} onPress={() => {
-          this.function1();
-        }}
-        >
-          <Text style={styles.text}>{this.props.filmName}</Text>
-          <Text style={styles.text}>{this.props.ownerName}</Text>
-        </TouchableOpacity>
+        <Card mode={'outlined'} onPress={() => this.function1()}>
+          <Card.Content>
+            <SafeAreaView style={{flexDirection: "row"}}>
+              <Avatar.Image style={{alignSelf: 'center'}} size={30}
+                            source={require('../../assets/profilePhoto.jpg')}/>
+              <SafeAreaView>
+                <Title>{this.props.filmName}</Title>
+                <Paragraph>{this.props.ownerName}</Paragraph>
+              </SafeAreaView>
+            </SafeAreaView>
+          </Card.Content>
+        </Card>
     );
   }
 
