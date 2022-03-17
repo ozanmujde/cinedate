@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import React from "react";
 import ChatPreview from "../Components/ChatComponents/ChatPreview";
-import Users from "../assets/Users";
+import Users from "../../assets/Users";
 
 const ChatScreens = () => {
   const id = 5;

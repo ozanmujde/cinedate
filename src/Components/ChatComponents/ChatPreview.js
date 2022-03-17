@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, SafeAreaView, View } from "react-native";
 import { Avatar, Text } from "react-native-elements";
-import Users from "../../assets/Users";
+import Users from "../../../assets/Users";
 
 const ProfileScreen = (props) => {
   const id = props.userId;
