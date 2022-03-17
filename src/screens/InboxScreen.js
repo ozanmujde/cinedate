@@ -21,7 +21,11 @@ function InboxScreen() {
         {
             "filmName": "Star Wars",
             "ownerName": "Sara",
-        }
+        },
+        {
+            "filmName": "Recep İvedik 4",
+            "ownerName": "Omer",
+        },
     ];
     const [adverts, setAdverts] = React.useState(new Advert(1, 1, "1/1/2022", "1/1/2022", "1/1/2022",
         10, "Both", [1, 2, 3], "active", 1));
