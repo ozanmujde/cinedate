@@ -19,14 +19,18 @@ const SearchScreen = () => {
         platform={'default'}
         containerStyle={{
           backgroundColor: "#fff",
-          // flex: 1,
-          // backgroundColor: "transparent",
-          iconColor: "#fff",
-        }}
-        inputStyle={{
-          backgroundColor: "#fff",
           borderColor: "#fff",
         }}
+        inputStyle={{
+          backgroundColor: "#e6e6e6",
+        }}
+        inputContainerStyle={{
+          backgroundColor: "#e6e6e6",
+          borderRadius: 10,
+          borderWidth: 1,
+          borderColor: "black",
+        }}
+
       /> */}
 
       <SearchBar

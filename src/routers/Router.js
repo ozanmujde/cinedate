@@ -1,10 +1,10 @@
-import React, {useContext} from "react";
-import {NavigationContainer} from "@react-navigation/native";
-import {createNativeStackNavigator} from "@react-navigation/native-stack";
-import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
-import {createMaterialTopTabNavigator} from "@react-navigation/material-top-tabs";
+import React, { useContext } from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 
-import {StyleSheet} from "react-native";
+import { StyleSheet } from "react-native";
 import LoginScreen from "../screens/LoginScreen";
 import HomeScreen from "../screens/HomeScreen";
 import RegisterScreen from "../screens/RegisterScreen";
@@ -14,28 +14,28 @@ import ProfileScreen from "../screens/ProfileScreen";
 import InboxScreen from "../screens/InboxScreen";
 import SetScreen from "../screens/SetScreen";
 import ResultScreen from "../screens/ResultScreen";
-import ChatScreen from "../screens/ChatScreen";
-import {Ionicons} from "@expo/vector-icons";
-import {Context as AuthContext,} from "../context/AuthContext";
+import ChatScreens from "../screens/ChatScreens";
+import { Context as AuthContext } from "../context/AuthContext";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 const router = () => {
-  const {state} = useContext(AuthContext);
+  const { state } = useContext(AuthContext);
   const Stack = createNativeStackNavigator();
   //TODO: Add the AuthContext to the App component
   return (
-      <NavigationContainer>
-        {state.isSignedIn == false ? (
-            <Stack.Navigator initialRouteName="Login">
-              <Stack.Screen
-                  name="Login"
-                  component={LoginScreen}
-                  options={{headerShown: false}}
-              />
-              <Stack.Screen
-                  name="Signup"
-                  component={RegisterScreen}
-                  options={{headerShown: false}}
-              />
+    <NavigationContainer>
+      {state.isSignedIn == false ? (
+        <Stack.Navigator initialRouteName="Login">
+          <Stack.Screen
+            name="Login"
+            component={LoginScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Signup"
+            component={RegisterScreen}
+            options={{ headerShown: false }}
+          />
           <Stack.Screen name="Flipcard" component={FlipcardComponent} />
         </Stack.Navigator>
       ) : (
@@ -118,15 +118,17 @@ const BottomTabNavigator = () => {
 const TopTabNavigator = () => {
   const TopTab = createMaterialTopTabNavigator();
   return (
-      <TopTab.Navigator
-          initialRouteName="Inbox"
-          screenOptions={{
-            headerShown: false,
-          }}
-      >
-        <TopTab.Screen name="Inbox" component={InboxScreen}/>
-        <TopTab.Screen name="ChatScreen" component={ChatScreen}/>
-      </TopTab.Navigator>
+    <TopTab.Navigator
+      initialRouteName="Inbox"
+      screenOptions={{
+        headerShown: false,
+        tabBarLabelStyle: { fontSize: 12 },
+      }}
+      style={styles.TopTabStyle}
+    >
+      <TopTab.Screen name="Inbox" component={InboxScreen} />
+      <TopTab.Screen name="ChatScreens" component={ChatScreens} />
+    </TopTab.Navigator>
   );
 };
 
@@ -138,6 +140,10 @@ const styles = StyleSheet.create({
     shadowRadius: 3.5,
     elevation: 5,
     borderRadius: 10,
+  },
+  TopTabStyle: {
+    backgroundColor: "white",
+    paddingTop: 25,
   },
 });
 
