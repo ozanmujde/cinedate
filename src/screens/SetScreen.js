@@ -37,8 +37,8 @@ const SetScreen = () => {
       [setVisible]
   );
 
-  const [menSwitch, setMenSwitch] = React.useState(false);
-  const [womenSwitch, setWomenSwitch] = React.useState(false);
+  const [menSwitch, setMenSwitch] = React.useState(true);
+  const [womenSwitch, setWomenSwitch] = React.useState(true);
   const [comment, setComment] = React.useState("");
 
   const onToggleMenSwitch = () => setMenSwitch(!menSwitch);
@@ -130,8 +130,7 @@ const styles = StyleSheet.create({
     borderColor: '#6200ed',
   },
   menSwitch: {
-    margin: 10,
-    marginTop:0,
+    marginTop:10,
     marginBottom: 0,
     flexDirection: 'row',
     marginLeft: 20,
