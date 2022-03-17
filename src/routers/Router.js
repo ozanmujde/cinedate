@@ -16,7 +16,7 @@ import ProfileScreen from "../screens/ProfileScreen";
 import InboxScreen from "../screens/InboxScreen";
 import SetScreen from "../screens/SetScreen";
 import ResultScreen from "../screens/ResultScreen";
-import ChatScreen from "../screens/ChatScreen";
+import ChatScreens from "../screens/ChatScreens";
 
 import { Ionicons } from "@expo/vector-icons";
 import {
@@ -128,10 +128,12 @@ const TopTabNavigator = () => {
       initialRouteName="Inbox"
       screenOptions={{
         headerShown: false,
+        tabBarLabelStyle: { fontSize: 12 },
       }}
+      style={styles.TopTabStyle}
     >
       <TopTab.Screen name="Inbox" component={InboxScreen} />
-      <TopTab.Screen name="ChatScreen" component={ChatScreen} />
+      <TopTab.Screen name="ChatScreens" component={ChatScreens} />
     </TopTab.Navigator>
   );
 };
@@ -144,6 +146,10 @@ const styles = StyleSheet.create({
     shadowRadius: 3.5,
     elevation: 5,
     borderRadius: 10,
+  },
+  TopTabStyle: {
+    backgroundColor: "white",
+    paddingTop: 25,
   },
 });
 
