@@ -5,7 +5,7 @@ import FlipcardComponent from "../Components/FlipcardComponent";
 
 const ResultScreen = ({route: {params}}) => {
   const [result, setResult] = useState(null);
-  const {id} = params;
+  const {id, isDetailScreen} = params;
   //   const id = navigation.getParam("id"); // this is how we get id from navigation
   //const getResult = useSelector((state) => state.results.result);
 
@@ -31,7 +31,7 @@ const ResultScreen = ({route: {params}}) => {
             filmName={result.original_title}
             ownerName={"ozanin Kodu"}
             filmImage={uri}
-            isDetailScreen={true}
+            isDetailScreen={isDetailScreen}
             comments={"Çok iyi film olcak hacı gel kesin"}
         />
       </SafeAreaView>
