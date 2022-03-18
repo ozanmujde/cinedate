@@ -10,7 +10,7 @@ import React from "react";
 import ChatPreview from "../Components/ChatComponents/ChatPreview";
 import Users from "../../assets/Users";
 
-const ChatScreens = () => {
+const ChatScreens = ({ navigation }) => {
   const id = 5;
   return (
     <SafeAreaView style={styles.page} forceInset={{ top: "always" }}>
@@ -20,7 +20,8 @@ const ChatScreens = () => {
           renderItem={({ item }) => (
             <Pressable
               onPress={() => {
-                console.log(item.id);
+                // console.log(item.id);
+                navigation.navigate("ChatScreen");
               }}
             >
               <ChatPreview userId={item.id - 1} />
