@@ -4,8 +4,6 @@ import { View, StyleSheet, Text } from "react-native";
 import Users from "../../../assets/Users";
 const ChatHeader = (props) => {
   const userId = props.userId;
-  console.log(userId);
-  console.log(Users[userId]);
   return (
     <View style={styles.container}>
       <Avatar

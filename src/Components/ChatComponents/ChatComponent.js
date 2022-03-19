@@ -3,22 +3,16 @@ import { GiftedChat, Send } from "react-native-gifted-chat";
 import PubNub from "pubnub";
 import { PubNubProvider, usePubNub } from "pubnub-react";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import { View } from "react-native";
+import { View, Platform } from "react-native";
+import Users from "../../../assets/Users";
 
-const pubnub = new PubNub({
-  publishKey: "pub-c-db5f1d5b-6ae2-49d4-a3de-78fa20d8843b",
-  subscribeKey: "sub-c-ac9d8622-a6cd-11ec-94c0-bed45dbe0fe1",
-  uuid: "Ozan",
-  autoNetworkDetection: true, // enable for non-browser environment automatic reconnection
-  restore: true, // enable catchup on missed messages
-});
-
-const Chat = () => {
+const ChatComponent = (props) => {
   const pubnub = usePubNub();
-  const [channels] = useState(["ch-1"]);
-  const [messages, addMessage] = useState([]);
+  const str = props.userId + "Ozan";
+  console.log(props);
+  const [channels] = useState([str]);
+  const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
-
   const handleMessage = (event) => {
     const message = event.message;
     if (typeof message === "string" || message.hasOwnProperty("text")) {
@@ -30,31 +24,45 @@ const Chat = () => {
     // pubnub.addListener({ message: handleMessage });
     // addMessage(
     //   pubnub.fetchMessages({
-    //     channels: ["ch-1"],
+    //     channels: channels[0],
     //     count: 100,
     //   })
     // );
+
     pubnub.addListener({
       message: function (receivedMessage) {
         // handle message
+        console.log("message", message);
         console.log("The message text is: ", receivedMessage.message);
-        console.log("Sent by: ", receivedMessage.publisher);
-        addMessage((messages) => [receivedMessage.message, ...messages]);
-        // addMessage(...messages, [receivedMessage.message]);
+        setMessages((messages) => [receivedMessage.message, ...messages]);
+        // addMessage((previousMessages) =>
+        //   GiftedChat.append(previousMessages, messages)
+        // );
       },
     });
-    pubnub.subscribe({ channels });
+    pubnub.subscribe({ channels: [channels[0]] });
   }, [pubnub, channels]);
 
-  const sendMessage = (messages = []) => {
+  const sendMessage = useCallback((message) => {
     // if (message) {
-    pubnub.publish({ message: messages[0], channel: channels[0] });
-    // .then(() => setMessage(""));
-    // }
-    // console.log(pubnub);
-    // console.log("messages", messages);
+    // const message = [
+    //   messages[0],
+    //   {
+    //     name: Users[props.userId].name,
+    //     avatar: Users[props.userId].imageUri,
+    //   },
+    // ];
     // console.log("message", message);
-  };
+    // console.log(Users);
+    message[0].user = {
+      _id: message[0].user._id,
+      name: Users[props.userId].name,
+      avatar: Users[props.userId].imageUri,
+    };
+    pubnub
+      .publish({ message: message[0], channel: channels[0] })
+      .then(() => setMessage(""));
+  }, []);
   // useEffect(() => {
   //   setMessage([
   //     {
@@ -75,18 +83,14 @@ const Chat = () => {
   //     GiftedChat.append(previousMessages, messages)
   //   );
   // }, []);
-  const onSend = useCallback((messages = []) => {
-    pubnub.publish({ message: messages, channel: channels[0] });
-    console.log(messages);
-  }, []);
 
   return (
-    <View style={{ flex: 1, backgroundColor:'white'}}>
+    <View style={{ flex: 1, backgroundColor: "white" }}>
       <GiftedChat
         messages={messages}
         onSend={sendMessage}
         user={{
-          _id: 2,
+          _id: Platform.OS === "ios" ? 1 : 0,
         }}
         sendOnEnter={true}
         style={{
@@ -95,14 +99,6 @@ const Chat = () => {
         renderSend={renderSend}
       />
     </View>
-  );
-};
-
-const ChatComponent = () => {
-  return (
-    <PubNubProvider client={pubnub}>
-      <Chat />
-    </PubNubProvider>
   );
 };
 
