@@ -9,6 +9,7 @@ import {
 import React from "react";
 import ChatPreview from "../Components/ChatComponents/ChatPreview";
 import Users from "../../assets/Users";
+import { Divider } from "react-native-elements";
 
 const ChatScreens = ({ navigation }) => {
   const id = 5;
@@ -21,10 +22,14 @@ const ChatScreens = ({ navigation }) => {
             <Pressable
               onPress={() => {
                 // console.log(item.id);
-                navigation.navigate("ChatScreen");
+                navigation.navigate("ChatScreen", {
+                  userId: item.id - 1,
+                });
               }}
             >
               <ChatPreview userId={item.id - 1} />
+              <Divider inset={true} insetType="left" />
+
             </Pressable>
           )}
           keyExtractor={(item) => item.id}

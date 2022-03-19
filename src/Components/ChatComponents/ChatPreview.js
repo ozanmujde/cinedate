@@ -10,14 +10,15 @@ const ProfileScreen = (props) => {
       <View style={styles.container}>
         <Avatar
           rounded
-          size="large"
+          size={60}
+          title={Users[id].name}
           source={{
             uri: Users[id].imageUri,
           }}
         />
-        <View style={styles.badgeContainer}>
+        {/* <View style={styles.badgeContainer}>
           <Text style={styles.badgeText}>4</Text>
-        </View>
+        </View> */}
         <View style={styles.rightContainer}>
           <View style={styles.row}>
             <Text style={styles.userName}>{Users[id].name}</Text>
@@ -65,7 +66,6 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 12,
     marginLeft: 10,
-
   },
   row: {
     flexDirection: "row",
