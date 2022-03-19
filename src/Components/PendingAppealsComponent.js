@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet} from 'react-native';
+import {Pressable, StyleSheet} from 'react-native';
 import {SafeAreaView} from "react-navigation";
 import tmdb from "../api/tmdb";
 import {Avatar, Button, Card, Paragraph, Title} from "react-native-paper";
@@ -55,7 +55,7 @@ export default class PendingAppealsComponent extends Component {
   }
   renderLeftActions = (progress, dragX) => {
     return (
-        <Button icon="delete" style={{justifyContent: "center", backgroundColor: "blue"}} mode="contained"
+        <Button icon="delete" style={{justifyContent: "center", backgroundColor: "#0080FF"}} mode="contained"
                 onPress={() => this.toggleButton()}>
           Delete
         </Button>
@@ -75,14 +75,16 @@ export default class PendingAppealsComponent extends Component {
             showButton ?
                 <SafeAreaView>
                   <Swipeable renderLeftActions={this.renderLeftActions}>
-                    <Card mode={'outlined'} onPress={() => this.function1()}
+                    <Card mode={'outlined'}
                           style={{backgroundColor: this.returnBackgroundColor(), marginVertical: 1}}>
                       <Card.Content>
                         <SafeAreaView style={{flexDirection: "row"}}>
                           <Avatar.Image style={{alignSelf: 'center'}} size={40}
                                         source={require('../../assets/profilePhoto.jpg')}/>
                           <SafeAreaView style={{marginLeft: 10}}>
-                            <Title>{this.props.filmName}</Title>
+                            <Pressable onPress={() => this.function1()}>
+                              <Title>{this.props.filmName}</Title>
+                            </Pressable>
                             <Paragraph>{this.props.ownerName}</Paragraph>
                           </SafeAreaView>
                           <SafeAreaView style={{
