@@ -1,12 +1,13 @@
-import React, {useEffect, useState} from "react";
-import {SafeAreaView, StyleSheet} from "react-native";
+import React, { useEffect, useState } from "react";
+import { SafeAreaView, StyleSheet } from "react-native";
 import tmdb from "../api/tmdb";
 import FlipcardComponent from "../Components/FlipcardComponent";
-import {useNavigation} from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
+import { ScrollView } from "react-native-gesture-handler";
 
-const ResultScreen = ({route: {params}}) => {
+const ResultScreen = ({ route: { params } }) => {
   const [result, setResult] = useState(null);
-  const {id, isDetailScreen} = params;
+  const { id, isDetailScreen } = params;
   //   const id = navigation.getParam("id"); // this is how we get id from navigation
   //const getResult = useSelector((state) => state.results.result);
 
@@ -27,17 +28,19 @@ const ResultScreen = ({route: {params}}) => {
   const uri =
     "https://image.tmdb.org/t/p/w185_and_h278_bestv2/" + result.poster_path;
   return (
-      <SafeAreaView style={styles.container}>
-        <FlipcardComponent
-            style={{height: '100%', width: '100%'}}
-            filmName={result.original_title}
-            ownerName={"ozanin Kodu"}
-            filmImage={uri}
-            isDetailScreen={isDetailScreen}
-            comments={"Çok iyi film olcak hacı gel kesin"}
-            navigation={navigation}
-        />
-      </SafeAreaView>
+    // <SafeAreaView style={styles.container}>
+    <ScrollView style={styles.container}>
+      <FlipcardComponent
+        style={{ height: "100%", width: "100%" }}
+        filmName={result.original_title}
+        ownerName={"ozanin Kodu"}
+        filmImage={uri}
+        isDetailScreen={isDetailScreen}
+        comments={"Çok iyi film olcak hacı gel kesin"}
+        navigation={navigation}
+      />
+    </ScrollView>
+    // </SafeAreaView>
   );
 };
 
