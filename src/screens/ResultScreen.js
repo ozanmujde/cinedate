@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import {SafeAreaView, StyleSheet} from "react-native";
 import tmdb from "../api/tmdb";
 import FlipcardComponent from "../Components/FlipcardComponent";
+import {useNavigation} from "@react-navigation/native";
 
 const ResultScreen = ({route: {params}}) => {
   const [result, setResult] = useState(null);
@@ -13,6 +14,7 @@ const ResultScreen = ({route: {params}}) => {
     const response = await tmdb.get(`/movie/${id}`);
     setResult(response.data);
   };
+  const navigation = useNavigation();
 
   useEffect(() => {
     getResult(id);
@@ -33,6 +35,7 @@ const ResultScreen = ({route: {params}}) => {
             filmImage={uri}
             isDetailScreen={isDetailScreen}
             comments={"Çok iyi film olcak hacı gel kesin"}
+            navigation={navigation}
         />
       </SafeAreaView>
   );

@@ -1,9 +1,8 @@
-import {FlatList, Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {FlatList, StyleSheet} from 'react-native';
 import React from 'react';
 import {SafeAreaView} from "react-navigation";
 import PendingAppealsComponent from "../Components/PendingAppealsComponent";
 import Advert from "../classes/Advert";
-import FlipcardComponent from "../Components/FlipcardComponent";
 import {useNavigation} from "@react-navigation/native";
 import useResults from "../hooks/useResults";
 
@@ -13,18 +12,22 @@ function InboxScreen() {
         {
             "filmName": "Lord Of The Rings",
             "ownerName": "John",
+            "status": "Approved",
         },
         {
             "filmName": "Harry Potter",
             "ownerName": "Mike",
+            "status": "Rejected",
         },
         {
             "filmName": "Star Wars",
             "ownerName": "Sara",
+            "status": "Approved",
         },
         {
             "filmName": "Recep İvedik 4",
             "ownerName": "Omer",
+            "status": "Pending",
         },
     ];
     const [adverts, setAdverts] = React.useState(new Advert(1, 1, "1/1/2022", "1/1/2022", "1/1/2022",
@@ -43,17 +46,25 @@ function InboxScreen() {
 
   return (
       <SafeAreaView style={styles.container} forceInset={{ top: "always" }}>
-        <Image source={require('../../assets/wlobby.png')} style={styles.logo} />
-        <FlatList style={{height:'100%', width:'100%', }}
-                  data={data}
-                  renderItem={({item}) =>
-                          <PendingAppealsComponent filmName={item.filmName} ownerName={item.ownerName} navigation={navigation}/>}
-                  keyExtractor={(item, index) => index.toString()}></FlatList>
+          <FlatList
+              data={data}
+              renderItem={({item}) =>
+                  <PendingAppealsComponent filmName={item.filmName} ownerName={item.ownerName} navigation={navigation}
+                                           pendingStatus={item.status}/>}
+              keyExtractor={(item, index) => index.toString()}></FlatList>
       </SafeAreaView>
-      );
+  );
 };
 
 export default InboxScreen;
 
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: "white",
+        width: "100%",
+        height: "100%",
+    },
+});
+

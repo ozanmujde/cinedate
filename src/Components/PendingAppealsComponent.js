@@ -1,16 +1,10 @@
-import React, {Component, useState} from 'react';
-import {
-  Text,
-  View,
-  Button,
-  StyleSheet,
-  TouchableOpacity,
-  Pressable, Image, TouchableHighlight,
-} from 'react-native';
+import React, {Component} from 'react';
+import {StyleSheet} from 'react-native';
 import {SafeAreaView} from "react-navigation";
-import {useNavigation} from "@react-navigation/native";
 import tmdb from "../api/tmdb";
-import {Avatar, Card, Paragraph, Title} from "react-native-paper";
+import {Avatar, Button, Card, Paragraph, Title} from "react-native-paper";
+import {Icon} from "react-native-elements";
+import Swipeable from 'react-native-gesture-handler/Swipeable';
 
 let result;
 let uri;
@@ -19,7 +13,8 @@ export default class PendingAppealsComponent extends Component {
     super(props);
     this.state = {
       isLoading: true,
-      dataSource: []
+      dataSource: [],
+      showButton: true,
     };
   }
 
@@ -39,20 +34,77 @@ export default class PendingAppealsComponent extends Component {
     this.props.navigation.navigate('ResultScreen', {id: result.id, image: uri, isDetailScreen: true});
   };
 
-  render() {
+  returnBackgroundColor = () => {
+    if (this.props.pendingStatus === "Pending") {
+      return "#FFD700";
+    } else if (this.props.pendingStatus === "Approved") {
+      return "#71C562";
+    } else if (this.props.pendingStatus === "Rejected") {
+      return "#BE1F35";
+    }
+  }
+
+  returnIconType = () => {
+    if (this.props.pendingStatus === "Pending") {
+      return "timer";
+    } else if (this.props.pendingStatus === "Approved") {
+      return "check-circle-outline";
+    } else if (this.props.pendingStatus === "Rejected") {
+      return "close";
+    }
+  }
+  renderLeftActions = (progress, dragX) => {
     return (
-        <Card mode={'outlined'} onPress={() => this.function1()}>
-          <Card.Content>
-            <SafeAreaView style={{flexDirection: "row"}}>
-              <Avatar.Image style={{alignSelf: 'center'}} size={30}
-                            source={require('../../assets/profilePhoto.jpg')}/>
-              <SafeAreaView>
-                <Title>{this.props.filmName}</Title>
-                <Paragraph>{this.props.ownerName}</Paragraph>
-              </SafeAreaView>
-            </SafeAreaView>
-          </Card.Content>
-        </Card>
+        <Button icon="delete" style={{justifyContent: "center", backgroundColor: "blue"}} mode="contained"
+                onPress={() => this.toggleButton()}>
+          Delete
+        </Button>
+
+    );
+  };
+
+  toggleButton = () => {
+    this.setState({showButton: false});
+  };
+
+  render() {
+    const {showButton} = this.state;
+    return (
+        <>
+          {
+            showButton ?
+                <SafeAreaView>
+                  <Swipeable renderLeftActions={this.renderLeftActions}>
+                    <Card mode={'outlined'} onPress={() => this.function1()}
+                          style={{backgroundColor: this.returnBackgroundColor(), marginVertical: 1}}>
+                      <Card.Content>
+                        <SafeAreaView style={{flexDirection: "row"}}>
+                          <Avatar.Image style={{alignSelf: 'center'}} size={40}
+                                        source={require('../../assets/profilePhoto.jpg')}/>
+                          <SafeAreaView style={{marginLeft: 10}}>
+                            <Title>{this.props.filmName}</Title>
+                            <Paragraph>{this.props.ownerName}</Paragraph>
+                          </SafeAreaView>
+                          <SafeAreaView style={{
+                            position: "absolute",
+                            right: 0,
+                            justifyContent: "center",
+                            alignItems: "center",
+                            alignSelf: "center"
+                          }}>
+                            <Icon name={this.returnIconType()} size={30} color="#000"/>
+                            <Paragraph>{this.props.pendingStatus}</Paragraph>
+                          </SafeAreaView>
+                        </SafeAreaView>
+                      </Card.Content>
+                    </Card>
+                  </Swipeable>
+                </SafeAreaView>
+                : null
+          }
+        </>
+
+
     );
   }
 

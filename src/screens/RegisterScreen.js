@@ -6,6 +6,7 @@ import NumberPlease from "react-native-number-please";
 import {countries} from "../countries";
 import { Dropdown } from 'react-native-element-dropdown';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+
 import {
     HelperText,
     TextInput,
@@ -85,7 +86,7 @@ const RegisterScreen = () => {
 
     }
 
-    const renderItem = (item: any) => {
+    const renderItem = (item) => {
         return (
             <View style={styles.item}>
                 <Text style={styles.textItem}>{item.label}</Text>
