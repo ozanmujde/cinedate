@@ -10,7 +10,7 @@ import { SafeAreaView } from "react-navigation";
 
 import { useNavigation } from "@react-navigation/native";
 import ResultsDetail from "./ResultsDetail";
-
+import { Divider } from "react-native-elements";
 const ResultsList = ({ results }) => {
   if (!results.length) {
     // there is no result dont show anything
@@ -30,10 +30,14 @@ const ResultsList = ({ results }) => {
           return (
             <TouchableOpacity
               onPress={() => {
-                navigation.navigate("ResultScreen", { id: item.id, isDetailScreen : false }); // with that we can pass id information to ResultsShowScreen
+                navigation.navigate("ResultScreen", {
+                  id: item.id,
+                  isDetailScreen: false,
+                }); // with that we can pass id information to ResultsShowScreen
               }}
             >
               <ResultsDetail result={item} navigation={navigation} />
+              <Divider inset={true} insetType="left" />
             </TouchableOpacity>
           );
         }}

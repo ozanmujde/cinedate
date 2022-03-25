@@ -20,6 +20,7 @@ const SearchScreen = () => {
         containerStyle={{
           backgroundColor: "#fff",
           borderColor: "#fff",
+          borderWidth: 0,
         }}
         inputStyle={{
           backgroundColor: "#e6e6e6",

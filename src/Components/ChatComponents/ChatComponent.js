@@ -28,19 +28,24 @@ const ChatComponent = (props) => {
     //     count: 100,
     //   })
     // );
-
+    
     pubnub.addListener({
       message: function (receivedMessage) {
         // handle message
         console.log("message", message);
-        console.log("The message text is: ", receivedMessage.message);
+        console.log("The message text is: ", receivedMessage);
         setMessages((messages) => [receivedMessage.message, ...messages]);
         // addMessage((previousMessages) =>
         //   GiftedChat.append(previousMessages, messages)
         // );
       },
     });
-    pubnub.subscribe({ channels: [channels[0]] });
+    pubnub.subscribe({ channels: [channels[0]], withPresence: true }); 
+    // pubnub.fetchMessages({
+    //   channels: channels[0],
+    //   end: '15343325004275466',
+    //   count: 100,
+    // });
   }, [pubnub, channels]);
 
   const sendMessage = useCallback((message) => {
@@ -54,13 +59,13 @@ const ChatComponent = (props) => {
     // ];
     // console.log("message", message);
     // console.log(Users);
-    message[0].user = {
-      _id: message[0].user._id,
-      name: Users[props.userId].name,
-      avatar: Users[props.userId].imageUri,
-    };
+    // message[0].user = {
+    //   _id: message[0].user._id,
+    //   name: Users[props.userId].name,
+    //   avatar: Users[props.userId].imageUri,
+    // };
     pubnub
-      .publish({ message: message[0], channel: channels[0] })
+      .publish({ message: message[0], channel: channels[0], sendBy: props.userId })
       .then(() => setMessage(""));
   }, []);
   // useEffect(() => {
