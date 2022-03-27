@@ -1,5 +1,5 @@
 import React, {Component, useState} from "react";
-import {Image, Pressable, SafeAreaView, StyleSheet, TouchableHighlight, TouchableOpacity, View,} from "react-native";
+import {Image, Pressable, SafeAreaView, StyleSheet, TouchableHighlight, TouchableOpacity, View, ScrollView} from "react-native";
 import FlipCard from "react-native-flip-card-plus";
 import {Avatar, Button, Headline, Snackbar, Subheading, Text, TextInput} from 'react-native-paper';
 import {normalize} from "react-native-elements";
@@ -58,7 +58,7 @@ export default class FlipcardComponent extends Component {
                   style={styles.card}
                   onPress={() => this.card.flipHorizontal()}
               >
-                <SafeAreaView style={styles.backendContainer}>
+                <ScrollView style={styles.backendContainer}>
                   <TouchableOpacity onPress={() => this.props.navigation.navigate("Profile",{name: this.props.ownerName, surname: this.props.filmName})}>
                     <Avatar.Image style={{alignSelf: 'center'}} size={50}
                                   source={require('../../assets/profilePhoto.jpg')}/>
@@ -85,7 +85,7 @@ export default class FlipcardComponent extends Component {
                           }}>
                     {this.props.isDetailScreen ? "Your appeal has been sent to the owner" : "Send appeal"}
                   </Button>
-                </SafeAreaView>
+                </ScrollView>
               </Pressable>
             </FlipCard>
           </SafeAreaView>
@@ -194,12 +194,13 @@ const styles = StyleSheet.create({
   textInput: {
     marginVertical: 10,
     borderRadius:15,
+    marginHorizontal: 50,
   },
   backendContainer: {
     flex: 1,
     width: "70%",
     height: "100%",
     alignSelf: "center",
-    justifyContent: "center",
+    marginTop: 10,
   }
 });

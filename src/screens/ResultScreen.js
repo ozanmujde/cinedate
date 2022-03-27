@@ -33,6 +33,7 @@ const ResultScreen = ({ route: { params } }) => {
       <FlipcardComponent
         style={{ height: "100%", width: "100%" }}
         filmName={result.original_title}
+        userID={10}
         ownerName={"ozanin Kodu"}
         filmImage={uri}
         isDetailScreen={isDetailScreen}

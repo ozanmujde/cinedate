@@ -10,25 +10,12 @@ import React, { useEffect } from "react";
 import ChatPreview from "../Components/ChatComponents/ChatPreview";
 import Users from "../../assets/Users";
 import { Divider } from "react-native-elements";
-import PubNub from "pubnub";
-import { PubNubProvider, usePubNub } from "pubnub-react";
 
-const pubnub = new PubNub({
-  publishKey: "pub-c-db5f1d5b-6ae2-49d4-a3de-78fa20d8843b",
-  subscribeKey: "sub-c-ac9d8622-a6cd-11ec-94c0-bed45dbe0fe1",
-  uuid: "Ozan",
-  autoNetworkDetection: true, // enable for non-browser environment automatic reconnection
-  restore: true, // enable catchup on missed messages
-});
 
 const ChatScreens = ({ navigation }) => {
   const id = 5;
-  useEffect(() => {
-
-  console.log(pubnub.getSubscribedChannels());
-  }, []);
+  
   return (
-    <PubNubProvider client={pubnub}>
       <SafeAreaView style={styles.page} forceInset={{ top: "always" }}>
         <View>
           <FlatList
@@ -50,7 +37,6 @@ const ChatScreens = ({ navigation }) => {
           />
         </View>
       </SafeAreaView>
-    </PubNubProvider>
   );
 };
 
