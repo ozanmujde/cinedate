@@ -1,6 +1,14 @@
-import { StyleSheet, Text, SafeAreaView, View,StatusBar } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  SafeAreaView,
+  View,
+  StatusBar,
+  TouchableOpacity,
+} from "react-native";
 import React, { useState, useContext } from "react";
-import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
+
+import { TextInput } from "react-native-gesture-handler";
 import { Context as AuthContext } from "../context/AuthContext";
 
 const LoginScreen = ({ navigation }) => {
@@ -12,9 +20,10 @@ const LoginScreen = ({ navigation }) => {
     // the keyboard ll not cover the keyboard
     <SafeAreaView style={styles.container} forceInset={{ top: "always" }}>
       {/* TODO: Make status bar changeable in the future */}
-      <StatusBar barStyle="dark-content" 
-      backgroundColor="#61dafb"
-      animated={true}
+      <StatusBar
+        barStyle="dark-content"
+        backgroundColor="#61dafb"
+        animated={true}
       />
       <View style={styles.inputContainer}>
         <TextInput
