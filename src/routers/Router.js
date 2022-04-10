@@ -112,6 +112,9 @@ const BottomTabNavigator = () => {
             <Ionicons name="person-circle-outline" color={color} size={size} />
           ),
         }}
+        initialParams={{
+          userID: "7",
+        }}
       />
     </Tab.Navigator>
   );

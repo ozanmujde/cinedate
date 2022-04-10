@@ -38,8 +38,10 @@ const ProfileScreen = ({ route: { params } }) => {
 };
 
 ProfileScreen.defaultProps = {
-  params: {
-    userID: 10,
+  route: {
+    params: {
+      userID: 10,
+    },
   },
 };
 
