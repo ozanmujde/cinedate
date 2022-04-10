@@ -8,14 +8,9 @@ export default () => {
 
   const getUserData = async (userID) => {
     try {
-      //   const response = await wlobby.get("/get/user/", {
-      //     params: {
-      //       UserID: userID,
-      //     },
-      //   });
       const response = await wlobby.get("/get/user/", {
         params: {
-          UserID: 10,
+          UserID: userID,
         },
       });
       setUserData(response.data.Item);

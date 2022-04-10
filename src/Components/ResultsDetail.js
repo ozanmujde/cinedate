@@ -6,7 +6,6 @@ const ResultDetail = ({ result }) => {
   // can be props ll be used like props.result
   const uri = "https://image.tmdb.org/t/p/h100/" + result.poster_path;
   // "https://image.tmdb.org/t/p/w185_and_h278_bestv2/" + result.poster_path;
-  console.log(result);
   return (
     <>
       {/* <Card>

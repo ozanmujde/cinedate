@@ -1,8 +1,25 @@
-import React, {Component, useState} from "react";
-import {Image, Pressable, SafeAreaView, StyleSheet, TouchableHighlight, TouchableOpacity, View, ScrollView} from "react-native";
+import React, { Component, useState } from "react";
+import {
+  Image,
+  Pressable,
+  SafeAreaView,
+  StyleSheet,
+  TouchableHighlight,
+  TouchableOpacity,
+  View,
+  ScrollView,
+} from "react-native";
 import FlipCard from "react-native-flip-card-plus";
-import {Avatar, Button, Headline, Snackbar, Subheading, Text, TextInput} from 'react-native-paper';
-import {normalize} from "react-native-elements";
+import {
+  Avatar,
+  Button,
+  Headline,
+  Snackbar,
+  Subheading,
+  Text,
+  TextInput,
+} from "react-native-paper";
+import { normalize } from "react-native-elements";
 
 export default class FlipcardComponent extends Component {
   constructor(props) {
@@ -24,72 +41,133 @@ export default class FlipcardComponent extends Component {
 
   render() {
     return (
-        <SafeAreaView>
-          <SafeAreaView
-              style={styles.footer}
-              ref={(footer) => (this.footer = footer)}
-          >
-            <SafeAreaView style={{margin:10}}>
-              <Subheading>{this.trunc(this.props.filmName)}</Subheading>
-            </SafeAreaView>
-            <SafeAreaView style={{ flexDirection: "row", marginRight: 20, justifyContent: "center", alignItems:"center"}}>
-              <Subheading style={{paddingRight: 20}} adjustsFontSizeToFit>{this.props.ownerName}</Subheading>
-              <Avatar.Image style={{alignSelf: 'center'}} size={30} source={require('../../assets/profilePhoto.jpg')}/>
-            </SafeAreaView>
+      <SafeAreaView>
+        <SafeAreaView
+          style={styles.footer}
+          ref={(footer) => (this.footer = footer)}
+        >
+          <SafeAreaView style={{ margin: 10 }}>
+            <Subheading>{this.trunc(this.props.filmName)}</Subheading>
           </SafeAreaView>
-          <SafeAreaView style={styles.container}>
-            <FlipCard
-                flipDirection={"h"}
-                style={styles.cardContainer}
-                ref={(card) => (this.card = card)}
-            >
-              <TouchableHighlight
-                  style={styles.card}
-                  onPress={() => this.card.flipHorizontal()}
-              >
-                <Image
-                    style={styles.cardImage}
-                    source={this.props.filmImage ? {
-                      uri: this.props.filmImage,
-                    } : require("../../assets/lotr.jpg")}
-                />
-              </TouchableHighlight>
-              <Pressable
-                  style={styles.card}
-                  onPress={() => this.card.flipHorizontal()}
-              >
-                <ScrollView style={styles.backendContainer}>
-                  <TouchableOpacity onPress={() => this.props.navigation.navigate("Profile",{name: this.props.ownerName, surname: this.props.filmName})}>
-                    <Avatar.Image style={{alignSelf: 'center'}} size={50}
-                                  source={require('../../assets/profilePhoto.jpg')}/>
-                  </TouchableOpacity>
-                  <TextInput style={styles.textInput} adjustsFontSizeToFit disabled={true} label={"Film" } multiline={true} value={this.props.filmName}/>
-                  <TextInput style={styles.textInput} disabled={true} label="Owner" multiline={true} value={this.props.ownerName}/>
-                  <TextInput style={styles.textInput} disabled={true} multiline={true} label={"Comments"}
-                             value={this.props.comments}/>
-                  <TextInput style={styles.textInput} disabled={true} label={"Date"}
-                             value={new Date().toLocaleString()}/>
-                  <TextInput style={styles.textInput} disabled={true} label={"Time"}
-                             value={new Date().getHours().toString().padStart(2, '0')
-                                 + ":" + new Date().getMinutes().toString().padStart(2, '0')}/>
-                  <Button style={styles.button} icon="account-plus" mode="contained"
-                          disabled={this.props.isDetailScreen}
-                          onPress={() => {
-                            const appeal = [
-                              {
-                                filmName: this.props.filmName,
-                                ownerName: this.props.ownerName,
-                              },
-                            ];
-                            alert("Your appeal has been sent to the owner");
-                          }}>
-                    {this.props.isDetailScreen ? "Your appeal has been sent to the owner" : "Send appeal"}
-                  </Button>
-                </ScrollView>
-              </Pressable>
-            </FlipCard>
+          <SafeAreaView
+            style={{
+              flexDirection: "row",
+              marginRight: 20,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Subheading style={{ paddingRight: 20 }} adjustsFontSizeToFit>
+              {this.props.ownerName}
+            </Subheading>
+            <Avatar.Image
+              style={{ alignSelf: "center" }}
+              size={30}
+              source={require("../../assets/profilePhoto.jpg")}
+            />
           </SafeAreaView>
         </SafeAreaView>
+        <SafeAreaView style={styles.container}>
+          <FlipCard
+            flipDirection={"h"}
+            style={styles.cardContainer}
+            ref={(card) => (this.card = card)}
+          >
+            <TouchableHighlight
+              style={styles.card}
+              onPress={() => this.card.flipHorizontal()}
+            >
+              <Image
+                style={styles.cardImage}
+                source={
+                  this.props.filmImage
+                    ? {
+                        uri: this.props.filmImage,
+                      }
+                    : require("../../assets/lotr.jpg")
+                }
+              />
+            </TouchableHighlight>
+            <Pressable
+              style={styles.card}
+              onPress={() => this.card.flipHorizontal()}
+            >
+              <ScrollView style={styles.backendContainer}>
+                <TouchableOpacity
+                  onPress={() =>
+                    this.props.navigation.navigate("Profile", {
+                      userID: this.props.userID,
+                    })
+                  }
+                >
+                  <Avatar.Image
+                    style={{ alignSelf: "center" }}
+                    size={50}
+                    source={require("../../assets/profilePhoto.jpg")}
+                  />
+                </TouchableOpacity>
+                <TextInput
+                  style={styles.textInput}
+                  adjustsFontSizeToFit
+                  disabled={true}
+                  label={"Film"}
+                  multiline={true}
+                  value={this.props.filmName}
+                />
+                <TextInput
+                  style={styles.textInput}
+                  disabled={true}
+                  label="Owner"
+                  multiline={true}
+                  value={this.props.ownerName}
+                />
+                <TextInput
+                  style={styles.textInput}
+                  disabled={true}
+                  multiline={true}
+                  label={"Comments"}
+                  value={this.props.comments}
+                />
+                <TextInput
+                  style={styles.textInput}
+                  disabled={true}
+                  label={"Date"}
+                  value={new Date().toLocaleString()}
+                />
+                <TextInput
+                  style={styles.textInput}
+                  disabled={true}
+                  label={"Time"}
+                  value={
+                    new Date().getHours().toString().padStart(2, "0") +
+                    ":" +
+                    new Date().getMinutes().toString().padStart(2, "0")
+                  }
+                />
+                <Button
+                  style={styles.button}
+                  icon="account-plus"
+                  mode="contained"
+                  disabled={this.props.isDetailScreen}
+                  onPress={() => {
+                    const appeal = [
+                      {
+                        filmName: this.props.filmName,
+                        ownerName: this.props.ownerName,
+                      },
+                    ];
+                    alert("Your appeal has been sent to the owner");
+                  }}
+                >
+                  {this.props.isDetailScreen
+                    ? "Your appeal has been sent to the owner"
+                    : "Send appeal"}
+                </Button>
+              </ScrollView>
+            </Pressable>
+          </FlipCard>
+        </SafeAreaView>
+      </SafeAreaView>
     );
   }
 }
@@ -165,7 +243,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginHorizontal: 20,
     marginVertical: 20,
-    borderRadius: 10
+    borderRadius: 10,
   },
   footer: {
     bottom: 0,
@@ -181,7 +259,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    alignSelf:  "center",
+    alignSelf: "center",
   },
   profilePhotoFooter: {
     width: 30,
@@ -193,7 +271,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     marginVertical: 10,
-    borderRadius:15,
+    borderRadius: 15,
     marginHorizontal: 50,
   },
   backendContainer: {
@@ -202,5 +280,5 @@ const styles = StyleSheet.create({
     height: "100%",
     alignSelf: "center",
     marginTop: 10,
-  }
+  },
 });

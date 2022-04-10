@@ -1,28 +1,30 @@
 import { StyleSheet, Text, SafeAreaView } from "react-native";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Button } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { Context as AuthContext } from "../context/AuthContext";
 import wlobbyGetters from "../hooks/wlobbyGetters";
-
+import FilmList from "../Components/ProfileComponents/FilmList";
 const ProfileScreen = ({ route: { params } }) => {
-  const navigation = useNavigation();
-  const [getUserData, userData, errorMessage] = wlobbyGetters();
+  console.log(params);
   const userID = params.userID;
-  // console.log(params);
+  const [getUserData, userData, errorMessage] = wlobbyGetters();
   useEffect(() => {
     getUserData(userID);
   }, [userID]);
-  // console.log("OMERRRRRRRRRRRRR",userData);
-  console.log("ozann", userData);
   const { signout } = useContext(AuthContext);
   return (
     <SafeAreaView forceInset={{ top: "always" }}>
       <Text style={{ fontSize: 50 }}>ProfileScreen</Text>
+
       <Text>{userData.UserID}</Text>
-      <Text>keyif</Text>
+      <Text>LikedFilms</Text>
+      <FilmList filmList={userData.LikedFilms} />
+      <Text>WatchedFilms</Text>
+      <FilmList filmList={userData.WatchedFilms} />
       <Text>{userData.Name}</Text>
       <Text>{userData.Email}</Text>
+
       <Button
         style={styles.button}
         icon="logout"
@@ -35,6 +37,12 @@ const ProfileScreen = ({ route: { params } }) => {
   );
 };
 
-export default ProfileScreen;
+ProfileScreen.defaultProps = {
+  params: {
+    userID: 10,
+  },
+};
 
 const styles = StyleSheet.create({});
+
+export default ProfileScreen;

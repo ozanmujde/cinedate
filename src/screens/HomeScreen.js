@@ -51,7 +51,7 @@ const HomeScreen = () => {
           <FlipcardComponent
             ownerName={item.ownerName}
             filmName={item.filmName}
-            userID={10}
+            userID={2}
             isDetailScreen={false}
             comments={"Çok iyi film olcak hacı gel kesin"}
             navigation={navigation}
