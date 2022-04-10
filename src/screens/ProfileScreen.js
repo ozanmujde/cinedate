@@ -13,83 +13,84 @@ const ProfileScreen = ({ route: { params } }) => {
   useEffect(() => {
     getUserData(userID);
   }, [userID]);
+  const navigation = useNavigation();
   const { signout } = useContext(AuthContext);
   // console.log("userdata",userData);
   return (
-    <SafeAreaView
-      // forceInset={{ top: "always" }}
-      style={{ flex: 1, backgroundColor: "#fff" }}
-    >
-      <ScrollView
-        style={styles.container}
-        contentContainerStyle={{
-          justifyContent: "center",
-          // alignItems: "center",
-        }}
-        showsVerticalScrollIndicator={false}
+      <SafeAreaView
+          // forceInset={{ top: "always" }}
+          style={{ flex: 1, backgroundColor: "#fff" }}
       >
-        <View
-          style={{
-            alignItems: "center",
-          }}
-        >
-          <Image
-            style={styles.userImg}
-            source={{
-              uri: userData
-                ? "https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg"
-                : "https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg",
+        <ScrollView
+            style={styles.container}
+            contentContainerStyle={{
+              justifyContent: "center",
+              // alignItems: "center",
             }}
-          />
-        </View>
-        <Text style={styles.userName}>
-          {Object.keys(userData).length !== 0
-            ? userData.Name || "Test"
-            : "Test"}{" "}
-          {Object.keys(userData).length !== 0
-            ? userData.Surname || "User"
-            : "User"}
-        </Text>
-        <Text style={styles.AgeLocation}>
-          {Object.keys(userData).length !== 0
-            ? userData.Age || "Age is not given"
-            : "Age is not given"}
-          {", "}
-          {Object.keys(userData).length !== 0
-            ? userData.Location || "Location is not given"
-            : "Location is not given"}
-        </Text>
-        <Text style={styles.aboutUser}>
-          {Object.keys(userData).length !== 0
-            ? userData.About || "No details added"
-            : ""}
-        </Text>
-        <Text style={styles.bio}>
-          {Object.keys(userData).length !== 0
-            ? userData.Bio || "No details added"
-            : ""}
-        </Text>
-        <Text style={styles.Interest}>
-          {Object.keys(userData).length !== 0
-            ? userData.Interests.join(" ") || "No Interest added"
-            : " "}
-        </Text>
-        <Divider orientation="horizontal" />
-        {/* <Text>{userData.UserID}</Text> */}
-        <Text style={styles.SubTitle}>Liked</Text>
-        <FilmList filmList={userData.LikedFilms} />
-        <Text style={styles.SubTitle}>Watched</Text>
-        <FilmList filmList={userData.WatchedFilms} />
-        <Button
-          style={styles.button}
-          icon="logout"
-          mode="contained"
-          onPress={() => signout()}
+            showsVerticalScrollIndicator={false}
         >
-          Sign Out
-        </Button>
-      </ScrollView>
-    </SafeAreaView>
+          <View
+              style={{
+                alignItems: "center",
+              }}
+          >
+            <Image
+                style={styles.userImg}
+                source={{
+                  uri: userData
+                      ? "https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg"
+                      : "https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg",
+                }}
+            />
+          </View>
+          <Text style={styles.userName}>
+            {Object.keys(userData).length !== 0
+                ? userData.Name || "Test"
+                : "Test"}{" "}
+            {Object.keys(userData).length !== 0
+                ? userData.Surname || "User"
+                : "User"}
+          </Text>
+          <Text style={styles.AgeLocation}>
+            {Object.keys(userData).length !== 0
+                ? userData.Age || "Age is not given"
+                : "Age is not given"}
+            {", "}
+            {Object.keys(userData).length !== 0
+                ? userData.Location || "Location is not given"
+                : "Location is not given"}
+          </Text>
+          <Text style={styles.aboutUser}>
+            {Object.keys(userData).length !== 0
+                ? userData.About || "No details added"
+                : ""}
+          </Text>
+          <Text style={styles.bio}>
+            {Object.keys(userData).length !== 0
+                ? userData.Bio || "No details added"
+                : ""}
+          </Text>
+          <Text style={styles.Interest}>
+            {Object.keys(userData).length !== 0
+                ? userData.Interests.join(" ") || "No Interest added"
+                : " "}
+          </Text>
+          <Divider orientation="horizontal" />
+          {/* <Text>{userData.UserID}</Text> */}
+          <Text style={styles.SubTitle}>Liked</Text>
+          <FilmList filmList={userData.LikedFilms} />
+          <Text style={styles.SubTitle}>Watched</Text>
+          <FilmList filmList={userData.WatchedFilms} />
+          <Button
+              style={styles.button}
+              icon="logout"
+              mode="contained"
+              onPress={() => signout()}
+          >
+            Sign Out
+          </Button>
+        </ScrollView>
+      </SafeAreaView>
   );
 };
 
