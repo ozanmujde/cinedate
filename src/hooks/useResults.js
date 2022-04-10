@@ -25,11 +25,9 @@ export default () => {
   const getMovieDetails = async (movieId) => {
     try {
       const response = await tmdb.get(`/movie/${movieId}`);
-      console.log("movieInfo", response.data);
       setMovieInfo(response.data);
       setErrorMessage("");
     } catch (err) {
-      console.log("err", err);
       setErrorMessage("Something went wrong");
     }
   };

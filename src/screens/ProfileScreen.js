@@ -1,10 +1,11 @@
-import { StyleSheet, Text, SafeAreaView } from "react-native";
+import { StyleSheet, Text, SafeAreaView, Image, View } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import { Button } from "react-native-paper";
-import { useNavigation } from "@react-navigation/native";
+import { Divider } from "react-native-elements";
 import { Context as AuthContext } from "../context/AuthContext";
 import wlobbyGetters from "../hooks/wlobbyGetters";
 import FilmList from "../Components/ProfileComponents/FilmList";
+import { ScrollView } from "react-native-gesture-handler";
 const ProfileScreen = ({ route: { params } }) => {
   console.log(params);
   const userID = params.userID;
@@ -13,26 +14,81 @@ const ProfileScreen = ({ route: { params } }) => {
     getUserData(userID);
   }, [userID]);
   const { signout } = useContext(AuthContext);
+  // console.log("userdata",userData);
   return (
-    <SafeAreaView forceInset={{ top: "always" }}>
-      <Text style={{ fontSize: 50 }}>ProfileScreen</Text>
-
-      <Text>{userData.UserID}</Text>
-      <Text>LikedFilms</Text>
-      <FilmList filmList={userData.LikedFilms} />
-      <Text>WatchedFilms</Text>
-      <FilmList filmList={userData.WatchedFilms} />
-      <Text>{userData.Name}</Text>
-      <Text>{userData.Email}</Text>
-
-      <Button
-        style={styles.button}
-        icon="logout"
-        mode="contained"
-        onPress={() => signout()}
+    <SafeAreaView
+      // forceInset={{ top: "always" }}
+      style={{ flex: 1, backgroundColor: "#fff" }}
+    >
+      <ScrollView
+        style={styles.container}
+        contentContainerStyle={{
+          justifyContent: "center",
+          // alignItems: "center",
+        }}
+        showsVerticalScrollIndicator={false}
       >
-        Sign Out
-      </Button>
+        <View
+          style={{
+            alignItems: "center",
+          }}
+        >
+          <Image
+            style={styles.userImg}
+            source={{
+              uri: userData
+                ? "https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg"
+                : "https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg",
+            }}
+          />
+        </View>
+        <Text style={styles.userName}>
+          {Object.keys(userData).length !== 0
+            ? userData.Name || "Test"
+            : "Test"}{" "}
+          {Object.keys(userData).length !== 0
+            ? userData.Surname || "User"
+            : "User"}
+        </Text>
+        <Text style={styles.AgeLocation}>
+          {Object.keys(userData).length !== 0
+            ? userData.Age || "Age is not given"
+            : "Age is not given"}
+          {", "}
+          {Object.keys(userData).length !== 0
+            ? userData.Location || "Location is not given"
+            : "Location is not given"}
+        </Text>
+        <Text style={styles.aboutUser}>
+          {Object.keys(userData).length !== 0
+            ? userData.About || "No details added"
+            : ""}
+        </Text>
+        <Text style={styles.bio}>
+          {Object.keys(userData).length !== 0
+            ? userData.Bio || "No details added"
+            : ""}
+        </Text>
+        <Text style={styles.Interest}>
+          {Object.keys(userData).length !== 0
+            ? userData.Interests.join(" ") || "No Interest added"
+            : " "}
+        </Text>
+        <Divider orientation="horizontal" />
+        {/* <Text>{userData.UserID}</Text> */}
+        <Text style={styles.SubTitle}>Liked</Text>
+        <FilmList filmList={userData.LikedFilms} />
+        <Text style={styles.SubTitle}>Watched</Text>
+        <FilmList filmList={userData.WatchedFilms} />
+        <Button
+          style={styles.button}
+          icon="logout"
+          mode="contained"
+          onPress={() => signout()}
+        >
+          Sign Out
+        </Button>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -45,6 +101,59 @@ ProfileScreen.defaultProps = {
   },
 };
 
-const styles = StyleSheet.create({});
-
 export default ProfileScreen;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    padding: 10,
+  },
+  userImg: {
+    height: 150,
+    width: 150,
+    borderRadius: 75,
+  },
+  userName: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  aboutUser: {
+    fontSize: 14,
+    fontWeight: "600",
+    // color: "#666",
+    textAlign: "center",
+    marginBottom: 10,
+  },
+  AgeLocation: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#666",
+    marginBottom: 10,
+  },
+  bio: {
+    fontSize: 14,
+    fontWeight: "600",
+    color: "#666",
+    textAlign: "center",
+    marginBottom: 10,
+  },
+  Interest: {
+    fontSize: 12,
+    fontWeight: "600",
+    color: "#666",
+    // textAlign: "center",
+    marginBottom: 10,
+  },
+  SubTitle: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#666",
+    marginBottom: 10,
+    marginTop: 20,
+  },
+  button: {
+    marginTop: 20,
+  },
+});

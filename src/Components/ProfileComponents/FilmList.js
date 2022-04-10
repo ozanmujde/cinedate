@@ -4,11 +4,10 @@ import { FlatList } from "react-native-gesture-handler";
 import FilmImage from "./FilmImage";
 
 const FilmList = ({ filmList }) => {
-  console.log("FilmList", filmList);
   return (
     <View>
-      <Text>FilmList</Text>
       <FlatList
+        showsHorizontalScrollIndicator={false}
         horizontal={true}
         data={filmList}
         keyExtractor={(item) => item}
