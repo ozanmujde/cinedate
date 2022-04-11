@@ -1,8 +1,10 @@
 import {FlatList, SafeAreaView, StatusBar, StyleSheet,} from "react-native";
-import React from "react";
+import React, {useEffect} from "react";
 import FlipcardComponent from "../Components/FlipcardComponent";
 import {FAB} from "react-native-paper";
 import {useNavigation} from "@react-navigation/native";
+ import {getAdverts} from "../hooks/wlobbyGetters";
+import useResults from "../hooks/useResults";
 
 const HomeScreen = () => {
   const data = [
@@ -19,6 +21,20 @@ const HomeScreen = () => {
       ownerName: "Sara",
     },
   ];
+
+  const [getAdvertsData, adverts, errorMessage] = getAdverts();
+  const [searchMovieApi, tmdbErrorMessage, results, getMovieDetails, movieInfo] =
+      useResults();
+
+  const [films, setFilms] = React.useState([]);
+  useEffect(() => {
+    getAdvertsData().then(() => {
+      console.log("asdsda", adverts);
+    });
+  }, []);
+
+
+
   let FlatListItemSeparator;
   FlatListItemSeparator = () => {
     return (

@@ -3,14 +3,14 @@ import React, { useContext, useEffect, useState } from "react";
 import { Button } from "react-native-paper";
 import { Divider } from "react-native-elements";
 import { Context as AuthContext } from "../context/AuthContext";
-import wlobbyGetters from "../hooks/wlobbyGetters";
+import {getUsers} from "../hooks/wlobbyGetters";
 import FilmList from "../Components/ProfileComponents/FilmList";
 import { ScrollView } from "react-native-gesture-handler";
 import {useNavigation} from "@react-navigation/native";
 const ProfileScreen = ({ route: { params } }) => {
   console.log(params);
   const userID = params.userID;
-  const [getUserData, userData, errorMessage] = wlobbyGetters();
+  const [getUserData, userData, errorMessage] = getUsers();
   useEffect(() => {
     getUserData(userID);
   }, [userID]);
