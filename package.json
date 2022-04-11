@@ -21,6 +21,8 @@
     "country-list": "^2.2.0",
     "expo": "~44.0.0",
     "expo-status-bar": "~1.2.0",
+    "hermes-engine": "^0.5.2-rc1",
+    "moti": "^0.17.1",
     "pubnub": "^4.37.0",
     "pubnub-react": "^2.1.1",
     "react": "17.0.1",

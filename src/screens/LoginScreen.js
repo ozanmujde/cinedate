@@ -1,24 +1,40 @@
-import {Image, StatusBar, StyleSheet, Text, TouchableOpacity, View,} from "react-native";
-import React, {useContext, useState} from "react";
-import LoginScreen from "react-native-login-screen"
-import {TextInput} from "react-native-gesture-handler";
-import {Context as AuthContext} from "../context/AuthContext";
-import {Card} from "react-native-paper";
+import {
+  Image,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  ScrollView,
+} from "react-native";
+import React, { useContext, useState } from "react";
+import LoginScreen from "react-native-login-screen";
+import { Context as AuthContext } from "../context/AuthContext";
+import { Card } from "react-native-paper";
 
-const Login = ({navigation}) => {
-  const {signin} = useContext(AuthContext);
+const Login = ({ navigation }) => {
+  const { signin } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   return (
+    <ScrollView
+      style={styles.ScrollViewContainer}
+      showsVerticalScrollIndicator={false}
+    >
       <LoginScreen
-          logoImageSource={require("../../assets/Wlobby-logos_transparent.png")}
-          logoImageStyle={{width: 300, height: 300, marginBottom: -80}}
-          loginButtonStyle={{backgroundColor: "#6200ed"}}
-          onLoginPress={() => {signin({email, password})}}
-          onHaveAccountPress={() => {navigation.navigate("Signup")}}
-          haveAccountText={"Don't have an accont? Sign Up."}
+        logoImageSource={require("../../assets/Wlobby-logos_transparent.png")}
+        logoImageStyle={{ width: 300, height: 300, marginBottom: -80 }}
+        loginButtonStyle={{ backgroundColor: "#6200ed" }}
+        onLoginPress={() => {
+          signin({ email, password });
+        }}
+        onHaveAccountPress={() => {
+          navigation.navigate("Signup");
+        }}
+        haveAccountText={"Don't have an accont? Sign Up."}
       />
+    </ScrollView>
   );
 };
 
@@ -76,6 +92,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   logo: {
-    width: '100%',
+    width: "100%",
+  },
+  ScrollViewContainer: {
+    flex: 1,
+    backgroundColor: "#fff",
   },
 });
