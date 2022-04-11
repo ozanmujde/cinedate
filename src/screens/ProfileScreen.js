@@ -18,6 +18,7 @@ const ProfileScreen = ({ route: { params } }) => {
     getUserData(userID);
   }, [userID]);
   const { signout } = useContext(AuthContext);
+  console.log("userData", userData);
   return (
     <SafeAreaView
       // forceInset={{ top: "always" }}

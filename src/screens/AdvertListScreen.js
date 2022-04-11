@@ -23,7 +23,7 @@ const AdvertListScreen = ({ route: { params } }) => {
     getMovieDetails(movieId);
     getAdvertsWithFilmID(movieId);
   }, [movieId]);
-  console.log("advert", advert);
+  // console.log("advert", advert);
   // console.log("movie info", movieInfo);
   return (
     <SafeAreaView style={styles.container}>

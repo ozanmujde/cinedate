@@ -11,6 +11,7 @@ import { SafeAreaView } from "react-navigation";
 import { useNavigation } from "@react-navigation/native";
 import ResultsDetail from "./ResultsDetail";
 import { Divider } from "react-native-elements";
+import AdvertListScreen from "../screens/AdvertListScreen";
 const ResultsList = ({ results }) => {
   if (!results.length) {
     // there is no result dont show anything
@@ -30,9 +31,8 @@ const ResultsList = ({ results }) => {
           return (
             <TouchableOpacity
               onPress={() => {
-                navigation.navigate("ResultScreen", {
-                  id: item.id,
-                  isDetailScreen: false,
+                navigation.navigate("AdvertListScreen", {
+                  movieId: item.id,
                 }); // with that we can pass id information to ResultsShowScreen
               }}
             >
