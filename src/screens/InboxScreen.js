@@ -5,6 +5,7 @@ import PendingAppealsComponent from "../Components/PendingAppealsComponent";
 import Advert from "../classes/Advert";
 import {useNavigation} from "@react-navigation/native";
 import useResults from "../hooks/useResults";
+import {Snackbar} from "react-native-paper";
 
 
 function InboxScreen() {

@@ -1,76 +1,35 @@
-import {
-  StyleSheet,
-  Text,
-  SafeAreaView,
-  View,
-  StatusBar,
-  TouchableOpacity,
-} from "react-native";
-import React, { useState, useContext } from "react";
+import {Image, StatusBar, StyleSheet, Text, TouchableOpacity, View,} from "react-native";
+import React, {useContext, useState} from "react";
+import LoginScreen from "react-native-login-screen"
+import {TextInput} from "react-native-gesture-handler";
+import {Context as AuthContext} from "../context/AuthContext";
+import {Card} from "react-native-paper";
 
-import { TextInput } from "react-native-gesture-handler";
-import { Context as AuthContext } from "../context/AuthContext";
-
-const LoginScreen = ({ navigation }) => {
-  const { signin } = useContext(AuthContext);
+const Login = ({navigation}) => {
+  const {signin} = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   return (
-    // the keyboard ll not cover the keyboard
-    <SafeAreaView style={styles.container} forceInset={{ top: "always" }}>
-      {/* TODO: Make status bar changeable in the future */}
-      <StatusBar
-        barStyle="dark-content"
-        backgroundColor="#61dafb"
-        animated={true}
+      <LoginScreen
+          logoImageSource={require("../../assets/Wlobby-logos_transparent.png")}
+          logoImageStyle={{width: 300, height: 300, marginBottom: -80}}
+          loginButtonStyle={{backgroundColor: "#6200ed"}}
+          onLoginPress={() => {signin({email, password})}}
+          onHaveAccountPress={() => {navigation.navigate("Signup")}}
+          haveAccountText={"Don't have an accont? Sign Up."}
       />
-      <View style={styles.inputContainer}>
-        <TextInput
-          placeholder="Email"
-          style={styles.input}
-          value={email}
-          autoCapitalize="none"
-          onChangeText={(text) => setEmail(text)}
-        />
-        <TextInput
-          placeholder="password"
-          secureTextEntry
-          style={styles.input}
-          value={password}
-          autoCapitalize="none"
-          onChangeText={(text) => setPassword(text)}
-        />
-      </View>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          onPress={() => {
-            signin({ email, password });
-          }}
-          style={styles.button}
-        >
-          <Text style={styles.buttonText}>Login</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate("Signup");
-          }}
-          style={[styles.button, styles.buttonOutline]}
-        >
-          <Text style={styles.buttonOutlineText}>Register</Text>
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
   );
 };
 
-export default LoginScreen;
+export default Login;
 
 const styles = StyleSheet.create({
   container: {
     justifyContent: "center",
-    alignItems: "center",
-    flex: 1,
+    alignSelf: "center",
+    height: "100%",
+    width: "80%",
   },
   inputContainer: {
     width: "80%",
@@ -115,5 +74,8 @@ const styles = StyleSheet.create({
     color: "#0782F9",
     fontWeight: "bold",
     fontSize: 16,
+  },
+  logo: {
+    width: '100%',
   },
 });

@@ -1,27 +1,24 @@
-import {Keyboard, StyleSheet, Text, View, SafeAreaView, ScrollView} from 'react-native';
-import React, {useState} from 'react';
-import {TouchableOpacity, TouchableWithoutFeedback} from "react-native-gesture-handler";
+import {Image, SafeAreaView, ScrollView, StyleSheet, Text, View} from 'react-native';
+import React from 'react';
 import User from "../classes/User";
-import NumberPlease from "react-native-number-please";
 import {countries} from "../countries";
-import { Dropdown } from 'react-native-element-dropdown';
+import {Dropdown} from 'react-native-element-dropdown';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import {
-    HelperText,
-    TextInput,
     Button,
-    Paragraph,
+    Card,
     Dialog,
+    Divider,
+    IconButton,
     Portal,
     Provider,
-    Switch,
-    Divider,
-    Headline,
     RadioButton,
-    Subheading, Colors, IconButton
+    Subheading,
+    TextInput
 } from 'react-native-paper';
 import {DatePickerInput} from "react-native-paper-dates";
+
 const RegisterScreen = () => {
     const [email, setEmail] = React.useState("");
     const [name, setName] = React.useState("");
@@ -103,87 +100,105 @@ const RegisterScreen = () => {
     };
 
     return (
-        <ScrollView
-        >
-            <SafeAreaView>
-                <Headline style={styles.headline}>WELCOME TO WLOBBY</Headline>
-                <IconButton
-                    style={{alignSelf: 'center'}}
-                    icon="camera-plus"
-                    color={'#6200ed'}
-                    size={50}
-                    onPress={() => alert("Upload a profile photo")}
-                />
-                <TextInput style={styles.textInput} label="Email" value={email} onChangeText={email => setEmail(email)} />
-                <TextInput style={styles.textInput} label="Name" value={name} onChangeText={name => setName(name)} />
-                <TextInput style={styles.textInput} label="Surname" value={surname} onChangeText={surname => setSurname(surname)} />
-                <DatePickerInput
-                    style={styles.textInput}
-                    locale="en"
-                    label="Birthday"
-                    value={birthday}
-                    onChange={(d) => setBirthday(d)}
-                    inputMode="start"
-                    validRange={{
-                        endDate: new Date(),
-                    }}
-                    saveLabel="Save"
-                    animationType="slide"
-                />
-                <TextInput disabled={true} label="Age" value={(new Date().getFullYear() - birthday.getFullYear()).toString()}/>
-                <Divider style={{borderWidth:0.4}}/>
-                <Divider style={{borderWidth:0.1}}/>
-                <Provider>
-                    <View style={{borderWidth: 1, width:"50%", borderRadius:5,margin:5, alignSelf:"center", borderColor:"#6200ed"}}>
-                        <Button onPress={showDialog}>{sex ? sex : "Select Sex"}</Button>
-                        <Portal>
-                            <Dialog visible={visible} onDismiss={hideDialog}>
-                                <Dialog.Title>Select Sex</Dialog.Title>
-                                <Dialog.Content>
-                                    <RadioButton.Group  onValueChange={value => setSex(value)} value={sex}>
-                                        <RadioButton.Item style={{width: '100%'}} color="#6200ed"  label="Male" value="male" />
-                                        <RadioButton.Item style={{width: '100%'}} color="#6200ed"  label="Female" value="female" />
-                                        <RadioButton.Item style={{width: '100%'}} color="#6200ed"  label="Other" value="other" />
-                                    </RadioButton.Group>
-                                </Dialog.Content>
-                                <Dialog.Actions>
-                                    <Button onPress={hideDialog}>Done</Button>
-                                </Dialog.Actions>
-                            </Dialog>
-                        </Portal>
-                    </View>
-                </Provider>
-                <Divider style={{borderWidth:0.4}}/>
-                <View style={{flexDirection:'row', alignItems: 'center'}}>
-                    <Subheading style={{paddingLeft:10}}>Country</Subheading>
-                    <Dropdown
-                        style={styles.dropdown}
-                        placeholderStyle={styles.placeholderStyle}
-                        selectedTextStyle={styles.selectedTextStyle}
-                        inputSearchStyle={styles.inputSearchStyle}
-                        iconStyle={styles.iconStyle}
-                        data={countries}
-                        search
-                        maxHeight={300}
-                        labelField="label"
-                        valueField="value"
-                        placeholder="Select item"
-                        searchPlaceholder="Search..."
-                        value={value}
-                        onChange={item => {
-                            setCountryCode(item.value);
-                        }}
-                        renderLeftIcon={() => (
-                            <AntDesign style={styles.icon} color="black" name="Safety" size={20} />
-                        )}
-                        renderItem={renderItem}
-                    />
-                </View>
-                <Button style={styles.button} icon="check" mode="contained" onPress={() => alert("Advert Has Been Created")}>
-                    Submit
-                </Button>
-            </SafeAreaView>
-        </ScrollView>
+        <SafeAreaView style={styles.mainContainer}>
+            <ScrollView contentContainerStyle={{paddingBottom: '100%'}}>
+                <Image source={require('../../assets/Wlobby-logos_transparent.png')} style={styles.logo}/>
+                <Card.Content>
+                    <SafeAreaView>
+                        <IconButton
+                            style={{alignSelf: 'center', borderColor:'black', borderWidth: 1, borderRadius: 10}}
+                            icon="camera-plus"
+                            color={'#6200ed'}
+                            size={80}
+                            onPress={() => alert("Upload a profile photo")}
+                        />
+                        <TextInput style={styles.textInput} label="Email" value={email}
+                                   onChangeText={email => setEmail(email)}/>
+                        <TextInput style={styles.textInput} label="Name" value={name}
+                                   onChangeText={name => setName(name)}/>
+                        <TextInput style={styles.textInput} label="Surname" value={surname}
+                                   onChangeText={surname => setSurname(surname)}/>
+                        <DatePickerInput
+                            style={styles.textInput}
+                            locale="en"
+                            label="Birthday"
+                            value={birthday}
+                            onChange={(d) => setBirthday(d)}
+                            inputMode="start"
+                            validRange={{
+                                endDate: new Date(),
+                            }}
+                            saveLabel="Save"
+                            animationType="slide"
+                        />
+                        <TextInput disabled={true} style={styles.age} label="Age"
+                                   value={(new Date().getFullYear() - birthday.getFullYear()).toString()}/>
+                        <Divider style={{borderWidth: 0.4}}/>
+                        <Divider style={{borderWidth: 0.1}}/>
+                        <Provider>
+                            <View style={{
+                                borderWidth: 1,
+                                width: "50%",
+                                borderRadius: 5,
+                                margin: 5,
+                                alignSelf: "center",
+                                borderColor: "#6200ed"
+                            }}>
+                                <Button onPress={showDialog}>{sex ? sex : "Select Sex"}</Button>
+                                <Portal>
+                                    <Dialog visible={visible} onDismiss={hideDialog}>
+                                        <Dialog.Title>Select Sex</Dialog.Title>
+                                        <Dialog.Content>
+                                            <RadioButton.Group onValueChange={value => setSex(value)} value={sex}>
+                                                <RadioButton.Item style={{width: '100%'}} color="#6200ed" label="Male"
+                                                                  value="male"/>
+                                                <RadioButton.Item style={{width: '100%'}} color="#6200ed" label="Female"
+                                                                  value="female"/>
+                                                <RadioButton.Item style={{width: '100%'}} color="#6200ed" label="Other"
+                                                                  value="other"/>
+                                            </RadioButton.Group>
+                                        </Dialog.Content>
+                                        <Dialog.Actions>
+                                            <Button onPress={hideDialog}>Done</Button>
+                                        </Dialog.Actions>
+                                    </Dialog>
+                                </Portal>
+                            </View>
+                        </Provider>
+                        <Divider style={{borderWidth: 0.4}}/>
+                        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                            <Subheading style={{paddingLeft: 10}}>Country</Subheading>
+                            <Dropdown
+                                style={styles.dropdown}
+                                placeholderStyle={styles.placeholderStyle}
+                                selectedTextStyle={styles.selectedTextStyle}
+                                inputSearchStyle={styles.inputSearchStyle}
+                                iconStyle={styles.iconStyle}
+                                data={countries}
+                                search
+                                maxHeight={300}
+                                labelField="label"
+                                valueField="value"
+                                placeholder="Select item"
+                                searchPlaceholder="Search..."
+                                value={value}
+                                onChange={item => {
+                                    setCountryCode(item.value);
+                                }}
+                                renderLeftIcon={() => (
+                                    <AntDesign style={styles.icon} color="black" name="Safety" size={20}/>
+                                )}
+                                renderItem={renderItem}
+                            />
+                        </View>
+                        <Button style={styles.button} icon="check" mode="contained"
+                                onPress={() => alert("Advert Has Been Created")}>
+                            Submit
+                        </Button>
+                    </SafeAreaView>
+                </Card.Content>
+            </ScrollView>
+        </SafeAreaView>
     );
 };
 
@@ -297,6 +312,7 @@ const styles = StyleSheet.create({
     },
     textInput: {
         marginTop: 10,
+        backgroundColor: "#fff",
     },
     headline: {
         fontSize: 24,
@@ -304,6 +320,18 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         textAlign: "center",
     },
-
-
+    mainContainer: {
+        flex: 1,
+        alignItems: 'center',
+        marginTop: 20,
+        backgroundColor: '#fff',
+    },
+    logo: {
+        width: '100%',
+        height: '20%',
+    },
+    age: {
+        marginTop: -15,
+        backgroundColor: '#fff',
+    },
 });

@@ -5,7 +5,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 
 import { StyleSheet } from "react-native";
-import LoginScreen from "../screens/LoginScreen";
+import Login from "../screens/LoginScreen";
 import HomeScreen from "../screens/HomeScreen";
 import RegisterScreen from "../screens/RegisterScreen";
 import FlipcardComponent from "../Components/FlipcardComponent";
@@ -29,7 +29,7 @@ const router = () => {
         <Stack.Navigator initialRouteName="Login">
           <Stack.Screen
             name="Login"
-            component={LoginScreen}
+            component={Login}
             options={{ headerShown: false }}
           />
           <Stack.Screen

@@ -6,6 +6,7 @@ import { Context as AuthContext } from "../context/AuthContext";
 import wlobbyGetters from "../hooks/wlobbyGetters";
 import FilmList from "../Components/ProfileComponents/FilmList";
 import { ScrollView } from "react-native-gesture-handler";
+import {useNavigation} from "@react-navigation/native";
 const ProfileScreen = ({ route: { params } }) => {
   console.log(params);
   const userID = params.userID;

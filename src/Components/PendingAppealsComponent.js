@@ -1,10 +1,7 @@
 import React, {Component} from 'react';
-import {Pressable, StyleSheet} from 'react-native';
-import {SafeAreaView} from "react-navigation";
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import tmdb from "../api/tmdb";
-import {Avatar, Button, Card, Paragraph, Title} from "react-native-paper";
-import {Icon} from "react-native-elements";
-import Swipeable from 'react-native-gesture-handler/Swipeable';
+import {Avatar, Button, Card, IconButton, Snackbar} from "react-native-paper";
 
 let result;
 let uri;
@@ -67,41 +64,30 @@ export default class PendingAppealsComponent extends Component {
     this.setState({showButton: false});
   };
 
+  handleLeft(props) {
+    return (
+        <TouchableOpacity onPress={() => this.setState({showSnackBar:true})}>
+          <Avatar.Icon style={{backgroundColor: this.returnBackgroundColor()}}{...props} icon={this.returnIconType()}/>
+        </TouchableOpacity>
+    );
+  }
   render() {
     const {showButton} = this.state;
+    const {showSnackBar} = this.state;
     return (
         <>
           {
             showButton ?
-                <SafeAreaView>
-                  <Swipeable renderLeftActions={this.renderLeftActions}>
-                    <Card mode={'outlined'}
-                          style={{backgroundColor: this.returnBackgroundColor(), marginVertical: 1}}>
-                      <Card.Content>
-                        <SafeAreaView style={{flexDirection: "row"}}>
-                          <Avatar.Image style={{alignSelf: 'center'}} size={40}
-                                        source={require('../../assets/profilePhoto.jpg')}/>
-                          <SafeAreaView style={{marginLeft: 10}}>
-                            <Pressable onPress={() => this.function1()}>
-                              <Title>{this.props.filmName}</Title>
-                            </Pressable>
-                            <Paragraph>{this.props.ownerName}</Paragraph>
-                          </SafeAreaView>
-                          <SafeAreaView style={{
-                            position: "absolute",
-                            right: 0,
-                            justifyContent: "center",
-                            alignItems: "center",
-                            alignSelf: "center"
-                          }}>
-                            <Icon name={this.returnIconType()} size={30} color="#000"/>
-                            <Paragraph>{this.props.pendingStatus}</Paragraph>
-                          </SafeAreaView>
-                        </SafeAreaView>
-                      </Card.Content>
-                    </Card>
-                  </Swipeable>
-                </SafeAreaView>
+                <View>
+                  <Card.Title style={{borderWidth: .5, borderColor: "black"}}
+                              title={this.props.filmName}
+                              subtitle={this.props.ownerName}
+                              left={(props) => this.handleLeft(props)}
+                              right={(props) => <IconButton {...props} icon="dots-vertical-circle" onPress={() => {
+                                this.renderLeftActions()
+                              }}/>}
+                  />
+                </View>
                 : null
           }
         </>
@@ -109,7 +95,6 @@ export default class PendingAppealsComponent extends Component {
 
     );
   }
-
 }
 
 const styles = StyleSheet.create({

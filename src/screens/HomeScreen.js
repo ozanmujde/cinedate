@@ -1,14 +1,8 @@
-import {
-  FlatList,
-  Image,
-  SafeAreaView,
-  StatusBar,
-  StyleSheet,
-} from "react-native";
+import {FlatList, SafeAreaView, StatusBar, StyleSheet,} from "react-native";
 import React from "react";
 import FlipcardComponent from "../Components/FlipcardComponent";
-import { FAB } from "react-native-paper";
-import { useNavigation } from "@react-navigation/native";
+import {FAB} from "react-native-paper";
+import {useNavigation} from "@react-navigation/native";
 
 const HomeScreen = () => {
   const data = [
@@ -43,19 +37,19 @@ const HomeScreen = () => {
 
   return (
     <SafeAreaView style={styles.container} forceInset={{ top: "always" }}>
-      <Image source={require("../../assets/wlobby.png")} style={styles.logo} />
       <FlatList
         style={{ height: "100%", width: "100%" }}
         data={data}
+        showsVerticalScrollIndicator={false}
         renderItem={({ item }) => (
-          <FlipcardComponent
-            ownerName={item.ownerName}
-            filmName={item.filmName}
-            userID={2}
-            isDetailScreen={false}
-            comments={"Çok iyi film olcak hacı gel kesin"}
-            navigation={navigation}
-          />
+            <FlipcardComponent
+                ownerName={item.ownerName}
+                filmName={item.filmName}
+                userID={2}
+                isDetailScreen={false}
+                comments={"Çok iyi film olcak hacı gel kesin"}
+                navigation={navigation}
+            />
         )}
         keyExtractor={(item, index) => index.toString()}
       ></FlatList>
