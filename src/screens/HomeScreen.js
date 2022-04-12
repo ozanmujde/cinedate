@@ -1,10 +1,18 @@
-import {FlatList, SafeAreaView, StatusBar, StyleSheet,} from "react-native";
-import React, {useEffect} from "react";
+import {
+  FlatList,
+  SafeAreaView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
+import React, { useEffect } from "react";
 import FlipcardComponent from "../Components/FlipcardComponent";
-import {FAB} from "react-native-paper";
-import {useNavigation} from "@react-navigation/native";
- import {getAdverts} from "../hooks/wlobbyGetters";
-import useResults from "../hooks/useResults";
+import AutomaticFlipCard from "../Components/AutomaticFlipCard";
+import { FAB } from "react-native-paper";
+import { useNavigation } from "@react-navigation/native";
+import { getAdverts } from "../hooks/wlobbyGetters";
+import LoadingIndicatior from "../Components/LoadingIndicatior";
 
 const HomeScreen = () => {
   const data = [
@@ -22,18 +30,41 @@ const HomeScreen = () => {
     },
   ];
 
-  const [getAdvertsData, adverts, errorMessage] = getAdverts();
-  const [searchMovieApi, tmdbErrorMessage, results, getMovieDetails, movieInfo] =
-      useResults();
+  const [getAdvertsData, adverts, errorMessage, loading] = getAdverts();
 
   const [films, setFilms] = React.useState([]);
+
   useEffect(() => {
-    getAdvertsData().then(() => {
-      console.log("asdsda", adverts);
-    });
+    getAdvertsData();
   }, []);
 
+  // useEffect(() => {
+  //   if (Object.keys(adverts).length !== 0) {
+  //     adverts.map((advert) => {
+  //       console.log("advertFIlm", advert.FilmID);
+  //       // getMovieDetails(advert.FilmID).then((res) => {
+  //       //   console.log("res", res.FilmID);
+  //       //   setFilms((prevState) => [...prevState, res]);
+  //       // });
+  //       const [filmDetails, filmErrorMes, isFilmLoading] = getFilmDetails(
+  //         advert.FilmID
+  //       );
+  //       console.log("filmDetails", filmDetails);
 
+  //       // const fetchData = async () => {
+  //       //   const f = await getMovieDetails(advert.FilmID);
+  //       //   console.log("f", f);
+  //       //   setFilms((prevState) => [...prevState, movieInfo]);
+  //       // };
+  //       // if (Object.keys(movieInfo).length !== 0) {
+  //       //   setFilms((prevState) => [...prevState, movieInfo]);
+  //       // }
+  //     });
+  //   }
+  //   // films.map((film) => {
+  //   //   console.log("film", film.id);
+  //   // });
+  // }, [adverts]);
 
   let FlatListItemSeparator;
   FlatListItemSeparator = () => {
@@ -50,25 +81,27 @@ const HomeScreen = () => {
   };
 
   const navigation = useNavigation();
-
+  // console.log("films", films);
   return (
     <SafeAreaView style={styles.container} forceInset={{ top: "always" }}>
-      <FlatList
-        style={{ height: "100%", width: "100%" }}
-        data={data}
-        showsVerticalScrollIndicator={false}
-        renderItem={({ item }) => (
-            <FlipcardComponent
-                ownerName={item.ownerName}
-                filmName={item.filmName}
-                userID={2}
-                isDetailScreen={false}
-                comments={"Çok iyi film olcak hacı gel kesin"}
-                navigation={navigation}
+      {loading ? (
+        <LoadingIndicatior size={100} />
+      ) : (
+        <FlatList
+          style={{ height: "100%", width: "100%" }}
+          data={adverts}
+          showsVerticalScrollIndicator={false}
+          keyExtractor={(item) => item.AdvertID}
+          renderItem={({ item }) => (
+            <AutomaticFlipCard
+              advert={item}
+              navigation={navigation}
+              movieID={item.FilmID}
             />
-        )}
-        keyExtractor={(item, index) => index.toString()}
-      ></FlatList>
+          )}
+        ></FlatList>
+      )}
+
       {/* TODO: Make status bar changeable in the future */}
       <StatusBar
         barStyle="dark-content"

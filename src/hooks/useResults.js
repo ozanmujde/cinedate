@@ -5,7 +5,7 @@ export default () => {
   // to extract the searchApi from the useResults function first take everything associated with
   const [errorMessage, setErrorMessage] = useState(""); // to show error message for user
   const [results, setResults] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [movieInfo, setMovieInfo] = useState({});
 
   const searchMovieApi = async (searchTerm) => {
@@ -16,6 +16,7 @@ export default () => {
         },
       });
       setResults(response.data.results);
+      setIsLoading(false);
       setErrorMessage("");
     } catch (err) {
       setErrorMessage("Something went wrong");
@@ -26,11 +27,19 @@ export default () => {
     try {
       const response = await tmdb.get(`/movie/${movieId}`);
       setMovieInfo(response.data);
+      setIsLoading(false);
       setErrorMessage("");
     } catch (err) {
       setErrorMessage("Something went wrong");
     }
   };
 
-  return [searchMovieApi, errorMessage, results, getMovieDetails, movieInfo]; // 3 things we need in the searchScreen's jsx
+  return [
+    searchMovieApi,
+    errorMessage,
+    results,
+    getMovieDetails,
+    movieInfo,
+    isLoading,
+  ]; // 3 things we need in the searchScreen's jsx
 };

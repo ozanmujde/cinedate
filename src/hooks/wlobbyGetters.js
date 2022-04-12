@@ -24,16 +24,18 @@ export function getUsers() {
 export function getAdverts() {
   const [adverts, setAdverts] = useState({});
   const [errorMessage, setErrorMessage] = useState("");
-  const getAdverts = async () => {
+  const [loading, setLoading] = useState(true);
+  const getAdvertData = async () => {
     try {
       const response = await wlobby.get("/get/adverts/");
-      setAdverts(response.data);
+      setAdverts(response.data.Items);
+      setLoading(false);
       setErrorMessage("");
     } catch (err) {
       setErrorMessage("Something went wrong");
     }
   };
-  return [getAdverts, adverts, errorMessage];
+  return [getAdvertData, adverts, errorMessage, loading];
 }
 
 export function getAdvertWithFilmID() {
@@ -54,5 +56,3 @@ export function getAdvertWithFilmID() {
   };
   return [getAdvertsWithFilmID, advert, errorMessage];
 }
-
-
