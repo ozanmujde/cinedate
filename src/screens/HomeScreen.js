@@ -5,6 +5,8 @@ import {FAB} from "react-native-paper";
 import {useNavigation} from "@react-navigation/native";
 import {getAdverts} from "../hooks/wlobbyGetters";
 import LoadingIndicatior from "../Components/LoadingIndicatior";
+import ChatHeader from "../Components/ChatComponents/ChatHeader";
+import {Image, View} from "moti";
 
 const HomeScreen = () => {
   const data = [
@@ -28,35 +30,10 @@ const HomeScreen = () => {
 
   useEffect(() => {
     getAdvertsData();
+    navigation.setOptions({
+      headerTitle: () => <ChatHeader userId={2} />,
+    });
   }, []);
-
-  // useEffect(() => {
-  //   if (Object.keys(adverts).length !== 0) {
-  //     adverts.map((advert) => {
-  //       console.log("advertFIlm", advert.FilmID);
-  //       // getMovieDetails(advert.FilmID).then((res) => {
-  //       //   console.log("res", res.FilmID);
-  //       //   setFilms((prevState) => [...prevState, res]);
-  //       // });
-  //       const [filmDetails, filmErrorMes, isFilmLoading] = getFilmDetails(
-  //         advert.FilmID
-  //       );
-  //       console.log("filmDetails", filmDetails);
-
-  //       // const fetchData = async () => {
-  //       //   const f = await getMovieDetails(advert.FilmID);
-  //       //   console.log("f", f);
-  //       //   setFilms((prevState) => [...prevState, movieInfo]);
-  //       // };
-  //       // if (Object.keys(movieInfo).length !== 0) {
-  //       //   setFilms((prevState) => [...prevState, movieInfo]);
-  //       // }
-  //     });
-  //   }
-  //   // films.map((film) => {
-  //   //   console.log("film", film.id);
-  //   // });
-  // }, [adverts]);
 
   let FlatListItemSeparator;
   FlatListItemSeparator = () => {
@@ -79,19 +56,25 @@ const HomeScreen = () => {
       {loading ? (
         <LoadingIndicatior size={100} />
       ) : (
-          <FlatList
-              style={{height: "100%", width: "100%"}}
-              data={adverts}
-              showsVerticalScrollIndicator={false}
-              keyExtractor={(item) => item.AdvertID}
-              renderItem={({item}) => (
-                  <AutomaticFlipCard
-                      advert={item}
-                      navigation={navigation}
-                      movieID={item.FilmID}
-                  />
-              )}
+        <View style={{ height: "100%", width: "100%" }}>
+          <Image
+            source={require("../../assets/Wlobby-logos_transparent.png")}
+            style={styles.logo}
           />
+          <FlatList
+            style={{ height: "100%", width: "100%" }}
+            data={adverts}
+            showsVerticalScrollIndicator={false}
+            keyExtractor={(item) => item.AdvertID}
+            renderItem={({ item }) => (
+              <AutomaticFlipCard
+                advert={item}
+                navigation={navigation}
+                movieID={item.FilmID}
+              />
+            )}
+          ></FlatList>
+        </View>
       )}
 
       {/* TODO: Make status bar changeable in the future */}
@@ -121,7 +104,9 @@ const styles = StyleSheet.create({
   },
   logo: {
     width: "100%",
-    height: "20%",
+    height: "10%",
+    resizeMode:'contain',
+    marginBottom: "5%",
   },
   fab: {
     position: "absolute",

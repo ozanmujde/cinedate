@@ -1,24 +1,39 @@
-import { StyleSheet, Text, SafeAreaView, Image, View } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  SafeAreaView,
+  Image,
+  View,
+  RefreshControl,
+} from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import { Button } from "react-native-paper";
 import { Divider } from "react-native-elements";
 import { Context as AuthContext } from "../context/AuthContext";
-import {getUsers} from "../hooks/wlobbyGetters";
+import { getUsers } from "../hooks/wlobbyGetters";
 import FilmList from "../Components/ProfileComponents/FilmList";
 import { ScrollView } from "react-native-gesture-handler";
 import LoadingIndicator from "../Components/LoadingIndicatior";
-
-
+import { useNavigation } from "@react-navigation/native";
 
 const ProfileScreen = ({ route: { params } }) => {
   // console.log(params);
   const userID = params.userID;
+  const navigation = useNavigation();
   const [getUserData, userData, errorMessage] = getUsers();
+  const [refreshing, setRefreshing] = useState(false);
   useEffect(() => {
     getUserData(userID);
   }, [userID]);
+
+  const onRefresh = (userID) => {
+    setRefreshing(true);
+    navigation.navigate("Profile", { userID });
+    setRefreshing(false);
+  };
+
   const { signout } = useContext(AuthContext);
-  console.log("userData", userData);
+  // console.log("userData", userData);
   return (
     <SafeAreaView
       // forceInset={{ top: "always" }}
@@ -32,6 +47,12 @@ const ProfileScreen = ({ route: { params } }) => {
             // alignItems: "center",
           }}
           showsVerticalScrollIndicator={false}
+          refreshControl={
+            <RefreshControl 
+            refreshing={refreshing} 
+            onRefresh={() => onRefresh(7)}
+            />
+          }
         >
           <View
             style={{
