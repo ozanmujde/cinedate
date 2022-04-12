@@ -1,4 +1,4 @@
-import {Image, SafeAreaView, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {Image, Keyboard, SafeAreaView, ScrollView, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import User from "../classes/User";
 import {countries} from "../countries";
@@ -9,7 +9,7 @@ import {
     Button,
     Card,
     Dialog,
-    Divider,
+    Divider, HelperText,
     IconButton,
     Portal,
     Provider,
@@ -19,9 +19,12 @@ import {
 } from 'react-native-paper';
 import {DatePickerInput} from "react-native-paper-dates";
 
+
 const RegisterScreen = () => {
     const [email, setEmail] = React.useState("");
     const [name, setName] = React.useState("");
+    const [password, setPassword] = React.useState("");
+    const [confirmPassword, setConfirmPassword] = React.useState("");
     const [surname, setSurname] = React.useState("");
     const [sex, setSex] = React.useState("");
     const [adverts, setAdverts] = React.useState([]);
@@ -31,7 +34,8 @@ const RegisterScreen = () => {
     const [profilePhoto, setProfilePhoto] = React.useState("");
     const [likedFilms, setLikedFilms] = React.useState([]);
     const [watchedFilms, setWatchedFilms] = React.useState([]);
-
+    const [secureTextEntry, setSecureTextEntry] = React.useState(true);
+    const [secureTextEntryForConfirm, setSecureTextEntryForConfirm] = React.useState(true);
     const [user,setUser] = React.useState(new User("","","","",
         [],-1, "","","",[]));
 
@@ -83,6 +87,9 @@ const RegisterScreen = () => {
 
     }
 
+    const arePasswordsSame = () => {
+        return password !== confirmPassword && confirmPassword.length > 0;
+    }
     const renderItem = (item) => {
         return (
             <View style={styles.item}>
@@ -98,10 +105,9 @@ const RegisterScreen = () => {
             </View>
         );
     };
-
     return (
         <SafeAreaView style={styles.mainContainer}>
-            <ScrollView contentContainerStyle={{paddingBottom: '100%'}}>
+            <ScrollView contentContainerStyle={{paddingBottom: '100%'}} showsVerticalScrollIndicator={false}>
                 <Image source={require('../../assets/Wlobby-logos_transparent.png')} style={styles.logo}/>
                 <Card.Content>
                     <SafeAreaView>
@@ -191,6 +197,39 @@ const RegisterScreen = () => {
                                 renderItem={renderItem}
                             />
                         </View>
+                        <TextInput
+                            style={styles.textInput}
+                            label="Password"
+                            secureTextEntry={secureTextEntry}
+                            value={password}
+                            onChangeText={password => setPassword(password)}
+                            right={
+                                <TextInput.Icon
+                                    name={secureTextEntry ? "eye" : "eye-off"}
+                                    onPress={() => {
+                                        setSecureTextEntry(!secureTextEntry);
+                                        return false;
+                                    }}
+                                />
+                            }
+                        />
+                        <TextInput
+                            style={styles.textInput}
+                            label="Confirm Password"
+                            secureTextEntry={secureTextEntryForConfirm}
+                            value={confirmPassword}
+                            onChangeText={confirmPassword => setConfirmPassword(confirmPassword)}
+                            right={
+                                <TextInput.Icon
+                                    name={secureTextEntryForConfirm ? "eye" : "eye-off"}
+                                    onPress={() => {
+                                        setSecureTextEntryForConfirm(!secureTextEntryForConfirm);
+                                        return false;
+                                    }}
+                                />
+                            }
+                        />
+                        <HelperText type="error" visible={arePasswordsSame()}>Passwords must match</HelperText>
                         <Button style={styles.button} icon="check" mode="contained"
                                 onPress={() => alert("Advert Has Been Created")}>
                             Submit

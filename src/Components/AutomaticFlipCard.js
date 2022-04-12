@@ -3,15 +3,21 @@ import React, { useEffect } from "react";
 import FlipcardComponent from "./FlipcardComponent";
 import useResults from "../hooks/useResults";
 
-const AutomaticFlipCard = ({ advert, navigation, movieID }) => {
+const AutomaticFlipCard = ({ advert, navigation, movieID, isDetailScreen }) => {
   const [
     searchMovieApi,
     errorMessage,
     results,
     getMovieDetails,
+    getMoviesDetails,
     movieInfo,
+    moviesInfos,
     isLoading,
   ] = useResults();
+
+  if(isDetailScreen !== true) {
+    isDetailScreen = false;
+  }
 
   useEffect(() => {
     getMovieDetails(movieID);
@@ -28,7 +34,7 @@ const AutomaticFlipCard = ({ advert, navigation, movieID }) => {
         userID={advert.OwnerID}
         ownerName={"ozan"}
         filmImage={uri}
-        isDetailScreen={false}
+        isDetailScreen={isDetailScreen}
         comments={"Çok iyi film olcak hacı gel kesin"}
         navigation={navigation}
       />

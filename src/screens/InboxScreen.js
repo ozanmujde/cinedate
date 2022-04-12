@@ -1,11 +1,10 @@
 import {FlatList, StyleSheet} from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {SafeAreaView} from "react-navigation";
 import PendingAppealsComponent from "../Components/PendingAppealsComponent";
-import Advert from "../classes/Advert";
 import {useNavigation} from "@react-navigation/native";
 import useResults from "../hooks/useResults";
-import {Snackbar} from "react-native-paper";
+import {getAdverts} from "../hooks/wlobbyGetters";
 
 
 function InboxScreen() {
@@ -31,30 +30,68 @@ function InboxScreen() {
             "status": "Pending",
         },
     ];
-    const [adverts, setAdverts] = React.useState(new Advert(1, 1, "1/1/2022", "1/1/2022", "1/1/2022",
-        10, "Both", [1, 2, 3], "active", 1));
     const navigation = useNavigation();
-    const [searchMovieApi, errorMessage, results] = useResults();
-    const result = [];
+    const [films, setFilms] = React.useState([]);
+
+    const [getAdvertsData, adverts, errorMessageGetAdverts, loading] = getAdverts();
+
+    const [
+        searchMovieApi,
+        errorMessage,
+        results,
+        getMovieDetails,
+        getMoviesDetails,
+        movieInfo,
+        moviesInfos,
+        isLoading,
+    ] = useResults();
+    const [filmIDs, setFilmIDs] = React.useState([]);
+
+    useEffect(() => {
+        let ids = [];
+        getAdvertsData().then(() => {
+            getFilms();
+        });
+        // for(let advert of adverts){
+        //     console.log(adverts)
+        //     ids.push(advert.filmID);
+        //     setFilmIDs(ids);
+        // }
+        // getMoviesDetails(filmIDs).then((res) => {
+        //     getFilms();
+        // });
+
+    }, []);
 
     function getFilms() {
-        data.map(film => {
-            searchMovieApi(film.filmName);
-            result.push(results.id);
-        });
-        return results;
+        if (adverts) {
+            let ids = [];
+            for (let advert of adverts) {
+                ids.push(advert.FilmID);
+                setFilmIDs(ids);
+            }
+            getMoviesDetails(ids)
+        }
     }
 
-  return (
-      <SafeAreaView style={styles.container} forceInset={{ top: "always" }}>
-          <FlatList
-              data={data}
-              renderItem={({item}) =>
-                  <PendingAppealsComponent filmName={item.filmName} ownerName={item.ownerName} navigation={navigation}
-                                           pendingStatus={item.status}/>}
-              keyExtractor={(item, index) => index.toString()}></FlatList>
-      </SafeAreaView>
-  );
+    const handleRenderItem = (item, index, advertItem) => {
+        console.log(item, index);
+        console.log(advertItem);
+        return (
+            <PendingAppealsComponent  ownerName={"omer"} navigation={navigation}
+                                     pendingStatus={"Pending"} advert={advertItem} movieID={advertItem.FilmID}
+                                     moviesInfos={"adsada"} filmName={item.original_title} />
+        );
+    }
+    return (
+        <SafeAreaView style={styles.container} forceInset={{top: "always"}}>
+            <FlatList
+                data={adverts}
+                renderItem={({item, index}) => handleRenderItem(moviesInfos[index], index, item)}
+                keyExtractor={(item, index) => item.AdvertID}
+            />
+        </SafeAreaView>
+    );
 };
 
 export default InboxScreen;

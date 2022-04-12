@@ -7,6 +7,7 @@ export default () => {
   const [results, setResults] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [movieInfo, setMovieInfo] = useState({});
+  const [moviesInfos, setMoviesInfos] = useState([]);
 
   const searchMovieApi = async (searchTerm) => {
     try {
@@ -34,12 +35,34 @@ export default () => {
     }
   };
 
+  const getMoviesDetails = async (movieIds) => {
+    let movies = [];
+    for(let movieId of movieIds) {
+      console.log(movieId);
+      try {
+        const response = await tmdb.get(`/movie/${movieId}`);
+        movies.push(response.data);
+        setIsLoading(false);
+        setErrorMessage("");
+      } catch (err) {
+        setErrorMessage("Something went wrong");
+      }
+    }
+    console.log("buraya geldi");
+    for(let movie of movies) {
+      console.log(movie.id, movie.original_title);
+    }
+    setMoviesInfos(movies);
+  };
+
   return [
     searchMovieApi,
     errorMessage,
     results,
     getMovieDetails,
+    getMoviesDetails,
     movieInfo,
+    moviesInfos,
     isLoading,
   ]; // 3 things we need in the searchScreen's jsx
 };

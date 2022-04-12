@@ -1,17 +1,9 @@
-import {
-  FlatList,
-  SafeAreaView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
-import React, { useEffect } from "react";
-import FlipcardComponent from "../Components/FlipcardComponent";
+import {FlatList, SafeAreaView, StatusBar, StyleSheet,} from "react-native";
+import React, {useEffect} from "react";
 import AutomaticFlipCard from "../Components/AutomaticFlipCard";
-import { FAB } from "react-native-paper";
-import { useNavigation } from "@react-navigation/native";
-import { getAdverts } from "../hooks/wlobbyGetters";
+import {FAB} from "react-native-paper";
+import {useNavigation} from "@react-navigation/native";
+import {getAdverts} from "../hooks/wlobbyGetters";
 import LoadingIndicatior from "../Components/LoadingIndicatior";
 
 const HomeScreen = () => {
@@ -87,19 +79,19 @@ const HomeScreen = () => {
       {loading ? (
         <LoadingIndicatior size={100} />
       ) : (
-        <FlatList
-          style={{ height: "100%", width: "100%" }}
-          data={adverts}
-          showsVerticalScrollIndicator={false}
-          keyExtractor={(item) => item.AdvertID}
-          renderItem={({ item }) => (
-            <AutomaticFlipCard
-              advert={item}
-              navigation={navigation}
-              movieID={item.FilmID}
-            />
-          )}
-        ></FlatList>
+          <FlatList
+              style={{height: "100%", width: "100%"}}
+              data={adverts}
+              showsVerticalScrollIndicator={false}
+              keyExtractor={(item) => item.AdvertID}
+              renderItem={({item}) => (
+                  <AutomaticFlipCard
+                      advert={item}
+                      navigation={navigation}
+                      movieID={item.FilmID}
+                  />
+              )}
+          />
       )}
 
       {/* TODO: Make status bar changeable in the future */}

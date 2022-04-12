@@ -1,7 +1,8 @@
-import React, {Component} from 'react';
+import React, {Component, useEffect} from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import tmdb from "../api/tmdb";
-import {Avatar, Button, Card, IconButton, Snackbar} from "react-native-paper";
+import {Avatar, Button, Card, IconButton, Menu, Provider, Snackbar} from "react-native-paper";
+import useResults from "../hooks/useResults";
 
 let result;
 let uri;
@@ -28,7 +29,7 @@ export default class PendingAppealsComponent extends Component {
       console.log("Something went wrong");
     }
     uri = "https://image.tmdb.org/t/p/w185_and_h278_bestv2/" + result.poster_path;
-    this.props.navigation.navigate('ResultScreen', {id: result.id, image: uri, isDetailScreen: true});
+    this.props.navigation.navigate('ResultScreen', {id: result.id, image: uri, isDetailScreen: true, filmID: this.props.advert.FilmID, advert: this.props.advert});
   };
 
   returnBackgroundColor = () => {
@@ -64,6 +65,14 @@ export default class PendingAppealsComponent extends Component {
     this.setState({showButton: false});
   };
 
+  setVisibleTrue = () => {
+    this.setState({visible: true});
+  };
+
+  setVisibleFalse = () => {
+    this.setState({visible: false});
+  };
+
   handleLeft(props) {
     return (
         <TouchableOpacity onPress={() => this.setState({showSnackBar:true})}>
@@ -74,20 +83,38 @@ export default class PendingAppealsComponent extends Component {
   render() {
     const {showButton} = this.state;
     const {showSnackBar} = this.state;
+    const {visible} = this.state;
     return (
         <>
           {
             showButton ?
-                <View>
+                <TouchableOpacity onPress={this.function1}>
                   <Card.Title style={{borderWidth: .5, borderColor: "black"}}
                               title={this.props.filmName}
                               subtitle={this.props.ownerName}
                               left={(props) => this.handleLeft(props)}
-                              right={(props) => <IconButton {...props} icon="dots-vertical-circle" onPress={() => {
-                                this.renderLeftActions()
-                              }}/>}
+                              right={(props) =>
+                                <Provider>
+                                <View
+                                style={{
+                                paddingTop: 0,
+                                flexDirection: 'row',
+                                justifyContent: 'center',
+                              }}>
+                                <Menu
+                                visible={visible}
+                                onDismiss={this.setVisibleFalse}
+                                anchor={<IconButton {...props} icon="dots-vertical-circle" onPress={() => {
+                                  this.setVisibleTrue();
+                                }}/>}>
+                                <Menu.Item onPress={() => {}} title="Item 1" />
+                                <Menu.Item onPress={() => {}} title="Item 2" />
+                                <Menu.Item onPress={() => {}} title="Item 3" />
+                                </Menu>
+                                </View>
+                                </Provider>}
                   />
-                </View>
+                </TouchableOpacity>
                 : null
           }
         </>

@@ -4,10 +4,12 @@ import tmdb from "../api/tmdb";
 import FlipcardComponent from "../Components/FlipcardComponent";
 import { useNavigation } from "@react-navigation/native";
 import { ScrollView } from "react-native-gesture-handler";
+import AutomaticFlipCard from "../Components/AutomaticFlipCard";
+import useResults from "../hooks/useResults";
 
 const ResultScreen = ({ route: { params } }) => {
   const [result, setResult] = useState(null);
-  const { id, isDetailScreen } = params;
+  const { id, isDetailScreen, filmID, advert } = params;
   //   const id = navigation.getParam("id"); // this is how we get id from navigation
   //const getResult = useSelector((state) => state.results.result);
 
@@ -21,6 +23,20 @@ const ResultScreen = ({ route: { params } }) => {
     getResult(id);
   }, [params]);
 
+  const [
+    searchMovieApi,
+    errorMessage,
+    results,
+    getMovieDetails,
+    movieInfo,
+    isLoading,
+  ] = useResults();
+
+  useEffect(() => {
+    getMovieDetails(params.advert);
+  }, [params]);
+
+
   if (!result) {
     // guarantee u have some result
     return null; // if result is null then return null
@@ -30,15 +46,11 @@ const ResultScreen = ({ route: { params } }) => {
   return (
     // <SafeAreaView style={styles.container}>
     <ScrollView style={styles.container}>
-      <FlipcardComponent
-        style={{ height: "100%", width: "100%" }}
-        filmName={result.original_title}
-        userID={10}
-        ownerName={"ozanin Kodu"}
-        filmImage={uri}
-        isDetailScreen={isDetailScreen}
-        comments={"Çok iyi film olcak hacı gel kesin"}
-        navigation={navigation}
+      <AutomaticFlipCard
+          advert={params.advert}
+          navigation={navigation}
+          movieID={params.filmID}
+          isDetailScreen={params.isDetailScreen}
       />
     </ScrollView>
     // </SafeAreaView>
