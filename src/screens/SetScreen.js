@@ -1,8 +1,10 @@
-import {Image, ScrollView, StyleSheet} from 'react-native';
-import React from 'react';
+import {Image, ScrollView, StyleSheet, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import {SafeAreaView} from "react-navigation";
-import {Button, Card, Headline, HelperText, Switch, TextInput} from 'react-native-paper';
+import {Button, Card, Headline, HelperText, Menu, Switch, TextInput} from 'react-native-paper';
 import {DatePickerInput, enGB, registerTranslation, TimePickerModal} from 'react-native-paper-dates'
+import Autocomplete from "../Components/Autocomplete";
+import useResults from "../hooks/useResults";
 
 registerTranslation('en-GB', enGB);
 
@@ -40,9 +42,32 @@ const SetScreen = () => {
   const [menSwitch, setMenSwitch] = React.useState(true);
   const [womenSwitch, setWomenSwitch] = React.useState(true);
   const [comment, setComment] = React.useState("");
+  const [searchMovieApi, errorMessage, results] = useResults();
+  let filmNames = [];
+
+  const [value, setValue] = useState('');
+  const [menuVisible, setMenuVisible] = useState(false);
+  const [filteredData, setFilteredData] = useState([]);
+  const [isPressedSuggestion, setIsPressedSuggestion] = useState(false);
+  const [uri, setUri] = useState(null);
+
+  const filterData = (text) => {
+    filmNames = results.map(result => result.original_title);
+    return filmNames;
+  };
+
+  useEffect(() => {
+    searchMovieApi(filmName);
+  }, [filmName]);
 
   const onToggleMenSwitch = () => setMenSwitch(!menSwitch);
   const onToggleWomenSwitch = () => setWomenSwitch(!womenSwitch);
+
+  function handleOnBlur() {
+    if(isPressedSuggestion) {
+      setMenuVisible(false);
+    }
+  }
 
   return (
       <SafeAreaView style={styles.mainContainer}>
@@ -51,7 +76,55 @@ const SetScreen = () => {
           <Card.Content>
             <ScrollView style={styles.container} contentContainerStyle={{paddingBottom: '100%'}}
                         showsVerticalScrollIndicator={false}>
-              <TextInput style={styles.textInput} label="Film Name" value={filmName} onChangeText={onChangeFilmName}/>
+              <Image source={uri}/>
+              <View style={styles.container}>
+                <TextInput
+                    onFocus={() => {
+                      setIsPressedSuggestion(false);
+                      if (filmName.length === 0) {
+                        setMenuVisible(false);
+                      }
+                    }}
+                    onBlur={() => handleOnBlur()}
+                    label={"Film Name"}
+                    style={styles.textInput}
+                    onChangeText={(text) => {
+                      if (text && text.length > 0) {
+                        setFilteredData(filterData(text));
+                      } else if (text && text.length === 0) {
+                        setFilteredData(filmName);
+                      }
+                      setMenuVisible(true);
+                      setFilmName(text);
+                    }}
+                    value={filmName}
+                />
+                {menuVisible && filteredData && (
+                    <View
+                        style={{
+                          flex: 1,
+                          backgroundColor: 'white',
+                          borderWidth: 2,
+                          flexDirection: 'column',
+                          borderColor: 'grey',
+                        }}
+                    >
+                      {filteredData.map((datum, i) => (
+                          <Menu.Item
+                              key={i}
+                              style={[{ width: '100%' , backgroundColor: 'white'}]}
+                              icon='popcorn'
+                              onPress={() => {
+                                setIsPressedSuggestion(true);
+                                setFilmName(datum);
+                                setMenuVisible(false);
+                              }}
+                              title={datum}
+                          />
+                      ))}
+                    </View>
+                )}
+              </View>
               <TextInput style={styles.textInput} label="Number Of Attendees" value={quota} keyboardType='numeric'
                          onChangeText={onChangeQuota}/>
               <HelperText style={{margin: -10}} type="error" visible={hasErrors()}>

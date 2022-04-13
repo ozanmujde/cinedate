@@ -10,7 +10,6 @@ export default class PendingAppealsComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: true,
       dataSource: [],
       showButton: true,
     };
@@ -29,7 +28,7 @@ export default class PendingAppealsComponent extends Component {
       console.log("Something went wrong");
     }
     uri = "https://image.tmdb.org/t/p/w185_and_h278_bestv2/" + result.poster_path;
-    this.props.navigation.navigate('ResultScreen', {id: result.id, image: uri, isDetailScreen: true, filmID: this.props.advert.FilmID, advert: this.props.advert});
+    this.props.navigation.navigate('ResultScreen', {id: result.id, image: uri, isDetailScreen: true, filmID: this.props.movieID, advert: this.props.advert});
   };
 
   returnBackgroundColor = () => {

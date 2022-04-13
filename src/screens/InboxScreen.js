@@ -5,92 +5,58 @@ import PendingAppealsComponent from "../Components/PendingAppealsComponent";
 import {useNavigation} from "@react-navigation/native";
 import useResults from "../hooks/useResults";
 import {getAdverts} from "../hooks/wlobbyGetters";
-
+import {Divider, Subheading, Appbar} from "react-native-paper";
+import {View} from "moti";
+import AutomaticPendingAppeals from "../Components/AutomaticPendingAppeals";
 
 function InboxScreen() {
-    const data = [
-        {
-            "filmName": "Lord Of The Rings",
-            "ownerName": "John",
-            "status": "Approved",
-        },
-        {
-            "filmName": "Harry Potter",
-            "ownerName": "Mike",
-            "status": "Rejected",
-        },
-        {
-            "filmName": "Star Wars",
-            "ownerName": "Sara",
-            "status": "Approved",
-        },
-        {
-            "filmName": "Recep İvedik 4",
-            "ownerName": "Omer",
-            "status": "Pending",
-        },
-    ];
     const navigation = useNavigation();
-    const [films, setFilms] = React.useState([]);
 
     const [getAdvertsData, adverts, errorMessageGetAdverts, loading] = getAdverts();
 
-    const [
-        searchMovieApi,
-        errorMessage,
-        results,
-        getMovieDetails,
-        getMoviesDetails,
-        movieInfo,
-        moviesInfos,
-        isLoading,
-    ] = useResults();
-    const [filmIDs, setFilmIDs] = React.useState([]);
 
     useEffect(() => {
-        let ids = [];
-        getAdvertsData().then(() => {
-            getFilms();
-        });
-        // for(let advert of adverts){
-        //     console.log(adverts)
-        //     ids.push(advert.filmID);
-        //     setFilmIDs(ids);
-        // }
-        // getMoviesDetails(filmIDs).then((res) => {
-        //     getFilms();
-        // });
-
+        getAdvertsData();
     }, []);
 
-    function getFilms() {
-        if (adverts) {
-            let ids = [];
-            for (let advert of adverts) {
-                ids.push(advert.FilmID);
-                setFilmIDs(ids);
-            }
-            getMoviesDetails(ids)
-        }
-    }
 
     const handleRenderItem = (item, index, advertItem) => {
         console.log(item, index);
-        console.log(advertItem);
+        console.log(advertItem)
         return (
-            <PendingAppealsComponent  ownerName={"omer"} navigation={navigation}
-                                     pendingStatus={"Pending"} advert={advertItem} movieID={advertItem.FilmID}
-                                     moviesInfos={"adsada"} filmName={item.original_title} />
+                <AutomaticPendingAppeals
+                    advert={item}
+                    navigation={navigation}
+                    movieID={item.FilmID}/>
         );
     }
     return (
-        <SafeAreaView style={styles.container} forceInset={{top: "always"}}>
-            <FlatList
-                data={adverts}
-                renderItem={({item, index}) => handleRenderItem(moviesInfos[index], index, item)}
-                keyExtractor={(item, index) => item.AdvertID}
-            />
-        </SafeAreaView>
+        <View style={styles.container} forceInset={{top: "always"}}>
+            <Appbar.Header >
+                <Appbar.Content title="My Appeals"/>
+            </Appbar.Header>
+            <View style={{flex: 1}}>
+                <FlatList
+                    scrollEnabled={true}
+                    data={adverts}
+                    renderItem={({item, index}) => handleRenderItem(item, index)}
+                    keyExtractor={(item, index) => item.AdvertID}
+                />
+            </View>
+
+            <Divider/>
+            <Appbar.Header>
+                <Appbar.Content title="Incoming Appeals"/>
+            </Appbar.Header>
+            <View  style={{flex:1}}>
+                <FlatList
+                    data={adverts}
+                    scrollEnabled={true}
+                    renderItem={({item, index}) => handleRenderItem(item, index)}
+                    keyExtractor={(item, index) => item.AdvertID}
+                />
+            </View>
+        </View>
     );
 };
 
