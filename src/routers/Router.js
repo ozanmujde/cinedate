@@ -17,6 +17,7 @@ import ResultScreen from "../screens/ResultScreen";
 import ChatScreens from "../screens/ChatScreens";
 import ChatScreen from "../screens/ChatScreen";
 import AdvertListScreen from "../screens/AdvertListScreen";
+import ProfileSettingsScreen from "../screens/ProfileSettingsScreen";
 import { Context as AuthContext } from "../context/AuthContext";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
@@ -50,6 +51,10 @@ const router = () => {
           <Stack.Screen name="ResultScreen" component={ResultScreen} />
           <Stack.Screen name="AdvertListScreen" component={AdvertListScreen} />
           <Stack.Screen name="ChatScreen" component={ChatScreen} />
+          <Stack.Screen
+            name="ProfileSettings"
+            component={ProfileSettingsScreen}
+          />
         </Stack.Navigator>
       )}
     </NavigationContainer>

@@ -2,13 +2,20 @@ import { View, Text, Image, StyleSheet } from "react-native";
 import React, { useEffect } from "react";
 import useResults from "../../hooks/useResults";
 const FilmImage = ({ movieId }) => {
-  const [searchMovieApi, errorMessage, results, getMovieDetails, movieInfo] =
-    useResults();
+  const [
+    searchMovieApi,
+    errorMessage,
+    results,
+    getMovieDetails,
+    getMoviesDetails,
+    movieInfo,
+    moviesInfos,
+    isLoading,
+  ] = useResults();
   useEffect(() => {
     getMovieDetails(movieId);
   }, [movieId]);
   const uri = "https://image.tmdb.org/t/p/h100/" + movieInfo.poster_path;
-//   console.log("movieId", movieInfo);
   return (
     <View>
       <Image style={styles.image} source={{ uri: uri }} />
@@ -24,6 +31,5 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 4, // make borders rounded
     marginHorizontal: 5,
-
   },
 });

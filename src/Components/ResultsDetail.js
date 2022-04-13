@@ -8,22 +8,6 @@ const ResultDetail = ({ result }) => {
   // can be props ll be used like props.result
   const uri = "https://image.tmdb.org/t/p/h100/" + result.poster_path;
   // "https://image.tmdb.org/t/p/w185_and_h278_bestv2/" + result.poster_path;
-  console.log("result", result);
-  // const movie = result.map(
-  //   ({
-  //     original_title,
-  //     vote_average,
-  //     overview,
-  //     release_date,
-  //     genre_ids,
-  //   }) => ({
-  //     title: original_title,
-  //     rating: vote_average,
-  //     description: overview,
-  //     releaseDate: release_date,
-  //     genres: genre_ids.map((genre) => genres[genre]),
-  //   })
-  // );
   const movie = {
     title: result.original_title,
     rating: result.vote_average,
@@ -32,36 +16,19 @@ const ResultDetail = ({ result }) => {
     genres: result.genre_ids.map((genre) => genres[genre]),
   };
   return (
-    <>
-      {/* <Card>
-        <Card.Title>{result.original_title}</Card.Title>
-        <View style={styles.container}>
-          <Card.Image
-            style={styles.image}
-            source={{ uri: uri }}
-            resizeMode="cover"
-          />
-          <View style={styles.textContainer}>
-            <Text>Average TMDB Voting : {result.vote_average}</Text>
-            <Text>Release Date : {result.release_date}</Text>
-          </View>
-        </View>
-      </Card> */}
-
-      <View style={styles.container}>
-        <Image
-          style={styles.image}
-          source={{ uri: uri }}
-          // resizeMode="cover"
-        />
-        <View style={styles.textContainer}>
-          <Text style={styles.title}>{movie.title}</Text>
-          <Rating rating={movie.rating} />
-          <Genres genres={movie.genres} />
-          <Text style={styles.subText}>{result.release_date}</Text>
-        </View>
+    <View style={styles.container}>
+      <Image
+        style={styles.image}
+        source={{ uri: uri }}
+        // resizeMode="cover"
+      />
+      <View style={styles.textContainer}>
+        <Text style={styles.title}>{movie.title}</Text>
+        <Rating rating={movie.rating} />
+        <Genres genres={movie.genres} />
+        <Text style={styles.subText}>{result.release_date}</Text>
       </View>
-    </>
+    </View>
   );
 };
 

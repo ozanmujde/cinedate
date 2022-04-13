@@ -12,6 +12,7 @@ import { Divider } from "react-native-elements";
 import { Context as AuthContext } from "../context/AuthContext";
 import { getUsers } from "../hooks/wlobbyGetters";
 import FilmList from "../Components/ProfileComponents/FilmList";
+import AutomaticFilmList from "../Components/ProfileComponents/AutomaticFilmList";
 import { ScrollView } from "react-native-gesture-handler";
 import LoadingIndicator from "../Components/LoadingIndicatior";
 import { useNavigation } from "@react-navigation/native";
@@ -33,7 +34,7 @@ const ProfileScreen = ({ route: { params } }) => {
   };
 
   const { signout } = useContext(AuthContext);
-  // console.log("userData", userData);
+  console.log("userData", userData);
   return (
     <SafeAreaView
       // forceInset={{ top: "always" }}
@@ -48,9 +49,9 @@ const ProfileScreen = ({ route: { params } }) => {
           }}
           showsVerticalScrollIndicator={false}
           refreshControl={
-            <RefreshControl 
-            refreshing={refreshing} 
-            onRefresh={() => onRefresh(7)}
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={() => onRefresh(7)}
             />
           }
         >
@@ -106,6 +107,8 @@ const ProfileScreen = ({ route: { params } }) => {
           <FilmList filmList={userData.LikedFilms} />
           <Text style={styles.SubTitle}>Watched</Text>
           <FilmList filmList={userData.WatchedFilms} />
+          <Text style={styles.SubTitle}>Adverts</Text>
+          <AutomaticFilmList advertList={userData.AdvertIDs} />
           <Button
             style={styles.button}
             icon="logout"
@@ -122,14 +125,6 @@ const ProfileScreen = ({ route: { params } }) => {
       )}
     </SafeAreaView>
   );
-};
-
-ProfileScreen.defaultProps = {
-  route: {
-    params: {
-      userID: 10,
-    },
-  },
 };
 
 export default ProfileScreen;

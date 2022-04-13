@@ -8,8 +8,16 @@ import FlipcardComponent from "../Components/FlipcardComponent";
 import { useNavigation } from "@react-navigation/native";
 const AdvertListScreen = ({ route: { params } }) => {
   const movieId = params.movieId;
-  const [searchMovieApi, errorMessage, results, getMovieDetails, movieInfo] =
-    useResults();
+  const [
+    searchMovieApi,
+    errorMessage,
+    results,
+    getMovieDetails,
+    getMoviesDetails,
+    movieInfo,
+    moviesInfos,
+    isLoading,
+  ] = useResults();
 
   const [getAdvertsWithFilmID, advert, errorMessageAdvert] =
     getAdvertWithFilmID();
@@ -36,7 +44,7 @@ const AdvertListScreen = ({ route: { params } }) => {
             return (
               <FlipcardComponent
                 style={{ height: "100%", width: "100%" }}
-                filmName={movieInfo.original_title}
+                filmName={isLoading ? "" : movieInfo.original_title}
                 userID={item.OwnerID}
                 ownerName={"ozan"}
                 filmImage={uri}

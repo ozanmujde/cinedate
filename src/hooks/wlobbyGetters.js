@@ -56,3 +56,22 @@ export function getAdvertWithFilmID() {
   };
   return [getAdvertsWithFilmID, advert, errorMessage];
 }
+
+export function getAdvertWithAdvertID() {
+  const [advert, setAdvert] = useState({});
+  const [errorMessage, setErrorMessage] = useState("");
+  const getAdvert = async (advertID) => {
+    try {
+      const response = await wlobby.get("get/advert/", {
+        params: {
+          AdvertID: advertID,
+        },
+      });
+      setAdvert(response.data.Item);
+      setErrorMessage("");
+    } catch (err) {
+      setErrorMessage("Something went wrong");
+    }
+  };
+  return [getAdvert, advert, errorMessage];
+}
