@@ -41,6 +41,7 @@ export function getAdverts() {
 export function getAdvertWithFilmID() {
   const [advert, setAdvert] = useState({});
   const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(true);
   const getAdvertsWithFilmID = async (filmID) => {
     try {
       const response = await wlobby.get("get/adverts/with/filmid/", {
@@ -49,12 +50,14 @@ export function getAdvertWithFilmID() {
         },
       });
       setAdvert(response.data.Items);
+      setLoading(false);
       setErrorMessage("");
     } catch (err) {
       setErrorMessage("Something went wrong");
+      setLoading(false);
     }
   };
-  return [getAdvertsWithFilmID, advert, errorMessage];
+  return [getAdvertsWithFilmID, advert, errorMessage, loading];
 }
 
 export function getAdvertWithAdvertID() {

@@ -19,7 +19,7 @@ const AdvertListScreen = ({ route: { params } }) => {
     isLoading,
   ] = useResults();
 
-  const [getAdvertsWithFilmID, advert, errorMessageAdvert] =
+  const [getAdvertsWithFilmID, advert, errorMessageAdvert,loading] =
     getAdvertWithFilmID();
 
   const uri =
@@ -35,32 +35,38 @@ const AdvertListScreen = ({ route: { params } }) => {
   // console.log("movie info", movieInfo);
   return (
     <SafeAreaView style={styles.container}>
-      {Object.keys(advert).length !== 0 ? (
-        <FlatList
-          data={advert}
-          keyExtractor={(item) => item.AdvertID}
-          showsVerticalScrollIndicator={false}
-          renderItem={({ item }) => {
-            return (
-              <FlipcardComponent
-                style={{ height: "100%", width: "100%" }}
-                filmName={isLoading ? "" : movieInfo.original_title}
-                userID={item.OwnerID}
-                ownerName={"ozan"}
-                filmImage={uri}
-                isDetailScreen={false}
-                comments={"Çok iyi film olcak hacı gel kesin"}
-                navigation={navigation}
-              />
-            );
-          }}
-        />
-      ) : (
+      {loading ? (
         <View
           style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
         >
           <LoadingIndicator size={100} />
         </View>
+      ) : (
+        <>
+          {Object.keys(advert).length !== 0 ? (
+            <FlatList
+              data={advert}
+              keyExtractor={(item) => item.AdvertID}
+              showsVerticalScrollIndicator={false}
+              renderItem={({ item }) => {
+                return (
+                  <FlipcardComponent
+                    style={{ height: "100%", width: "100%" }}
+                    filmName={isLoading ? "" : movieInfo.original_title}
+                    userID={item.OwnerID}
+                    ownerName={"ozan"}
+                    filmImage={uri}
+                    isDetailScreen={false}
+                    comments={"Çok iyi film olcak hacı gel kesin"}
+                    navigation={navigation}
+                  />
+                );
+              }}
+            />
+          ) : (
+            <Text>There is no Advert For Movie</Text>
+          )}
+        </>
       )}
     </SafeAreaView>
   );

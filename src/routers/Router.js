@@ -120,7 +120,7 @@ const BottomTabNavigator = () => {
           ),
         }}
         initialParams={{
-          userID: "7",
+          userID: 7,
         }}
       />
     </Tab.Navigator>

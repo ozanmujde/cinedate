@@ -10,7 +10,7 @@ const AutomaticFilmImage = ({ advertId }) => {
   useEffect(() => {
     getAdvert(advertId);
   }, [advertId]);
-  console.log("advert", advertId);
+  // console.log("advert", advertId);
   return (
     <Pressable
     //   style={{

@@ -34,7 +34,9 @@ const ProfileScreen = ({ route: { params } }) => {
   };
 
   const { signout } = useContext(AuthContext);
-  console.log("userData", userData);
+  // console.log("userID", userID);
+  // console.log("userData", userData);
+  // console.log("userData", userData);
   return (
     <SafeAreaView
       // forceInset={{ top: "always" }}
@@ -117,6 +119,21 @@ const ProfileScreen = ({ route: { params } }) => {
           >
             Sign Out
           </Button>
+          {/* TODO: Burasi auth la degismeli */}
+          {userID === 7 ? (
+            <Button
+              style={styles.button}
+              icon="cog-outline"
+              mode="contained"
+              onPress={() =>
+                navigation.navigate("ProfileSettings", {
+                  userData,
+                })
+              }
+            >
+              Profile Settings
+            </Button>
+          ) : null}
         </ScrollView>
       ) : (
         <View style={styles.loadingContainer}>
