@@ -1,11 +1,36 @@
 import React from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
 import { Card, Icon } from "react-native-elements";
-
+import Rating from "./SearchComponents/Rating";
+import Genres from "./SearchComponents/Genres";
+import genres from "../../assets/genres";
 const ResultDetail = ({ result }) => {
   // can be props ll be used like props.result
   const uri = "https://image.tmdb.org/t/p/h100/" + result.poster_path;
   // "https://image.tmdb.org/t/p/w185_and_h278_bestv2/" + result.poster_path;
+  console.log("result", result);
+  // const movie = result.map(
+  //   ({
+  //     original_title,
+  //     vote_average,
+  //     overview,
+  //     release_date,
+  //     genre_ids,
+  //   }) => ({
+  //     title: original_title,
+  //     rating: vote_average,
+  //     description: overview,
+  //     releaseDate: release_date,
+  //     genres: genre_ids.map((genre) => genres[genre]),
+  //   })
+  // );
+  const movie = {
+    title: result.original_title,
+    rating: result.vote_average,
+    description: result.overview,
+    releaseDate: result.release_date,
+    genres: result.genre_ids.map((genre) => genres[genre]),
+  };
   return (
     <>
       {/* <Card>
@@ -30,10 +55,9 @@ const ResultDetail = ({ result }) => {
           // resizeMode="cover"
         />
         <View style={styles.textContainer}>
-          <Text style={styles.title}>{result.original_title}</Text>
-          <Text style={styles.subText}>
-            Average TMDB Voting : {result.vote_average}
-          </Text>
+          <Text style={styles.title}>{movie.title}</Text>
+          <Rating rating={movie.rating} />
+          <Genres genres={movie.genres} />
           <Text style={styles.subText}>{result.release_date}</Text>
         </View>
       </View>
@@ -57,10 +81,12 @@ const styles = StyleSheet.create({
     fontSize: 15,
     // fontWeight: "bold",
     marginBottom: 5,
+    marginHorizontal: 4,
   },
   subText: {
     fontSize: 12,
     marginBottom: 5,
+    marginHorizontal: 4,
     color: "#808080",
   },
 
