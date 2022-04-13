@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, ScrollView, FlatList } from "react-native";
+import { StyleSheet, View, Text, ScrollView, FlatList, StatusBar } from "react-native";
 import React, { useEffect } from "react";
 import useResults from "../hooks/useResults";
 import { getAdvertWithFilmID } from "../hooks/wlobbyGetters";
@@ -6,6 +6,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import LoadingIndicator from "../Components/LoadingIndicatior";
 import FlipcardComponent from "../Components/FlipcardComponent";
 import { useNavigation } from "@react-navigation/native";
+import Backdrop from "../Components/Backdrop";
+
 const AdvertListScreen = ({ route: { params } }) => {
   const movieId = params.movieId;
   const [
@@ -19,8 +21,17 @@ const AdvertListScreen = ({ route: { params } }) => {
     isLoading,
   ] = useResults();
 
-  const [getAdvertsWithFilmID, advert, errorMessageAdvert,loading] =
+  const [getAdvertsWithFilmID, advert, errorMessageAdvert, loading] =
     getAdvertWithFilmID();
+  useEffect(() => {
+    navigation.setOptions({
+      headerTitle: () =>(
+        <Text style={styles.headerStyle} >
+          {movieInfo.original_title}
+        </Text>
+      ),
+    });
+  }, [movieInfo]);
 
   const uri =
     "https://image.tmdb.org/t/p/w185_and_h278_bestv2/" + movieInfo.poster_path;
@@ -35,6 +46,7 @@ const AdvertListScreen = ({ route: { params } }) => {
   // console.log("movie info", movieInfo);
   return (
     <SafeAreaView style={styles.container}>
+      <Backdrop path={movieInfo.backdrop_path} />
       {loading ? (
         <View
           style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
@@ -64,7 +76,14 @@ const AdvertListScreen = ({ route: { params } }) => {
               }}
             />
           ) : (
-            <Text>There is no Advert For Movie</Text>
+            // <View style={{ backgroundColor: "midnightblue", flex:1 }}>
+            <>
+              
+              <Text style={styles.paragraph}>
+                We couldn't find any open advert for that movie
+              </Text>
+            </>
+            // </View>
           )}
         </>
       )}
@@ -79,4 +98,21 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
   },
+  paragraph: {
+    margin: 12,
+    fontSize: 24,
+    // fontWeight: 'bold',
+    textAlign: "center",
+    fontFamily: "Menlo",
+    color: "white",
+    justifyContent:'flex-end'
+  },
+  headerStyle: {
+    // margin: 12,
+    fontSize: 20,
+    // fontWeight: 'bold',
+    textAlign: "center",
+    fontFamily: "Menlo",
+    
+  }
 });

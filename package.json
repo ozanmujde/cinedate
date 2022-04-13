@@ -20,6 +20,7 @@
     "axios": "^0.26.0",
     "country-list": "^2.2.0",
     "expo": "~44.0.0",
+    "expo-linear-gradient": "^11.0.3",
     "expo-status-bar": "~1.2.0",
     "hermes-engine": "^0.5.2-rc1",
     "moti": "^0.17.1",

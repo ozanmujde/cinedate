@@ -16,6 +16,7 @@ import AutomaticFilmList from "../Components/ProfileComponents/AutomaticFilmList
 import { ScrollView } from "react-native-gesture-handler";
 import LoadingIndicator from "../Components/LoadingIndicatior";
 import { useNavigation } from "@react-navigation/native";
+import Backdrop from "../Components/Backdrop";
 
 const ProfileScreen = ({ route: { params } }) => {
   // console.log(params);
