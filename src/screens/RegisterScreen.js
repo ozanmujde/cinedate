@@ -1,10 +1,12 @@
 import {Image, Keyboard, SafeAreaView, ScrollView, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import User from "../classes/User";
 import {countries} from "../countries";
 import {Dropdown} from 'react-native-element-dropdown';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-
+import {generateRandomAvatarOptions} from "../Components/RandomizeAvatars";
+import getRandomAvatar from "../classes/avatars";
+import { AvatarGenerator } from 'random-avatar-generator';
 import {
     Button,
     Card,
@@ -15,9 +17,11 @@ import {
     Provider,
     RadioButton,
     Subheading,
-    TextInput
+    TextInput,
+    Avatar,
 } from 'react-native-paper';
 import {DatePickerInput} from "react-native-paper-dates";
+import ChatHeader from "../Components/ChatComponents/ChatHeader";
 
 
 const RegisterScreen = () => {
@@ -38,6 +42,7 @@ const RegisterScreen = () => {
     const [secureTextEntryForConfirm, setSecureTextEntryForConfirm] = React.useState(true);
     const [user,setUser] = React.useState(new User("","","","",
         [],-1, "","","",[]));
+    const [randomAvatar, setRandomAvatar] = React.useState(getRandomAvatar());
 
     const initialBirthday = [
         { id: "day", value: 16 },
@@ -57,6 +62,7 @@ const RegisterScreen = () => {
         {label: 'Female', value: 1},
         {label: 'Other', value: 2}
     ];
+    let avatarPath = "";
 
     const [value, setValue] = React.useState(null);
     const [isFocus, setIsFocus] = React.useState(false);
@@ -105,19 +111,18 @@ const RegisterScreen = () => {
             </View>
         );
     };
+    const handleRandomizeButton = () => {
+        setRandomAvatar(getRandomAvatar());
+    }
+
     return (
         <SafeAreaView style={styles.mainContainer}>
             <ScrollView contentContainerStyle={{paddingBottom: '100%'}} showsVerticalScrollIndicator={false}>
                 <Image source={require('../../assets/Wlobby-logos_transparent.png')} style={styles.logo}/>
                 <Card.Content>
                     <SafeAreaView>
-                        <IconButton
-                            style={{alignSelf: 'center', borderColor:'black', borderWidth: 1, borderRadius: 10}}
-                            icon="camera-plus"
-                            color={'#6200ed'}
-                            size={80}
-                            onPress={() => alert("Upload a profile photo")}
-                        />
+                        <Avatar.Image style={{alignSelf: 'center'}} size={100} source={randomAvatar} />
+                        <Button onPress={handleRandomizeButton}>GET RANDOM</Button>
                         <TextInput style={styles.textInput} label="Email" value={email}
                                    onChangeText={email => setEmail(email)}/>
                         <TextInput style={styles.textInput} label="Name" value={name}
