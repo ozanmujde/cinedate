@@ -93,7 +93,7 @@ const AdvertListScreen = ({ route: { params } }) => {
                 style={styles.fab}
                 medium
                 icon="plus"
-                onPress={() => navigation.navigate("Set")}
+                onPress={() => navigation.navigate("Set", {movieName: movieInfo.original_title})}
               />
             </>
             // </View>
@@ -117,13 +117,11 @@ const styles = StyleSheet.create({
     // fontWeight: 'bold',
     textAlign: "center",
     // fontFamily: "Menlo",
-    color: "midnigtblue",
     // alignItems: 'flex-end',
     // justifyContent: 'flex-end',
     position: "absolute",
     bottom: height * 0.14,
     // right: width * 0.2,
-    color: "midnightblue",
   },
   headerStyle: {
     // margin: 12,

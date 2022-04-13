@@ -98,6 +98,9 @@ const BottomTabNavigator = () => {
             <Ionicons name="add-circle-outline" color={color} size={size} />
           ),
         }}
+        initialParams={{
+          movieName: '',
+        }}
       />
 
       <Tab.Screen

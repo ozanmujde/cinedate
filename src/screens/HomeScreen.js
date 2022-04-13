@@ -87,7 +87,7 @@ const HomeScreen = () => {
         style={styles.fab}
         medium
         icon="plus"
-        onPress={() => navigation.navigate("Set")}
+        onPress={() => navigation.navigate("Set", {movieName: ''})}
       />
     </SafeAreaView>
   );

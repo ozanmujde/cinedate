@@ -8,8 +8,10 @@ import useResults from "../hooks/useResults";
 
 registerTranslation('en-GB', enGB);
 
-const SetScreen = () => {
-  const [filmName, setFilmName] = React.useState('');
+const SetScreen = ({ route: { params } }) => {
+  const [filmName, setFilmName] = React.useState(params.movieName);
+  console.log("params", params.movieName);
+  console.log("PARAMS",filmName);
   const [quota, setQuota] = React.useState('');
 
   const onChangeFilmName = filmName => setFilmName(filmName);
