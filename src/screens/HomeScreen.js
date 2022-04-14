@@ -61,6 +61,7 @@ const HomeScreen = () => {
             source={require("../../assets/Wlobby-logos_transparent.png")}
             style={styles.logo}
           />
+
           <FlatList
             style={{ height: "100%", width: "100%" }}
             data={adverts}

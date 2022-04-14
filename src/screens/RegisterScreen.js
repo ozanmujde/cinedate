@@ -1,27 +1,26 @@
-import {Image, Keyboard, SafeAreaView, ScrollView, StyleSheet, Text, View} from 'react-native';
-import React, {useEffect} from 'react';
+import {Image, SafeAreaView, ScrollView, StyleSheet, Text, View} from 'react-native';
+import React from 'react';
 import User from "../classes/User";
 import {countries} from "../countries";
 import {Dropdown} from 'react-native-element-dropdown';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {generateRandomAvatarOptions} from "../Components/RandomizeAvatars";
 import getRandomAvatar from "../classes/avatars";
-import { AvatarGenerator } from 'random-avatar-generator';
 import {
+    Avatar,
     Button,
     Card,
     Dialog,
-    Divider, HelperText,
-    IconButton,
+    Divider,
+    HelperText,
     Portal,
     Provider,
     RadioButton,
     Subheading,
     TextInput,
-    Avatar,
 } from 'react-native-paper';
 import {DatePickerInput} from "react-native-paper-dates";
-import ChatHeader from "../Components/ChatComponents/ChatHeader";
+import axios from "axios";
+import {useNavigation} from "@react-navigation/native";
 
 
 const RegisterScreen = () => {
@@ -32,7 +31,7 @@ const RegisterScreen = () => {
     const [surname, setSurname] = React.useState("");
     const [sex, setSex] = React.useState("");
     const [adverts, setAdverts] = React.useState([]);
-    const [age, setAge] = React.useState("");
+    const [age, setAge] = React.useState(0);
     const [location, setLocation] = React.useState("");
     const [bio, setBio] = React.useState("");
     const [profilePhoto, setProfilePhoto] = React.useState("");
@@ -79,18 +78,28 @@ const RegisterScreen = () => {
     const handleSelect = (country) => {
         setLocation(country);
     }
+    const navigation = useNavigation();
 
     function handleSubmit() {
-        if(email !== "" && name !== "" && surname !== "" && location !== "") {
-            setUser(new User(email, name, surname, sex,[],
-                age,location,"","",[],[]));
-            console.log(user);
-            alert("You have registered");
+        if(email !== "" && name !== "" && surname !== "" && location !== "" && sex !== "" && randomAvatar !== "") {
+            console.log(randomAvatar,sex,email,bio,name,surname,age,name.toLowerCase() + surname.toLowerCase() + Math.floor(Math.random() * 100))
+            axios.post('https://wlobby-backend.herokuapp.com/create/user/',{
+                'ProfilePhoto': randomAvatar.toString(),
+                'Sex' : sex.toString(),
+                'Email': email.toString(),
+                'About': bio.toString(),
+                'Name': name.toString(),
+                'Surname': surname.toString(),
+                'Age': age,
+                'Username': (name.toLowerCase() + surname.toLowerCase() + Math.floor(Math.random() * 100)).toString()
+            }).then((response) => {
+                alert("You have successfully registered!");
+                navigation.navigate('Login');
+            });
         }
         else {
             alert("Please fill required areas!");
         }
-
     }
 
     const arePasswordsSame = () => {
@@ -115,13 +124,24 @@ const RegisterScreen = () => {
         setRandomAvatar(getRandomAvatar());
     }
 
+    function handleRegister() {
+
+
+    }
+
+    function handleBirthday(d) {
+        setBirthday(d);
+        const tempAge = (new Date().getFullYear() - birthday.getFullYear()).toString();
+        setAge(tempAge);
+    }
+
     return (
         <SafeAreaView style={styles.mainContainer}>
             <ScrollView contentContainerStyle={{paddingBottom: '100%'}} showsVerticalScrollIndicator={false}>
                 <Image source={require('../../assets/Wlobby-logos_transparent.png')} style={styles.logo}/>
                 <Card.Content>
                     <SafeAreaView>
-                        <Avatar.Image style={{alignSelf: 'center'}} size={100} source={randomAvatar} />
+                        <Avatar.Image style={{alignSelf: 'center'}} size={100} source={randomAvatar}/>
                         <Button onPress={handleRandomizeButton}>GET RANDOM</Button>
                         <TextInput style={styles.textInput} label="Email" value={email}
                                    onChangeText={email => setEmail(email)}/>
@@ -131,19 +151,27 @@ const RegisterScreen = () => {
                                    onChangeText={surname => setSurname(surname)}/>
                         <DatePickerInput
                             style={styles.textInput}
-                            locale="en"
                             label="Birthday"
                             value={birthday}
-                            onChange={(d) => setBirthday(d)}
+                            onChange={(d) => handleBirthday(d)}
                             inputMode="start"
                             validRange={{
                                 endDate: new Date(),
                             }}
                             saveLabel="Save"
                             animationType="slide"
-                        />
+                            locale={'en'}/>
                         <TextInput disabled={true} style={styles.age} label="Age"
                                    value={(new Date().getFullYear() - birthday.getFullYear()).toString()}/>
+                        <TextInput style={styles.textInput}
+                                   label="Tell people about yourself (Bio)"
+                                   multiline={true}
+                                   error={bio.length > 100}
+                                   value={bio} onChangeText={setBio}
+                                   placeholder="Tell people about yourself"
+                                   maxLength={100}
+                                   right={<TextInput.Affix text={"/" + (100 - bio.length)}/>}
+                        />
                         <Divider style={{borderWidth: 0.4}}/>
                         <Divider style={{borderWidth: 0.1}}/>
                         <Provider>
@@ -236,7 +264,7 @@ const RegisterScreen = () => {
                         />
                         <HelperText type="error" visible={arePasswordsSame()}>Passwords must match</HelperText>
                         <Button style={styles.button} icon="check" mode="contained"
-                                onPress={() => alert("Advert Has Been Created")}>
+                                onPress={() => handleSubmit()}>
                             Submit
                         </Button>
                     </SafeAreaView>

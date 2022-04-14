@@ -5,13 +5,12 @@ import {Button, Card, Headline, HelperText, Menu, Switch, TextInput} from 'react
 import {DatePickerInput, enGB, registerTranslation, TimePickerModal} from 'react-native-paper-dates'
 import Autocomplete from "../Components/Autocomplete";
 import useResults from "../hooks/useResults";
+import axios from "axios";
 
 registerTranslation('en-GB', enGB);
 
 const SetScreen = ({ route: { params } }) => {
   const [filmName, setFilmName] = React.useState(params.movieName);
-  console.log("params", params.movieName);
-  console.log("PARAMS",filmName);
   const [quota, setQuota] = React.useState('');
 
   const onChangeFilmName = filmName => setFilmName(filmName);
@@ -52,6 +51,7 @@ const SetScreen = ({ route: { params } }) => {
   const [filteredData, setFilteredData] = useState([]);
   const [isPressedSuggestion, setIsPressedSuggestion] = useState(false);
   const [uri, setUri] = useState(null);
+  const [filmID, setFilmID] = useState(null);
 
   const filterData = (text) => {
     filmNames = results.map(result => result.original_title);
@@ -71,6 +71,35 @@ const SetScreen = ({ route: { params } }) => {
     }
   }
 
+  const [attendeePreferences, setAttendeePreferences] = useState("all");
+  function handleSubmit() {
+    if(menSwitch && womenSwitch) {
+      setAttendeePreferences("all");
+    }
+    searchMovieApi(filmName);
+    console.log(results[0].id);
+    setFilmID(results[0].id);
+    console.log(filmID);
+    console.log(date.toLocaleDateString(),time.toString(), attendeePreferences,comment,filmName,quota, filmID);
+    axios.post('https://wlobby-backend.herokuapp.com/create/advert/',{
+      'Date': (date.toLocaleDateString() + " " + time.toString()).toString(),
+      'AttendeePreference' : attendeePreferences.toString(),
+      'Description': comment.toString(),
+      'FilmID': filmID.toString(),
+      'OwnerID': '7',
+      'Quota': quota.toString(),
+      'Status': "Active"
+    }).then((response) => {
+      console.log(response.data);
+      if(response.data.status === "Success") {
+        alert("Advert created successfully");
+      }
+      else {
+        alert("Advert creation failed");
+      }
+    })
+  }
+
   return (
       <SafeAreaView style={styles.mainContainer}>
         <Image source={require('../../assets/Wlobby-logos_transparent.png')} style={styles.logo}/>
@@ -78,7 +107,6 @@ const SetScreen = ({ route: { params } }) => {
           <Card.Content>
             <ScrollView style={styles.container} contentContainerStyle={{paddingBottom: '100%'}}
                         showsVerticalScrollIndicator={false}>
-              <Image source={uri}/>
               <View style={styles.container}>
                 <TextInput
                     onFocus={() => {
@@ -180,7 +208,7 @@ const SetScreen = ({ route: { params } }) => {
                 </SafeAreaView>
               </SafeAreaView>
               <Button style={styles.button} icon="popcorn" mode="contained"
-                      onPress={() => alert("Advert Has Been Created")}>
+                      onPress={() => handleSubmit()}>
                 Let's Watch
               </Button>
             </ScrollView>
