@@ -1,12 +1,19 @@
-import {FlatList, SafeAreaView, StatusBar, StyleSheet,} from "react-native";
-import React, {useEffect} from "react";
+import {
+  FlatList,
+  SafeAreaView,
+  StatusBar,
+  StyleSheet,
+  Animated,
+} from "react-native";
+import React, { useEffect, useRef } from "react";
 import AutomaticFlipCard from "../Components/AutomaticFlipCard";
-import {FAB} from "react-native-paper";
-import {useNavigation} from "@react-navigation/native";
-import {getAdverts} from "../hooks/wlobbyGetters";
+import { FAB } from "react-native-paper";
+import { useNavigation } from "@react-navigation/native";
+import { getAdverts } from "../hooks/wlobbyGetters";
 import LoadingIndicatior from "../Components/LoadingIndicatior";
 import ChatHeader from "../Components/ChatComponents/ChatHeader";
-import {Image, View} from "moti";
+import { Image, View } from "moti";
+const ITEM_SIZE = 280 + 20 * 3;
 
 const HomeScreen = () => {
   const data = [
@@ -25,7 +32,7 @@ const HomeScreen = () => {
   ];
 
   const [getAdvertsData, adverts, errorMessage, loading] = getAdverts();
-
+  const scrollY = useRef(new Animated.Value(0)).current;
   const [films, setFilms] = React.useState([]);
 
   useEffect(() => {
@@ -62,19 +69,55 @@ const HomeScreen = () => {
             style={styles.logo}
           />
 
-          <FlatList
+          <Animated.FlatList
             style={{ height: "100%", width: "100%" }}
             data={adverts}
             showsVerticalScrollIndicator={false}
             keyExtractor={(item) => item.AdvertID}
-            renderItem={({ item }) => (
-              <AutomaticFlipCard
-                advert={item}
-                navigation={navigation}
-                movieID={item.FilmID}
-              />
+            onScroll={Animated.event(
+              [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+              { useNativeDriver: true }
             )}
-          ></FlatList>
+            renderItem={({ item, index }) => {
+              const inputRange = [
+                // lose the value when u can see 2 value under
+                -1,
+                0,
+                700 * index,
+                700 * (index + 1),
+              ];
+
+              const opacityInputRange = [
+                // lose the value when u can see 2 value under
+                -1,
+                0,
+                600 * index,
+                600 * (index + 1),
+              ];
+              const scale = scrollY.interpolate({
+                inputRange,
+                outputRange: [1, 1, 1, 0],
+              });
+              const opacity = scrollY.interpolate({
+                inputRange: opacityInputRange,
+                outputRange: [1, 1, 1, 0],
+              });
+              return (
+                <Animated.View
+                  style={{
+                    transform: [{ scale }],
+                    // opacity,
+                  }}
+                >
+                  <AutomaticFlipCard
+                    advert={item}
+                    navigation={navigation}
+                    movieID={item.FilmID}
+                  />
+                </Animated.View>
+              );
+            }}
+          />
         </View>
       )}
 
@@ -88,7 +131,7 @@ const HomeScreen = () => {
         style={styles.fab}
         medium
         icon="plus"
-        onPress={() => navigation.navigate("Set", {movieName: ''})}
+        onPress={() => navigation.navigate("Set", { movieName: "" })}
       />
     </SafeAreaView>
   );
@@ -106,7 +149,7 @@ const styles = StyleSheet.create({
   logo: {
     width: "100%",
     height: "10%",
-    resizeMode:'contain',
+    resizeMode: "contain",
     marginBottom: "5%",
   },
   fab: {
@@ -115,5 +158,12 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     backgroundColor: "#6200ed",
+    // shadowColor: "#6200ed",
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 0,
+    // },
+    // shadowOpacity: 0.35,
+    // shadowRadius: 20,
   },
 });
