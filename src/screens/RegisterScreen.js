@@ -21,6 +21,8 @@ import {
 import {DatePickerInput} from "react-native-paper-dates";
 import axios from "axios";
 import {useNavigation} from "@react-navigation/native";
+import { AvatarGenerator } from "random-avatar-generator";
+import { SvgUri } from "react-native-svg";
 
 
 const RegisterScreen = () => {
@@ -41,7 +43,8 @@ const RegisterScreen = () => {
     const [secureTextEntryForConfirm, setSecureTextEntryForConfirm] = React.useState(true);
     const [user,setUser] = React.useState(new User("","","","",
         [],-1, "","","",[]));
-    const [randomAvatar, setRandomAvatar] = React.useState(getRandomAvatar());
+    const generator = new AvatarGenerator();
+    const [randomAvatar, setRandomAvatar] = React.useState(generator.generateRandomAvatar());
 
     const initialBirthday = [
         { id: "day", value: 16 },
@@ -84,7 +87,7 @@ const RegisterScreen = () => {
         if(email !== "" && name !== "" && surname !== "" && location !== "" && sex !== "" && randomAvatar !== "") {
             console.log(randomAvatar,sex,email,bio,name,surname,age,name.toLowerCase() + surname.toLowerCase() + Math.floor(Math.random() * 100))
             axios.post('https://wlobby-backend.herokuapp.com/create/user/',{
-                'ProfilePhoto': randomAvatar.toString(),
+                'ProfilePhoto': randomAvatar,
                 'Sex' : sex.toString(),
                 'Email': email.toString(),
                 'About': bio.toString(),
@@ -121,7 +124,7 @@ const RegisterScreen = () => {
         );
     };
     const handleRandomizeButton = () => {
-        setRandomAvatar(getRandomAvatar());
+        setRandomAvatar(generator.generateRandomAvatar());
     }
 
     function handleRegister() {
@@ -141,7 +144,10 @@ const RegisterScreen = () => {
                 <Image source={require('../../assets/Wlobby-logos_transparent.png')} style={styles.logo}/>
                 {/* <Card.Content> */}
                     <SafeAreaView>
-                        <Avatar.Image style={{alignSelf: 'center'}} size={100} source={randomAvatar}/>
+                        <SvgUri width="100" height="100" uri={randomAvatar}
+                         style={{
+                            alignSelf: 'center'
+                            }}/>
                         <Button onPress={handleRandomizeButton}>GET RANDOM</Button>
                         <TextInput style={styles.textInput} label="Email" value={email}
                                    onChangeText={email => setEmail(email)}/>

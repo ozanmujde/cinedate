@@ -57,7 +57,6 @@ const HomeScreen = () => {
   };
 
   const navigation = useNavigation();
-  // console.log("films", films);
   return (
     <SafeAreaView style={styles.container} forceInset={{ top: "always" }}>
       {loading ? (

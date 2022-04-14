@@ -16,12 +16,15 @@ import AutomaticFilmList from "../Components/ProfileComponents/AutomaticFilmList
 import { ScrollView } from "react-native-gesture-handler";
 import LoadingIndicator from "../Components/LoadingIndicatior";
 import { useNavigation } from "@react-navigation/native";
+import { AvatarGenerator } from "random-avatar-generator";
+import { SvgUri } from "react-native-svg";
 import Backdrop from "../Components/Backdrop";
 
 const ProfileScreen = ({ route: { params } }) => {
   // console.log(params);
   const userID = params.userID;
   const navigation = useNavigation();
+  const generator = new AvatarGenerator();
   const [getUserData, userData, errorMessage] = getUsers();
   const [refreshing, setRefreshing] = useState(false);
   useEffect(() => {
@@ -37,7 +40,9 @@ const ProfileScreen = ({ route: { params } }) => {
   const { signout } = useContext(AuthContext);
   // console.log("userID", userID);
   // console.log("userData", userData);
-  // console.log("userData", userData);
+  const DELETETHAT = generator.generateRandomAvatar();
+  console.log("DELETETHAT", DELETETHAT);
+  // console.log("generator", generator.generateRandomAvatar());
   return (
     <SafeAreaView
       // forceInset={{ top: "always" }}
@@ -63,14 +68,9 @@ const ProfileScreen = ({ route: { params } }) => {
               alignItems: "center",
             }}
           >
-            <Image
-              style={styles.userImg}
-              source={{
-                uri: userData
-                  ? "https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg"
-                  : "https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg",
-              }}
-            />
+            <SvgUri width="150" height="150" uri={DELETETHAT} />
+
+            {/* <Image style={styles.userImg} source={{ uri: "https://i0.wp.com/shiftdelete.net/wp-content/uploads/2022/03/recep-ivedik-7-ilk-video.jpg?fit=1280%2C720&ssl=1" }} /> */}
           </View>
           <Text style={styles.userName}>
             {Object.keys(userData).length !== 0
@@ -153,8 +153,8 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   userImg: {
-    height: 150,
-    width: 150,
+    width: 100,
+    height: 100,
     borderRadius: 75,
   },
   userName: {
