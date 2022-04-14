@@ -51,13 +51,13 @@ export default SearchScreen;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    // flex: 1,
     backgroundColor: "white",
   },
   errorText: {
     fontSize: 16,
-    color: "red",
-    marginTop: 10,
+    // color: "red",
+    // marginTop: 10,
     textAlign: "center",
   },
 });

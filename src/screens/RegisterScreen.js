@@ -139,7 +139,7 @@ const RegisterScreen = () => {
         <SafeAreaView style={styles.mainContainer}>
             <ScrollView contentContainerStyle={{paddingBottom: '100%'}} showsVerticalScrollIndicator={false}>
                 <Image source={require('../../assets/Wlobby-logos_transparent.png')} style={styles.logo}/>
-                <Card.Content>
+                {/* <Card.Content> */}
                     <SafeAreaView>
                         <Avatar.Image style={{alignSelf: 'center'}} size={100} source={randomAvatar}/>
                         <Button onPress={handleRandomizeButton}>GET RANDOM</Button>
@@ -268,7 +268,7 @@ const RegisterScreen = () => {
                             Submit
                         </Button>
                     </SafeAreaView>
-                </Card.Content>
+                {/* </Card.Content> */}
             </ScrollView>
         </SafeAreaView>
     );

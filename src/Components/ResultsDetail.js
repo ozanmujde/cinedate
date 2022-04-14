@@ -58,12 +58,20 @@ const styles = StyleSheet.create({
   },
 
   container: {
-    // flex: 1,
     flexDirection: "row",
-    marginLeft: 5,
-    // marginRight: 15,
-    // marginTop: 10,
-    // marginBottom: 10,
+    // marginLeft: 5,
+    marginBottom: 20,
+    padding: 20,
+    backgroundColor: "rgba(255,255,255,0.8)",
+    // backgroundColor: "white",
+    borderRadius: 12,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 10,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 20,
   },
 });
 
