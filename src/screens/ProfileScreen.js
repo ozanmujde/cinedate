@@ -108,9 +108,9 @@ const ProfileScreen = ({ route: { params } }) => {
           <Divider orientation="horizontal" />
           {/* <Text>{userData.UserID}</Text> */}
           <Text style={styles.SubTitle}>Liked</Text>
-          <FilmList filmList={userData.LikedFilms} button={true} />
+          <FilmList filmList={userData.LikedFilms} button={true} isWatched={false}/>
           <Text style={styles.SubTitle}>Watched</Text>
-          <FilmList filmList={userData.WatchedFilms} button={false} />
+          <FilmList filmList={userData.WatchedFilms} button={true} isWatched={true}/>
           <Text style={styles.SubTitle}>Adverts</Text>
           <AutomaticFilmList advertList={userData.AdvertIDs} />
           <Text></Text>

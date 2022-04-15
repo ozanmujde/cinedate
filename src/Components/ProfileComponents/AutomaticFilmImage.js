@@ -1,4 +1,10 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import {
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+} from "react-native";
 import React, { useEffect } from "react";
 import { getAdvertWithAdvertID } from "../../hooks/wlobbyGetters";
 import FilmImage from "./FilmImage";
@@ -11,21 +17,21 @@ const AutomaticFilmImage = ({ advertId }) => {
     getAdvert(advertId);
   }, [advertId]);
   return (
-    <Pressable
-    //   style={{
-    //     // height: "100%",
-    //     // width: "100%",
-    //     backgroundColor: "white",
-    //     borderRadius: 10,
-    //     shadowColor: "#000",
-    //     shadowOffset: {
-    //       width: 0,
-    //       height: 2,
-    //     },
-    //     shadowOpacity: 0.25,
-    //     shadowRadius: 3.84,
-    //     elevation: 5,
-    //   }}
+    <TouchableOpacity
+      //   style={{
+      //     // height: "100%",
+      //     // width: "100%",
+      //     backgroundColor: "white",
+      //     borderRadius: 10,
+      //     shadowColor: "#000",
+      //     shadowOffset: {
+      //       width: 0,
+      //       height: 2,
+      //     },
+      //     shadowOpacity: 0.25,
+      //     shadowRadius: 3.84,
+      //     elevation: 5,
+      //   }}
       onPress={() => {
         navigation.navigate("AdvertListScreen", {
           movieId: advert.FilmID,
@@ -33,7 +39,7 @@ const AutomaticFilmImage = ({ advertId }) => {
       }}
     >
       <FilmImage movieId={advert.FilmID} />
-    </Pressable>
+    </TouchableOpacity>
   );
 };
 

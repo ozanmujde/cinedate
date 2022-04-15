@@ -13,6 +13,7 @@ const ModalLikedScreen = ({ route: { params } }) => {
   const navigation = useNavigation();
   const films = params.films;
   const setFilms = params.setFilms;
+  const isWatched = params.isWatched;
   const [searchTerm, setSearchTerm] = useState("");
   const [searchMovieApi, errorMessage, results] = useResults();
   return (
@@ -22,7 +23,12 @@ const ModalLikedScreen = ({ route: { params } }) => {
         onTermChange={setSearchTerm} // same as above
         onTermSubmit={() => searchMovieApi(searchTerm)}
       />
-      <SearchList results={results} films={films} setFilms={setFilms} />
+      <SearchList
+        results={results}
+        films={films}
+        setFilms={setFilms}
+        isWatched={isWatched}
+      />
     </>
   );
 };

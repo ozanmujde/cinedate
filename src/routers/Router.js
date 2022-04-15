@@ -20,6 +20,7 @@ import AdvertListScreen from "../screens/AdvertListScreen";
 import ProfileSettingsScreen from "../screens/ProfileSettingsScreen";
 import ModalChipsScreen from "../screens/ModalChipsScreen";
 import ModalLikedScreen from "../screens/ModalLikedScreen";
+import ModalRemoveFilmScreen from "../screens/ModalRemoveFilmScreen";
 import { Context as AuthContext } from "../context/AuthContext";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import SendVerificationScreen from "../screens/SendVerificationScreen";
@@ -52,7 +53,10 @@ const router = () => {
             component={RegisterScreen}
             options={{ headerShown: false }}
           />
-          <Stack.Screen name="SendVerificationScreen" component={SendVerificationScreen} />
+          <Stack.Screen
+            name="SendVerificationScreen"
+            component={SendVerificationScreen}
+          />
         </Stack.Navigator>
       ) : (
         <PubNubProvider client={pubnub}>
@@ -85,6 +89,11 @@ const router = () => {
               <Stack.Screen
                 name="ModalLikedScreen"
                 component={ModalLikedScreen}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="ModalRemoveFilmScreen"
+                component={ModalRemoveFilmScreen}
                 options={{ headerShown: false }}
               />
             </Stack.Group>
