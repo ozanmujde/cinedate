@@ -18,6 +18,7 @@ import ChatScreens from "../screens/ChatScreens";
 import ChatScreen from "../screens/ChatScreen";
 import AdvertListScreen from "../screens/AdvertListScreen";
 import ProfileSettingsScreen from "../screens/ProfileSettingsScreen";
+import ModalChipsScreen from "../screens/ModalChipsScreen";
 import { Context as AuthContext } from "../context/AuthContext";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
@@ -55,6 +56,13 @@ const router = () => {
             name="ProfileSettings"
             component={ProfileSettingsScreen}
           />
+          <Stack.Group screenOptions={{ presentation: "modal" }}>
+            <Stack.Screen
+              name="ModalChipsScreen"
+              component={ModalChipsScreen}
+              options={{ headerShown: false }}
+            />
+          </Stack.Group>
         </Stack.Navigator>
       )}
     </NavigationContainer>
@@ -99,7 +107,7 @@ const BottomTabNavigator = () => {
           ),
         }}
         initialParams={{
-          movieName: '',
+          movieName: "",
         }}
       />
 

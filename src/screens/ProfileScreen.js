@@ -41,7 +41,6 @@ const ProfileScreen = ({ route: { params } }) => {
   // console.log("userID", userID);
   // console.log("userData", userData);
   const DELETETHAT = generator.generateRandomAvatar();
-  console.log("DELETETHAT", DELETETHAT);
   // console.log("generator", generator.generateRandomAvatar());
   return (
     <SafeAreaView
@@ -112,6 +111,7 @@ const ProfileScreen = ({ route: { params } }) => {
           <FilmList filmList={userData.WatchedFilms} />
           <Text style={styles.SubTitle}>Adverts</Text>
           <AutomaticFilmList advertList={userData.AdvertIDs} />
+          <Text ></Text>
           <Button
             style={styles.button}
             icon="logout"
@@ -198,7 +198,8 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   button: {
-    marginTop: 20,
+    // marginTop: 20,
+    marginBottom: 20,
   },
   loadingContainer: {
     flex: 1,

@@ -1,9 +1,27 @@
-import { StyleSheet, Text, View, TextInput,ScrollView } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  KeyboardAvoidingView,
+  SafeAreaView,
+  FlatList,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 
 import React, { useState } from "react";
-import { Button } from "react-native-paper";
+import { Button, Chip, TextInput, Subheading } from "react-native-paper";
+import { Dropdown } from "react-native-element-dropdown";
 import { useNavigation } from "@react-navigation/native";
 import { Input } from "react-native-elements";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { SvgUri } from "react-native-svg";
+import { AvatarGenerator } from "random-avatar-generator";
+import { countries } from "../countries";
+import { Ionicons } from "@expo/vector-icons";
+import AntDesign from "react-native-vector-icons/AntDesign";
+
 //TODO: Authentication la beraber burasi degismeli
 const ProfileSettingsScreen = ({ route: { params } }) => {
   const userData = params.userData;
@@ -14,68 +32,237 @@ const ProfileSettingsScreen = ({ route: { params } }) => {
   const [age, setAge] = useState(userData.Age);
   const [about, setAbout] = useState(userData.About);
   const [bio, setBio] = useState(userData.Bio);
-  console.log(typeof age);
+  const [interests, setInterests] = useState(userData.Interests);
+  const [location, setLocation] = useState(userData.Location);
 
+  const generator = new AvatarGenerator();
+  //generator.generateRandomAvatar()
+  const [profilePhoto, setProfilePhoto] = useState(
+    generator.generateRandomAvatar()
+  ); //TODO: burada generator.generateRandomAvatar() yerine userData.ProfilePhoto yapilacak
 
-  const updateNewUser = () => { // TODO: Backend degisince buraya bak
-    console.log(name, surname, email, age, about, bio);
+  const updateNewUser = () => {
+    // TODO: Backend degisince buraya bak
+    console.log(name, surname, email, age, about, bio, profilePhoto);
+  };
+  const renderDropdown = (item) => {
+    return (
+      <View style={styles.item}>
+        <Text style={styles.textItem}>{item.label}</Text>
+        {item.value === null && (
+          <AntDesign
+            style={styles.icon}
+            color="black"
+            name="Safety"
+            size={20}
+          />
+        )}
+      </View>
+    );
   };
   //   console.log("userData", userData);
   return (
-    <ScrollView>
-      <Input
+    <KeyboardAwareScrollView style={styles.container}>
+      {/* <Image
+        source={require("../../assets/Wlobby-logos_transparent.png")}
+        style={{
+          width: "100%",
+          height: "20%",
+        }}
+      /> */}
+      <SvgUri
+        width="100"
+        height="100"
+        uri={profilePhoto}
+        style={{
+          alignSelf: "center",
+        }}
+      />
+      <Button
+        onPress={() => {
+          const newProfilePhoto = generator.generateRandomAvatar();
+          setProfilePhoto(newProfilePhoto);
+        }}
+      >
+        GET RANDOM
+      </Button>
+
+      <TextInput
         label="Name"
         value={name}
+        style={styles.input}
         onChangeText={(text) => {
           setName(text);
         }}
       />
-      <Input
+      <TextInput
         label="Surname"
         value={surname}
+        style={styles.input}
         onChangeText={(text) => {
           setSurname(text);
         }}
       />
-      <Input
-        label="Age"
-        value={age.toString()}
-        onChangeText={(text) => {
-          //   setAge(Number(text));
-          setAge(text);
-        }}
-      />
-      <Input
+      <TextInput
         label="BIO"
         value={bio}
+        style={styles.input}
         onChangeText={(text) => {
           setBio(text);
         }}
         multiline={true}
       />
-      <Input
+      <TextInput
         label="About"
         value={about}
+        style={styles.input}
         onChangeText={(text) => {
-          setBio(text);
+          setAbout(text);
         }}
         multiline={true}
       />
-
+      <View style={{ flexDirection: "row", alignItems: "center" }}>
+        <Subheading style={{ paddingLeft: 10 }}>Country</Subheading>
+        <Dropdown
+          style={styles.dropdown}
+          placeholderStyle={styles.placeholderStyle}
+          selectedTextStyle={styles.selectedTextStyle}
+          inputSearchStyle={styles.inputSearchStyle}
+          iconStyle={styles.iconStyle}
+          data={countries}
+          search
+          maxHeight={300}
+          labelField="label"
+          valueField="value"
+          placeholder={location}
+          searchPlaceholder="Search..."
+          value={location}
+          onChange={(item) => {
+            setLocation(item.value);
+          }}
+          renderLeftIcon={() => (
+            <AntDesign
+              style={styles.icon}
+              color="black"
+              name="Safety"
+              size={20}
+            />
+          )}
+          renderItem={renderDropdown}
+        />
+      </View>
+      <Subheading style={{ paddingLeft: 10 }}>Add Interest</Subheading>
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          // flexWrap: "wrap",
+          flexGrow: 0,
+        }}
+      >
+        <FlatList
+          data={interests}
+          keyExtractor={(item) => item}
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+          // nestedScrollEnabled
+          style={
+            {
+              // backgroundColor: "red",
+              // width: "fit-content",
+            }
+          }
+          renderItem={({ item }) => (
+            <Chip
+              style={styles.chip}
+              onClose={() => {
+                setInterests(interests.filter((i) => i !== item));
+              }}
+            >
+              {item}
+            </Chip>
+          )}
+        />
+        <View style={{ flexGrow: 100 }}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("ModalChipsScreen", {
+                interests,
+                setInterests,
+              });
+            }}
+          >
+            <Ionicons
+              name="add-circle-outline"
+              size={24}
+              color="black"
+              // style={{ flex: 1 }}
+            />
+          </TouchableOpacity>
+        </View>
+      </View>
       <Button
-        style={styles.button}
+        style={{ marign: 20, padding: 20 }}
         icon="account-check"
-        mode="contained"
         onPress={() => {
+          updateNewUser();
           navigation.goBack();
         }}
       >
         Save
       </Button>
-    </ScrollView>
+    </KeyboardAwareScrollView>
   );
 };
 
 export default ProfileSettingsScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: "#fff",
+    flex: 1,
+  },
+  input: {
+    marginTop: 5,
+    marginBottom: 5,
+    backgroundColor: "#fff",
+    color: "#fff",
+  },
+  dropdown: {
+    margin: 16,
+    height: 50,
+    borderRadius: 12,
+    borderStyle: "solid",
+    borderWidth: 1,
+    borderColor: "#6200ed",
+    backgroundColor: "#fff",
+    padding: 12,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+    elevation: 2,
+    width: "70%",
+  },
+  placeholderStyle: {
+    fontSize: 16,
+  },
+  selectedTextStyle: {
+    fontSize: 16,
+  },
+  iconStyle: {
+    width: 20,
+    height: 20,
+  },
+  inputSearchStyle: {
+    height: 40,
+    fontSize: 16,
+  },
+  textItem: {
+    flex: 1,
+    fontSize: 16,
+  },
+});

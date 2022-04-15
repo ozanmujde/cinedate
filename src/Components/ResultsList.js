@@ -37,6 +37,7 @@ const ResultsList = ({ results }) => {
         contentContainerStyle={{
           paddingTop: 10,
           backgroundColor: "white",
+          paddingBottom: 120,
         }}
         keyExtractor={(result) => result.id} // for performance id is a nice key given by yelp
         renderItem={({ item, index }) => {
