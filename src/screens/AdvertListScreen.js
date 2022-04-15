@@ -72,7 +72,6 @@ const AdvertListScreen = ({ route: { params } }) => {
                     style={{ height: "100%", width: "100%" }}
                     filmName={isLoading ? "" : movieInfo.original_title}
                     advert={item}
-                    ownerName={"ozan"}
                     filmImage={uri}
                     isDetailScreen={false}
                     comments={"Çok iyi film olcak hacı gel kesin"}

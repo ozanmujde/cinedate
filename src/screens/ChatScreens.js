@@ -14,6 +14,23 @@ import {  usePubNub } from "pubnub-react";
 
 const ChatScreens = ({ navigation }) => {
   const pubnub = usePubNub();
+  pubnub.objects.getMemberships({
+    uuid: "Ozan",
+    include: "custom",
+    count: 10,
+    page: 1,
+    includeCount: true,
+    includeCustom: true,
+    includeUUIDField: true,
+    withPresence: true,
+    filter: "",
+    sort: "",
+  },
+  function (status, response) {
+    console.log("response",response);
+  });
+
+
   return (
       <SafeAreaView style={styles.page} forceInset={{ top: "always" }}>
         <View>

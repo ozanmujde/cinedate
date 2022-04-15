@@ -59,7 +59,7 @@ export default class FlipcardComponent extends Component {
             }}
           >
             <Subheading style={{ paddingRight: 20 }} adjustsFontSizeToFit>
-              {this.props.ownerName}
+              {this.props.advert.OwnerUsername}
             </Subheading>
             <Avatar.Image
               style={{ alignSelf: "center" }}
@@ -120,7 +120,7 @@ export default class FlipcardComponent extends Component {
                   disabled={true}
                   label="Owner"
                   multiline={true}
-                  value={this.props.ownerName}
+                  value={this.props.advert.OwnerUsername}
                 />
                 <TextInput
                   style={styles.textInput}
@@ -156,7 +156,7 @@ export default class FlipcardComponent extends Component {
                       const appeal = [
                         {
                           filmName: this.props.filmName,
-                          ownerName: this.props.ownerName,
+                          ownerName: this.props.advert.OwnerUsername,
                         },
                       ];
                       alert("Your appeal has been sent to the owner");

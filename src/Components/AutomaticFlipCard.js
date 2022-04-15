@@ -32,7 +32,6 @@ const AutomaticFlipCard = ({ advert, navigation, movieID, isDetailScreen }) => {
         style={{ height: "100%", width: "100%" }}
         filmName={isLoading ? "" : movieInfo.original_title}
         advert={advert}
-        ownerName={"ozan"}
         filmImage={uri}
         isDetailScreen={isDetailScreen}
         comments={"Çok iyi film olcak hacı gel kesin"}
