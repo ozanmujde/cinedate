@@ -70,8 +70,12 @@ const SearchList = ({ results, films, setFilms }) => {
             <TouchableOpacity
               onPress={() => {
                 // console.log(item);
-                setFilms((oldArray) => [...oldArray, item.id]);
-                navigation.goBack();
+                if (films.includes(item.id)) {
+                  alert("You already liked this movie");
+                } else {
+                  setFilms((oldArray) => [...oldArray, item.id]);
+                  navigation.goBack();
+                }
               }}
             >
               <Animated.View style={{ transform: [{ scale }], opacity }}>
