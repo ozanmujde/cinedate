@@ -21,6 +21,7 @@ import ProfileSettingsScreen from "../screens/ProfileSettingsScreen";
 import ModalChipsScreen from "../screens/ModalChipsScreen";
 import { Context as AuthContext } from "../context/AuthContext";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import SendVerificationScreen from "../screens/SendVerificationScreen";
 
 const router = () => {
   const { state } = useContext(AuthContext);
@@ -56,6 +57,7 @@ const router = () => {
             name="ProfileSettings"
             component={ProfileSettingsScreen}
           />
+          <Stack.Screen name="SendVerificationScreen" component={SendVerificationScreen} />
           <Stack.Group screenOptions={{ presentation: "modal" }}>
             <Stack.Screen
               name="ModalChipsScreen"
