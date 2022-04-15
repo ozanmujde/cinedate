@@ -18,7 +18,8 @@ import LoadingIndicator from "../Components/LoadingIndicatior";
 import { useNavigation } from "@react-navigation/native";
 import { AvatarGenerator } from "random-avatar-generator";
 import { SvgUri } from "react-native-svg";
-import Backdrop from "../Components/Backdrop";
+import { Ionicons } from "@expo/vector-icons";
+import AntDesign from "react-native-vector-icons/AntDesign";
 
 const ProfileScreen = ({ route: { params } }) => {
   // console.log(params);
@@ -107,12 +108,12 @@ const ProfileScreen = ({ route: { params } }) => {
           <Divider orientation="horizontal" />
           {/* <Text>{userData.UserID}</Text> */}
           <Text style={styles.SubTitle}>Liked</Text>
-          <FilmList filmList={userData.LikedFilms} />
+          <FilmList filmList={userData.LikedFilms} button={true} />
           <Text style={styles.SubTitle}>Watched</Text>
-          <FilmList filmList={userData.WatchedFilms} />
+          <FilmList filmList={userData.WatchedFilms} button={false} />
           <Text style={styles.SubTitle}>Adverts</Text>
           <AutomaticFilmList advertList={userData.AdvertIDs} />
-          <Text ></Text>
+          <Text></Text>
           <Button
             style={styles.button}
             icon="logout"
@@ -122,10 +123,10 @@ const ProfileScreen = ({ route: { params } }) => {
             Sign Out
           </Button>
           <Button
-              style={styles.button}
-              icon="logout"
-              mode="contained"
-              onPress={() => navigation.navigate("SendVerificationScreen")}
+            style={styles.button}
+            icon="logout"
+            mode="contained"
+            onPress={() => navigation.navigate("SendVerificationScreen")}
           >
             Send Ver
           </Button>

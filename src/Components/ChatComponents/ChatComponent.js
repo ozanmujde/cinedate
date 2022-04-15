@@ -47,10 +47,9 @@ const ChatComponent = (props) => {
   useEffect(() => {
     pubnub.addListener(listener);
     pubnub.subscribe({ channels: [channels[0]], withPresence: true });
-    pubnub.objects.addMembers({
-      uuid: "Ozan",
+    pubnub.objects.setChannelMembers({
       channels: [str],
-      members: ["Ozan"],
+      uuids: ["Ozan"], 
     });
     return () => {
       pubnub.removeListener(listener);

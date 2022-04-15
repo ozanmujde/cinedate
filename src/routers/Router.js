@@ -19,6 +19,7 @@ import ChatScreen from "../screens/ChatScreen";
 import AdvertListScreen from "../screens/AdvertListScreen";
 import ProfileSettingsScreen from "../screens/ProfileSettingsScreen";
 import ModalChipsScreen from "../screens/ModalChipsScreen";
+import ModalLikedScreen from "../screens/ModalLikedScreen";
 import { Context as AuthContext } from "../context/AuthContext";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import SendVerificationScreen from "../screens/SendVerificationScreen";
@@ -79,6 +80,11 @@ const router = () => {
               <Stack.Screen
                 name="ModalChipsScreen"
                 component={ModalChipsScreen}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="ModalLikedScreen"
+                component={ModalLikedScreen}
                 options={{ headerShown: false }}
               />
             </Stack.Group>
