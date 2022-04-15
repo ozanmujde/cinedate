@@ -74,7 +74,8 @@ const AutomaticPendingAppeals = ({advert, navigation, movieID, pendingStatus, is
       return "check-circle-outline";
     } else if (pendingStatus === "Rejected") {
       return "close";
-    }
+    } else
+      return "video-account";
   }
   const handleLeft = (props) => {
     return (
@@ -86,10 +87,8 @@ const AutomaticPendingAppeals = ({advert, navigation, movieID, pendingStatus, is
 
 
   function acceptUser(user) {
-  console.log(advert.AdvertID);
     axios.post('https://wlobby-backend.herokuapp.com/accept/user/?AdvertID=' + advert.AdvertID + "&UserID="+ user)
         .then((response) => {
-      console.log(response.data);
       if(response.status === "Success") {
         alert("Nice! You will watch this movie with " + user + "!");
       }

@@ -38,7 +38,6 @@ export default () => {
   const getMoviesDetails = async (movieIds) => {
     let movies = [];
     for(let movieId of movieIds) {
-      console.log(movieId);
       try {
         const response = await tmdb.get(`/movie/${movieId}`);
         movies.push(response.data);
@@ -47,10 +46,6 @@ export default () => {
       } catch (err) {
         setErrorMessage("Something went wrong");
       }
-    }
-    console.log("buraya geldi");
-    for(let movie of movies) {
-      console.log(movie.id, movie.original_title);
     }
     setMoviesInfos(movies);
   };

@@ -1,7 +1,8 @@
 import {StyleSheet, Image, TouchableOpacity, View} from "react-native";
 import React, {useEffect} from "react";
 import {SafeAreaView} from "moti";
-import {Button, TextInput} from "react-native-paper";
+import {Button, Headline, TextInput, Title} from "react-native-paper";
+import {useNavigation} from "@react-navigation/native";
 
 
 const SendVerificationScreen = () => {
@@ -11,6 +12,14 @@ const SendVerificationScreen = () => {
   function confirmEmail() {
     console.log("submit");
   }
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerTitle: () => (<Headline userId={2}>Confirm Email </Headline>),
+        });
+  }, []);
+
 
   return (
       <SafeAreaView style={styles.mainContainer}>

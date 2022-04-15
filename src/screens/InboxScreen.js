@@ -18,17 +18,32 @@ function InboxScreen() {
 
 
   const handleRenderItem = (item, index, isMyAdvert) => {
-    if (item.OwnerID === 4 && isMyAdvert === 0) {
+    if(item.PendingRequests === null) {
+      item.PendingRequests = [];
+    }
+      // return (
+      //     <AutomaticPendingAppeals
+      //         advert={item}
+      //         navigation={navigation}
+      //         movieID={item.FilmID}
+      //         pendingStatus={"Pending"}
+      //         isMyAdvert={isMyAdvert}
+      //         pendingUsers={[1,2,3]}
+      //     />
+      // );
+
+    if (item.OwnerID === 7 && isMyAdvert === 0) {
       return (
           <AutomaticPendingAppeals
               advert={item}
               navigation={navigation}
               movieID={item.FilmID}
               isMyAdvert={isMyAdvert}
-              pendingUsers={item.PendingRequests}
+              pendingUsers={Object.keys(item.PendingRequests)}
           />
       );
-    } else if (isMyAdvert === 1 && item.AttendeeIDs.includes(7)) {
+    } else if (isMyAdvert === 1 && Object.keys(item.AttendeeIDs).includes("7")) {
+      console.log("truexd")
       return (
           <AutomaticPendingAppeals
               advert={item}
@@ -36,10 +51,10 @@ function InboxScreen() {
               movieID={item.FilmID}
               pendingStatus={"Approved"}
               isMyAdvert={isMyAdvert}
-              pendingUsers={item.PendingRequests}
+              pendingUsers={Object.keys(item.PendingRequests)}
           />
       )
-    } else if (isMyAdvert === 1 && item.PendingRequests.includes(7)) {
+    } else if (isMyAdvert === 1 && Object.keys(item.PendingRequests).includes("7")) {
       return (
           <AutomaticPendingAppeals
               advert={item}
@@ -47,18 +62,17 @@ function InboxScreen() {
               movieID={item.FilmID}
               pendingStatus={"Pending"}
               isMyAdvert={isMyAdvert}
-              pendingUsers={item.PendingRequests}
+              pendingUsers={Object.keys(item.PendingRequests)}
           />
       )
-    } else if (isMyAdvert === 2 && item.PendingRequests.length !== 0) {
+    } else if (isMyAdvert === 2 && Object.keys(item.PendingRequests).length !== 0) {
       return(
           <AutomaticPendingAppeals
               advert={item}
               navigation={navigation}
               movieID={item.FilmID}
-              pendingStatus={"Pending"}
               isMyAdvert={isMyAdvert}
-              pendingUsers={item.PendingRequests}
+              pendingUsers={Object.keys(item.PendingRequests)}
           />
           );
     }
