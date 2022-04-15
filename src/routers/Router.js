@@ -41,7 +41,7 @@ const router = () => {
             component={RegisterScreen}
             options={{ headerShown: false }}
           />
-          <Stack.Screen name="Flipcard" component={FlipcardComponent} />
+          <Stack.Screen name="SendVerificationScreen" component={SendVerificationScreen} />
         </Stack.Navigator>
       ) : (
         <Stack.Navigator>
@@ -57,7 +57,6 @@ const router = () => {
             name="ProfileSettings"
             component={ProfileSettingsScreen}
           />
-          <Stack.Screen name="SendVerificationScreen" component={SendVerificationScreen} />
           <Stack.Group screenOptions={{ presentation: "modal" }}>
             <Stack.Screen
               name="ModalChipsScreen"
