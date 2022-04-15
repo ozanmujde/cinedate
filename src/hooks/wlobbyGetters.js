@@ -28,6 +28,7 @@ export function getAdverts() {
   const getAdvertData = async () => {
     try {
       const response = await wlobby.get("/get/adverts/");
+      console.log(response);
       setAdverts(response.data.Items);
       setLoading(false);
       setErrorMessage("");

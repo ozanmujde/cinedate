@@ -29,7 +29,7 @@ export default class FlipcardComponent extends Component {
     };
     this.card = React.createRef();
     this.footer = React.createRef();
-    // console.log(this.props.advert);
+    console.log(this.props.advert);
   }
   componentDidUpdate(props) {
     if (this.card.state.side === 1) {

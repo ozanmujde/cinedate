@@ -10,11 +10,10 @@ import React, { useEffect } from "react";
 import ChatPreview from "../Components/ChatComponents/ChatPreview";
 import Users from "../../assets/Users";
 import { Divider } from "react-native-elements";
-
+import {  usePubNub } from "pubnub-react";
 
 const ChatScreens = ({ navigation }) => {
-  const id = 5;
-  
+  const pubnub = usePubNub();
   return (
       <SafeAreaView style={styles.page} forceInset={{ top: "always" }}>
         <View>

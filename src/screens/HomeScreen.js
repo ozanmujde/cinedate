@@ -55,7 +55,7 @@ const HomeScreen = () => {
       />
     );
   };
-
+  console.log(adverts);
   const navigation = useNavigation();
   return (
     <SafeAreaView style={styles.container} forceInset={{ top: "always" }}>
