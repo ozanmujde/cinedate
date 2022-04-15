@@ -21,7 +21,8 @@ import { SvgUri } from "react-native-svg";
 import Backdrop from "../Components/Backdrop";
 
 const ProfileScreen = ({ route: { params } }) => {
-  // console.log(params);
+  console.log(params);
+
   const userID = params.userID;
   const navigation = useNavigation();
   const generator = new AvatarGenerator();

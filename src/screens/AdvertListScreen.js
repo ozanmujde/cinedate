@@ -71,7 +71,7 @@ const AdvertListScreen = ({ route: { params } }) => {
                   <FlipcardComponent
                     style={{ height: "100%", width: "100%" }}
                     filmName={isLoading ? "" : movieInfo.original_title}
-                    userID={item.OwnerID}
+                    advert={item}
                     ownerName={"ozan"}
                     filmImage={uri}
                     isDetailScreen={false}

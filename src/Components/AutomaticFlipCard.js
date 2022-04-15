@@ -31,7 +31,7 @@ const AutomaticFlipCard = ({ advert, navigation, movieID, isDetailScreen }) => {
       <FlipcardComponent
         style={{ height: "100%", width: "100%" }}
         filmName={isLoading ? "" : movieInfo.original_title}
-        userID={advert.OwnerID}
+        advert={advert}
         ownerName={"ozan"}
         filmImage={uri}
         isDetailScreen={isDetailScreen}

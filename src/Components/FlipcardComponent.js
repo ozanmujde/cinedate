@@ -29,6 +29,7 @@ export default class FlipcardComponent extends Component {
     };
     this.card = React.createRef();
     this.footer = React.createRef();
+    console.log(this.props.advert);
   }
   componentDidUpdate(props) {
     if (this.card.state.side === 1) {
@@ -96,7 +97,7 @@ export default class FlipcardComponent extends Component {
                 <TouchableOpacity
                   onPress={() =>
                     this.props.navigation.navigate("Profile", {
-                      userID: this.props.userID,
+                      userID: this.props.advert.OwnerID,
                     })
                   }
                 >
@@ -144,24 +145,35 @@ export default class FlipcardComponent extends Component {
                     new Date().getMinutes().toString().padStart(2, "0")
                   }
                 />
+                {/* TODO: AUTH geldiginde burayi static kontrol yerine auth userID si ile kontrol et */}
                 <Button
                   style={styles.button}
                   icon="account-plus"
                   mode="contained"
                   disabled={this.props.isDetailScreen}
                   onPress={() => {
-                    const appeal = [
-                      {
-                        filmName: this.props.filmName,
-                        ownerName: this.props.ownerName,
-                      },
-                    ];
-                    alert("Your appeal has been sent to the owner");
+                    if (this.props.advert.OwnerID !== 7) {
+                      const appeal = [
+                        {
+                          filmName: this.props.filmName,
+                          ownerName: this.props.ownerName,
+                        },
+                      ];
+                      alert("Your appeal has been sent to the owner");
+                    } else {
+                      alert("You can't appeal to yourself");
+                    }
                   }}
                 >
-                  {this.props.isDetailScreen
-                    ? "Your appeal has been sent to the owner"
-                    : "Send appeal"}
+                  {this.props.advert.OwnerID === 7 ? (
+                    "Update The Advert"
+                  ) : (
+                    <>
+                      {this.props.isDetailScreen
+                        ? "Your appeal has been sent to the owner"
+                        : "Send appeal"}
+                    </>
+                  )}
                 </Button>
               </ScrollView>
             </Pressable>
