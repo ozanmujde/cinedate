@@ -1,59 +1,103 @@
 import {FlatList, StyleSheet} from 'react-native';
 import React, {useEffect} from 'react';
-import {SafeAreaView} from "react-navigation";
-import PendingAppealsComponent from "../Components/PendingAppealsComponent";
 import {useNavigation} from "@react-navigation/native";
-import useResults from "../hooks/useResults";
 import {getAdverts} from "../hooks/wlobbyGetters";
-import {Divider, Subheading, Appbar} from "react-native-paper";
+import {Appbar, Divider} from "react-native-paper";
 import {View} from "moti";
 import AutomaticPendingAppeals from "../Components/AutomaticPendingAppeals";
 
 function InboxScreen() {
-    const navigation = useNavigation();
+  const navigation = useNavigation();
 
-    const [getAdvertsData, adverts, errorMessageGetAdverts, loading] = getAdverts();
-
-
-    useEffect(() => {
-        getAdvertsData();
-    }, []);
+  const [getAdvertsData, adverts, errorMessageGetAdverts, loading] = getAdverts();
 
 
-    const handleRenderItem = (item, index, advertItem) => {
-        console.log(item, index);
-        console.log(advertItem)
-        return (
-                <AutomaticPendingAppeals
-                    advert={item}
-                    navigation={navigation}
-                    movieID={item.FilmID}/>
-        );
+  useEffect(() => {
+    getAdvertsData();
+  }, []);
+
+
+  const handleRenderItem = (item, index, isMyAdvert) => {
+    if (item.OwnerID === 4 && isMyAdvert === 0) {
+      return (
+          <AutomaticPendingAppeals
+              advert={item}
+              navigation={navigation}
+              movieID={item.FilmID}
+              isMyAdvert={isMyAdvert}
+              pendingUsers={item.PendingRequests}
+          />
+      );
+    } else if (isMyAdvert === 1 && item.AttendeeIDs.includes(7)) {
+      return (
+          <AutomaticPendingAppeals
+              advert={item}
+              navigation={navigation}
+              movieID={item.FilmID}
+              pendingStatus={"Approved"}
+              isMyAdvert={isMyAdvert}
+              pendingUsers={item.PendingRequests}
+          />
+      )
+    } else if (isMyAdvert === 1 && item.PendingRequests.includes(7)) {
+      return (
+          <AutomaticPendingAppeals
+              advert={item}
+              navigation={navigation}
+              movieID={item.FilmID}
+              pendingStatus={"Pending"}
+              isMyAdvert={isMyAdvert}
+              pendingUsers={item.PendingRequests}
+          />
+      )
+    } else if (isMyAdvert === 2 && item.PendingRequests.length !== 0) {
+      return(
+          <AutomaticPendingAppeals
+              advert={item}
+              navigation={navigation}
+              movieID={item.FilmID}
+              pendingStatus={"Pending"}
+              isMyAdvert={isMyAdvert}
+              pendingUsers={item.PendingRequests}
+          />
+          );
     }
-    return (
-        <View style={styles.container} forceInset={{top: "always"}}>
-            <Appbar.Header >
-                <Appbar.Content title="My Appeals"/>
-            </Appbar.Header>
-            <View style={{flex: 1}}>
-                <FlatList
-                    scrollEnabled={true}
-                    data={adverts}
-                    renderItem={({item, index}) => handleRenderItem(item, index)}
-                    keyExtractor={(item, index) => item.AdvertID}
-                />
-            </View>
+  }
+  return (
+      <View style={styles.container} forceInset={{top: "always"}}>
+        <Appbar.Header>
+          <Appbar.Content title="My Adverts"/>
+        </Appbar.Header>
+        <View style={{flex: 1}}>
+          <FlatList
+              scrollEnabled={true}
+              data={adverts}
+              renderItem={({item, index}) => handleRenderItem(item, index, 0)}
+              keyExtractor={(item, index) => item.AdvertID}
+          />
+        </View>
+        <Appbar.Header>
+          <Appbar.Content title="My Appeals"/>
+        </Appbar.Header>
+        <View style={{flex: 1}}>
+          <FlatList
+              scrollEnabled={true}
+              data={adverts}
+              renderItem={({item, index}) => (handleRenderItem(item, index, 1))}
+              keyExtractor={(item, index) => item.AdvertID}
+          />
+        </View>
 
-            <Divider/>
-            <Appbar.Header>
-                <Appbar.Content title="Incoming Appeals"/>
-            </Appbar.Header>
-            <View  style={{flex:1}}>
-                <FlatList
-                    data={adverts}
-                    scrollEnabled={true}
-                    renderItem={({item, index}) => handleRenderItem(item, index)}
-                    keyExtractor={(item, index) => item.AdvertID}
+        <Divider/>
+        <Appbar.Header>
+          <Appbar.Content title="Incoming Appeals"/>
+        </Appbar.Header>
+        <View style={{flex: 1}}>
+          <FlatList
+              data={adverts}
+              scrollEnabled={true}
+              renderItem={({item, index}) => handleRenderItem(item, index, 2)}
+              keyExtractor={(item, index) => item.AdvertID}
                 />
             </View>
         </View>

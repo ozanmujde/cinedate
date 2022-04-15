@@ -97,7 +97,7 @@ const RegisterScreen = () => {
                 'Username': (name.toLowerCase() + surname.toLowerCase() + Math.floor(Math.random() * 100)).toString()
             }).then((response) => {
                 alert("You have successfully registered!");
-                navigation.navigate('Login');
+                navigation.navigate('SendVerificationScreen');
             });
         }
         else {
