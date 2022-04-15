@@ -5,6 +5,7 @@ import {getAdverts} from "../hooks/wlobbyGetters";
 import {Appbar, Divider} from "react-native-paper";
 import {View} from "moti";
 import AutomaticPendingAppeals from "../Components/AutomaticPendingAppeals";
+import advert from "../classes/Advert";
 
 function InboxScreen() {
   const navigation = useNavigation();
@@ -51,7 +52,7 @@ function InboxScreen() {
               movieID={item.FilmID}
               pendingStatus={"Approved"}
               isMyAdvert={isMyAdvert}
-              pendingUsers={Object.keys(item.PendingRequests)}
+              pendingUsers={item.PendingRequests}
           />
       )
     } else if (isMyAdvert === 1 && Object.keys(item.PendingRequests).includes("7")) {
@@ -62,17 +63,17 @@ function InboxScreen() {
               movieID={item.FilmID}
               pendingStatus={"Pending"}
               isMyAdvert={isMyAdvert}
-              pendingUsers={Object.keys(item.PendingRequests)}
+              pendingUsers={item.PendingRequests}
           />
       )
-    } else if (isMyAdvert === 2 && Object.keys(item.PendingRequests).length !== 0) {
+    } else if (isMyAdvert === 2 && Object.keys(item.PendingRequests).length !== 0 && item.OwnerID === 7) {
       return(
           <AutomaticPendingAppeals
               advert={item}
               navigation={navigation}
               movieID={item.FilmID}
               isMyAdvert={isMyAdvert}
-              pendingUsers={Object.keys(item.PendingRequests)}
+              pendingUsers={item.PendingRequests}
           />
           );
     }

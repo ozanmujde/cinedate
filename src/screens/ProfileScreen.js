@@ -122,14 +122,6 @@ const ProfileScreen = ({ route: { params } }) => {
           >
             Sign Out
           </Button>
-          <Button
-            style={styles.button}
-            icon="logout"
-            mode="contained"
-            onPress={() => navigation.navigate("SendVerificationScreen")}
-          >
-            Send Ver
-          </Button>
           {/* TODO: Burasi auth la degismeli */}
           {userID === 7 ? (
             <Button

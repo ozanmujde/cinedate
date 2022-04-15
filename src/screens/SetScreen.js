@@ -90,7 +90,6 @@ const SetScreen = ({ route: { params } }) => {
       'Quota': quota.toString(),
       'Status': "Active"
     }).then((response) => {
-      console.log(response.data);
       if(response.data.status === "Success") {
         alert("Advert created successfully");
       }
@@ -169,30 +168,30 @@ const SetScreen = ({ route: { params } }) => {
                          maxLength={100}
                          right={<TextInput.Affix text={"/" + (100 - comment.length)}/>}
               />
-              <DatePickerInput
-                  style={styles.textInput}
-                  locale="en"
-                  label="Date Of Film Session"
-                  value={date}
-                  onChange={(d) => setDate(d)}
-                  inputMode="start"
-                  validRange={{
-                    startDate: new Date(),
-                  }}
-                  saveLabel="Save"
-                  animationType="slide"
-              />
-              <TimePickerModal
-                  visible={visible}
-                  onDismiss={onDismiss}
-                  onConfirm={onConfirm}
-                  label="Select time"
-                  uppercase={false}
-                  cancelLabel="Cancel"
-                  confirmLabel="Ok"
-                  animationType="fade"
-                  backgroundColor="white"
-              />
+              {/*<DatePickerInput*/}
+              {/*    style={styles.textInput}*/}
+              {/*    locale="en"*/}
+              {/*    label="Date Of Film Session"*/}
+              {/*    value={date}*/}
+              {/*    onChange={(d) => setDate(d)}*/}
+              {/*    inputMode="start"*/}
+              {/*    validRange={{*/}
+              {/*      startDate: new Date(),*/}
+              {/*    }}*/}
+              {/*    saveLabel="Save"*/}
+              {/*    animationType="slide"*/}
+              {/*/>*/}
+              {/*<TimePickerModal*/}
+              {/*    visible={visible}*/}
+              {/*    onDismiss={onDismiss}*/}
+              {/*    onConfirm={onConfirm}*/}
+              {/*    label="Select time"*/}
+              {/*    uppercase={false}*/}
+              {/*    cancelLabel="Cancel"*/}
+              {/*    confirmLabel="Ok"*/}
+              {/*    animationType="fade"*/}
+              {/*    backgroundColor="white"*/}
+              {/*/>*/}
               <Button style={{marginTop: -15}} onPress={() => setVisible(true)}>
                 Pick time
               </Button>

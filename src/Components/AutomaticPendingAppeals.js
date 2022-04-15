@@ -57,7 +57,15 @@ const AutomaticPendingAppeals = ({advert, navigation, movieID, pendingStatus, is
     }
   }
 
-  const toggleButton = () => {
+  const deleteAdvert = () => {
+    axios.delete('https://wlobby-backend.herokuapp.com/delete/advert/?AdvertID=' + advert.AdvertID)
+      .then(res => {
+        console.log(res.data)
+        alert("Advert deleted");
+      })
+      .catch(err => {
+        console.log(err);
+      })
     setShowButton(false);
   };
 
@@ -86,38 +94,73 @@ const AutomaticPendingAppeals = ({advert, navigation, movieID, pendingStatus, is
   }
 
 
-  function acceptUser(user) {
-    axios.post('https://wlobby-backend.herokuapp.com/accept/user/?AdvertID=' + advert.AdvertID + "&UserID="+ user)
+  function acceptUser(userId, username) {
+    // axios.post('https://wlobby-backend.herokuapp.com/update/advert/', {
+    //   "Date": advert.Date.toString(),
+    //   "LastUpdateDate": advert.LastUpdateDate.toString(),
+    //   "RegistrationDate": advert.RegistrationDate.toString(),
+    //   "AttendeePreference": advert.AttendeePreference.toString(),
+    //   "Description": advert.Description.toString(),
+    //   "Status": advert.Status.toString(),
+    //   "AttendeeIDs": {
+    //     userId : username.toString()
+    //   },
+    //   "FilmID": advert.FilmID.toString(),
+    //   "AdvertID": advert.AdvertID.toString(),
+    //   "OwnerUsername": advert.OwnerUsername.toString(),
+    //   "OwnerID": advert.OwnerID.toString(),
+    //   "Quota": 2,
+    //   "PendingRequests": advert.PendingRequests,
+    // })
+
+    console.log(advert.AdvertID, userId, username);
+    axios.put('https://wlobby-backend.herokuapp.com/accept/user/?AdvertID=' + advert.AdvertID + "&UserID=" + userId)
         .then((response) => {
-      if(response.status === "Success") {
-        alert("Nice! You will watch this movie with " + user + "!");
+          console.log(response.data);
+      if(response.data.Status === "Success") {
+        alert("Nice! You will watch this movie with " + username + "!");
       }
       else {
         alert("An error occured");
       }
+      setShowButton(false);
     })
   }
 
-  const renderLeftActions = (props, user) => {
+  function rejectUser(userId, username) {
+    axios.put('https://wlobby-backend.herokuapp.com/reject/user/?AdvertID=' + advert.AdvertID + "&UserID=" + userId)
+        .then((response) => {
+          console.log(response.data);
+          if(response.data.Status === "Success") {
+            alert("Oh! You rejected " + username + " from your party :(");
+          }
+          else {
+            alert("An error occured");
+          }
+          setShowButton(false);
+        })
+  }
+
+  const renderLeftActions = (props, userId, username) => {
     return (
         <View style={{flexDirection: 'row'}}>
           {
             isMyAdvert === 0 || isMyAdvert === 1 ?
                 <TouchableOpacity>
                   <IconButton icon="delete" style={{backgroundColor: 'red'}}
-                              onPress={toggleButton}/>
+                              onPress={() => deleteAdvert()}/>
                 </TouchableOpacity> : null
           }
           {
             isMyAdvert === 2 ? <>
                   <TouchableOpacity>
                     <IconButton icon="check-circle-outline" style={{backgroundColor: 'green'}}
-                                onPress={() => acceptUser(user)}/>
+                                onPress={() => acceptUser(userId, username)}/>
 
                   </TouchableOpacity>
                   <TouchableOpacity>
                     <IconButton icon="alpha-x-circle-outline" style={{backgroundColor: 'red'}}
-                                onPress={() => console.log("")}/>
+                                onPress={() => rejectUser(userId, username)}/>
 
                   </TouchableOpacity>
                 </>
@@ -177,20 +220,20 @@ const AutomaticPendingAppeals = ({advert, navigation, movieID, pendingStatus, is
       <>
         {
           showButton
-              ? pendingUsers.length !== 0
-                  ? pendingUsers.map(user => {
-                    return (
+              ? Object.keys(pendingUsers).length !== 0 && isMyAdvert === 2
+                  ? Object.entries(pendingUsers).map(([userId, username]) => {
+                    return(
                         <View>
                           <TouchableOpacity onPress={() => function1()}>
                             <Card.Title style={{borderWidth: .5, borderColor: "black"}}
-                                        title={user}
+                                        title={username}
                                         subtitle={isLoading ? "Loading..." : movieInfo.original_title}
                                         left={(props) => handleLeft(props)}
-                                        right={(props) => renderLeftActions(props, user)}
+                                        right={(props) => renderLeftActions(props, userId, username)}
                             />
                           </TouchableOpacity>
                         </View>
-                    );
+                        );
                   })
                   : <TouchableOpacity onPress={() => function1()}>
                     <Card.Title style={{borderWidth: .5, borderColor: "black"}}

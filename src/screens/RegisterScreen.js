@@ -24,7 +24,6 @@ import {useNavigation} from "@react-navigation/native";
 import { AvatarGenerator } from "random-avatar-generator";
 import { SvgUri } from "react-native-svg";
 
-
 const RegisterScreen = () => {
     const [email, setEmail] = React.useState("");
     const [name, setName] = React.useState("");

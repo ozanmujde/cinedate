@@ -20,6 +20,8 @@ import {
   TextInput,
 } from "react-native-paper";
 import { normalize } from "react-native-elements";
+import {SvgUri} from "react-native-svg";
+import axios from "axios";
 
 export default class FlipcardComponent extends Component {
   constructor(props) {
@@ -39,7 +41,13 @@ export default class FlipcardComponent extends Component {
   trunc(text) {
     return text.length > 20 ? `${text.substr(0, 20)}...` : text;
   }
-  
+  sendAppeal() {
+    axios.post('https://wlobby-backend.herokuapp.com/join/advert/?AdvertID=' + this.props.advert.AdvertID + '&UserID=7')
+        .then(function (response) {
+          console.log(response.data);
+        })
+
+  }
   render() {
     return (
       <SafeAreaView>
@@ -61,10 +69,13 @@ export default class FlipcardComponent extends Component {
             <Subheading style={{ paddingRight: 20 }} adjustsFontSizeToFit>
               {this.props.advert.OwnerUsername}
             </Subheading>
-            <Avatar.Image
-              style={{ alignSelf: "center" }}
-              size={30}
-              source={require("../../assets/profilePhoto.jpg")}
+            <SvgUri
+                width="30"
+                height="30"
+                uri={"https://avataaars.io/?accessoriesType=Prescription02&avatarStyle=Circle&clotheColor=Blue01&clotheType=ShirtScoopNeck&eyeType=Surprised&eyebrowType=RaisedExcited&facialHairColor=Brown&facialHairType=MoustacheMagnum&hairColor=Platinum&hatColor=Blue03&mouthType=Grimace&skinColor=Black&topType=LongHairFroBand"}
+                style={{
+                  alignSelf: "center",
+                }}
             />
           </SafeAreaView>
         </SafeAreaView>
@@ -101,10 +112,13 @@ export default class FlipcardComponent extends Component {
                     })
                   }
                 >
-                  <Avatar.Image
-                    style={{ alignSelf: "center" }}
-                    size={50}
-                    source={require("../../assets/profilePhoto.jpg")}
+                  <SvgUri
+                      width="50"
+                      height="50"
+                      uri={"https://avataaars.io/?accessoriesType=Prescription02&avatarStyle=Circle&clotheColor=Blue01&clotheType=ShirtScoopNeck&eyeType=Surprised&eyebrowType=RaisedExcited&facialHairColor=Brown&facialHairType=MoustacheMagnum&hairColor=Platinum&hatColor=Blue03&mouthType=Grimace&skinColor=Black&topType=LongHairFroBand"}
+                      style={{
+                        alignSelf: "center",
+                      }}
                   />
                 </TouchableOpacity>
                 <TextInput
@@ -127,13 +141,19 @@ export default class FlipcardComponent extends Component {
                   disabled={true}
                   multiline={true}
                   label={"Comments"}
-                  value={this.props.comments}
+                  value={this.props.advert.Description}
+                />
+                <TextInput
+                    style={styles.textInput}
+                    disabled={true}
+                    label={"Attendees"}
+                    value={Object.values(this.props.advert.AttendeeIDs).join("\n")}
                 />
                 <TextInput
                   style={styles.textInput}
                   disabled={true}
                   label={"Date"}
-                  value={new Date().toLocaleString()}
+                  value={this.props.advert.Date.toString()}
                 />
                 <TextInput
                   style={styles.textInput}
@@ -159,6 +179,7 @@ export default class FlipcardComponent extends Component {
                           ownerName: this.props.advert.OwnerUsername,
                         },
                       ];
+                      this.sendAppeal()
                       alert("Your appeal has been sent to the owner");
                     } else {
                       alert("You can't appeal to yourself");
