@@ -9,9 +9,25 @@ import Users from "../../../assets/Users";
 const ChatComponent = (props) => {
   const pubnub = usePubNub();
   const str = props.userId + "Ozan";
-  console.log(props);
-  const [channels] = useState([str]);
+  // console.log(props);
   const [messages, setMessages] = useState([]);
+  const [channels] = useState([str]);
+  useEffect(() => {
+    pubnub.fetchMessages(
+      {
+        channels: [channels[0]],
+        // end: '15343325004275466',
+        count: 25, // default/max is 25 messages for multiple channels (up to 500)
+      },
+      function (status, response) {
+        setMessages(response.channels[channels[0]].map((item) => item.message));
+      }
+    );
+  }, [channels]);
+
+  console.log(messages);
+  // const [messages, setMessages] = useState(messageRespound);
+  // console.log(messageRespound);
   const [message, setMessage] = useState("");
   const handleMessage = (event) => {
     const message = event.message;
@@ -21,31 +37,28 @@ const ChatComponent = (props) => {
     }
   };
   useEffect(() => {
-    // pubnub.addListener({ message: handleMessage });
-    // addMessage(
-    //   pubnub.fetchMessages({
-    //     channels: channels[0],
-    //     count: 100,
-    //   })
-    // );
-    
     pubnub.addListener({
       message: function (receivedMessage) {
         // handle message
-        console.log("message", message);
-        console.log("The message text is: ", receivedMessage);
+        // console.log("message", message);
+        // console.log("The message text is: ", receivedMessage);
+
         setMessages((messages) => [receivedMessage.message, ...messages]);
         // addMessage((previousMessages) =>
         //   GiftedChat.append(previousMessages, messages)
         // );
       },
     });
-    pubnub.subscribe({ channels: [channels[0]], withPresence: true }); 
+    pubnub.subscribe({ channels: [channels[0]], withPresence: true });
     // pubnub.fetchMessages({
     //   channels: channels[0],
     //   end: '15343325004275466',
     //   count: 100,
     // });
+    return () => {
+      // pubnub.removeListener(listener);
+      pubnub.unsubscribeAll();
+    };
   }, [pubnub, channels]);
 
   const sendMessage = useCallback((message) => {
@@ -64,8 +77,13 @@ const ChatComponent = (props) => {
     //   name: Users[props.userId].name,
     //   avatar: Users[props.userId].imageUri,
     // };
+    console.log("channels", channels);
     pubnub
-      .publish({ message: message[0], channel: channels[0], sendBy: props.userId })
+      .publish({
+        message: message[0],
+        channel: channels[0],
+        sendBy: props.userId,
+      })
       .then(() => setMessage(""));
   }, []);
   // useEffect(() => {
@@ -82,7 +100,6 @@ const ChatComponent = (props) => {
   //     },
   //   ]);
   // }, []);
-
   // const onSend = useCallback((messages = []) => {
   //   setMessage((previousMessages) =>
   //     GiftedChat.append(previousMessages, messages)

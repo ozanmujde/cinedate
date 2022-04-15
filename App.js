@@ -6,16 +6,7 @@ import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import Router from "./src/routers/Router";
 import { Provider as AuthProvider } from "./src/context/AuthContext";
-import PubNub from "pubnub";
-import { PubNubProvider, usePubNub } from "pubnub-react";
 
-const pubnub = new PubNub({
-  publishKey: "pub-c-db5f1d5b-6ae2-49d4-a3de-78fa20d8843b",
-  subscribeKey: "sub-c-ac9d8622-a6cd-11ec-94c0-bed45dbe0fe1",
-  uuid: "Ozan",
-  autoNetworkDetection: true, // enable for non-browser environment automatic reconnection
-  restore: true, // enable catchup on missed messages
-});
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -25,9 +16,7 @@ export default function App() {
   //TODO: Add the AuthContext to the App component
   return (
     <AuthProvider>
-      <PubNubProvider client={pubnub}>
         <Router />
-      </PubNubProvider>
     </AuthProvider>
   );
 }
