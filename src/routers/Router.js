@@ -22,11 +22,21 @@ import ModalChipsScreen from "../screens/ModalChipsScreen";
 import { Context as AuthContext } from "../context/AuthContext";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import SendVerificationScreen from "../screens/SendVerificationScreen";
+import PubNub from "pubnub";
+import { PubNubProvider, usePubNub } from "pubnub-react";
 
 const router = () => {
   const { state } = useContext(AuthContext);
   const Stack = createNativeStackNavigator();
   //TODO: Add the AuthContext to the App component
+
+  const pubnub = new PubNub({
+    publishKey: "pub-c-db5f1d5b-6ae2-49d4-a3de-78fa20d8843b",
+    subscribeKey: "sub-c-ac9d8622-a6cd-11ec-94c0-bed45dbe0fe1",
+    uuid: "Ozan",
+    autoNetworkDetection: true, // enable for non-browser environment automatic reconnection
+    restore: true, // enable catchup on missed messages
+  });
   return (
     <NavigationContainer>
       {state.isSignedIn == false ? (
@@ -44,27 +54,36 @@ const router = () => {
           <Stack.Screen name="SendVerificationScreen" component={SendVerificationScreen} />
         </Stack.Navigator>
       ) : (
-        <Stack.Navigator>
-          <Stack.Screen
-            name="Tab"
-            component={BottomTabNavigator}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen name="ResultScreen" component={ResultScreen} />
-          <Stack.Screen name="AdvertListScreen" component={AdvertListScreen} />
-          <Stack.Screen name="ChatScreen" component={ChatScreen} />
-          <Stack.Screen
-            name="ProfileSettings"
-            component={ProfileSettingsScreen}
-          />
-          <Stack.Group screenOptions={{ presentation: "modal" }}>
+        <PubNubProvider client={pubnub}>
+          <Stack.Navigator>
             <Stack.Screen
-              name="ModalChipsScreen"
-              component={ModalChipsScreen}
+              name="Tab"
+              component={BottomTabNavigator}
               options={{ headerShown: false }}
             />
-          </Stack.Group>
-        </Stack.Navigator>
+            <Stack.Screen name="ResultScreen" component={ResultScreen} />
+            <Stack.Screen
+              name="AdvertListScreen"
+              component={AdvertListScreen}
+            />
+            <Stack.Screen name="ChatScreen" component={ChatScreen} />
+            <Stack.Screen
+              name="ProfileSettings"
+              component={ProfileSettingsScreen}
+            />
+            <Stack.Screen
+              name="SendVerificationScreen"
+              component={SendVerificationScreen}
+            />
+            <Stack.Group screenOptions={{ presentation: "modal" }}>
+              <Stack.Screen
+                name="ModalChipsScreen"
+                component={ModalChipsScreen}
+                options={{ headerShown: false }}
+              />
+            </Stack.Group>
+          </Stack.Navigator>
+        </PubNubProvider>
       )}
     </NavigationContainer>
   );
