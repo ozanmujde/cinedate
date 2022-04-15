@@ -12,7 +12,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import AntDesign from "react-native-vector-icons/AntDesign";
 
-const FilmList = ({ filmList, button }) => {
+const FilmList = ({ filmList, button, isWatched }) => {
   const navigation = useNavigation();
   const [films, setFilms] = useState(filmList);
   return (
@@ -44,6 +44,7 @@ const FilmList = ({ filmList, button }) => {
                       movieId: item,
                       films,
                       setFilms,
+                      isWatched,
                     });
                   }}
                 >
@@ -72,6 +73,7 @@ const FilmList = ({ filmList, button }) => {
               navigation.navigate("ModalLikedScreen", {
                 films,
                 setFilms,
+                isWatched,
               });
             }}
           >

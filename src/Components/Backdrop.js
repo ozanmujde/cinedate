@@ -17,7 +17,6 @@ const BACKDROP_HEIGHT = height * 0.65;
 
 const Backdrop = ({ path }) => {
   const uri = "https://image.tmdb.org/t/p/w370_and_h556_multi_faces/" + path;
-  console.log(path);
   // console.log(`https://image.tmdb.org/t/p/w370_and_h556_multi_faces${path}`);
   return (
     <View style={{ height: BACKDROP_HEIGHT, width, position: "absolute" }}>

@@ -22,6 +22,7 @@ const ModalRemoveFilmScreen = ({ route: { params } }) => {
   const movieId = params.movieId;
   const films = params.films;
   const setFilms = params.setFilms;
+  const isWatched = params.isWatched;
   const [
     searchMovieApi,
     errorMessage,
@@ -58,7 +59,7 @@ const ModalRemoveFilmScreen = ({ route: { params } }) => {
         <>
           <>
             <Text style={styles.paragraph}>
-              Remove this film from your Liked List ?
+                {isWatched ? "  Remove this movie  from your Watched List ?" : "Remove this movie from your Liked List ?"}
             </Text>
             <FAB
               style={styles.fab}
@@ -68,8 +69,6 @@ const ModalRemoveFilmScreen = ({ route: { params } }) => {
                 // TODO: USERUPDATE gelince burasi da degistirilmeli
                 // setFilms((oldArray) => [...oldArray, movieId]);
                 setFilms(films.filter((film) => film !== movieId));
-                console.log(films);
-                console.log(movieId);
                 navigation.goBack();
               }}
             />

@@ -17,7 +17,7 @@ import AdvertListScreen from "../screens/AdvertListScreen";
 
 const ITEM_SIZE = 100 + 20 * 3;
 
-const SearchList = ({ results, films, setFilms }) => {
+const SearchList = ({ results, films, setFilms, isWatched }) => {
   if (!results.length) {
     // there is no result dont show anything
     return null;
@@ -67,7 +67,7 @@ const SearchList = ({ results, films, setFilms }) => {
 
           return (
             <TouchableOpacity
-              onPress={() => {
+              onPress={() => { //TODO: user update gelince degistir
                 // console.log(item);
                 if (films.includes(item.id)) {
                   alert("You already liked this movie");
