@@ -23,7 +23,6 @@ const SearchList = ({ results, films, setFilms }) => {
     return null;
   }
   const navigation = useNavigation();
-  console.log(films);
   const scrollY = useRef(new Animated.Value(0)).current;
   return (
     <SafeAreaView style={styles.container}>
