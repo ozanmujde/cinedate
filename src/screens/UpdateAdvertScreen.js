@@ -9,15 +9,15 @@ import axios from "axios";
 
 registerTranslation('en-GB', enGB);
 
-const SetScreen = ({ route: { params } }) => {
+const UpdateAdvertScreen = ({ route: { params } }) => {
   const [filmName, setFilmName] = React.useState(params.movieName);
-  const [quota, setQuota] = React.useState('');
+  const [quota, setQuota] = React.useState(params.advert.Quota.toString());
 
   const onChangeFilmName = filmName => setFilmName(filmName);
   const onChangeQuota = quota => setQuota(quota);
 
   const hasErrors = () => {
-    return quota.length >=2;
+    return quota.toString().length >= 2;
   };
   const [visible, setVisible] = React.useState(false);
 
@@ -25,8 +25,8 @@ const SetScreen = ({ route: { params } }) => {
 
   const hideDialog = () => setVisible(false);
 
-  const [date, setDate] = React.useState(new Date());
-  const [time, setTime] = React.useState("00:00");
+  const [date, setDate] = React.useState(params.advert.Date.toString().split(" ")[0]);
+  const [time, setTime] = React.useState(params.advert.Date.toString().split(" ")[1] === "" ? "00:00" : params.advert.Date.toString().split(" ")[1]);
 
   const onDismiss = React.useCallback(() => {
     setVisible(false)
@@ -40,9 +40,9 @@ const SetScreen = ({ route: { params } }) => {
       [setVisible]
   );
 
-  const [menSwitch, setMenSwitch] = React.useState(true);
-  const [womenSwitch, setWomenSwitch] = React.useState(true);
-  const [comment, setComment] = React.useState("");
+  const [menSwitch, setMenSwitch] = React.useState(params.advert.AttendeePreference === "male" || params.advert.AttendeePreference === "all" );
+  const [womenSwitch, setWomenSwitch] = React.useState(params.advert.AttendeePreference === "female" || params.advert.AttendeePreference === "all");
+  const [comment, setComment] = React.useState(params.advert.Description);
   const [searchMovieApi, errorMessage, results] = useResults();
   let filmNames = [];
 
@@ -76,27 +76,36 @@ const SetScreen = ({ route: { params } }) => {
     if(menSwitch && womenSwitch) {
       setAttendeePreferences("all");
     }
+    else if(!menSwitch && womenSwitch) {
+      setAttendeePreferences("female");
+    }
+    else if(menSwitch && !womenSwitch) {
+      setAttendeePreferences("male");
+    }
     searchMovieApi(filmName);
     console.log(results[0].id);
     setFilmID(results[0].id);
     console.log(filmID);
     console.log(date.toLocaleDateString(),time.toString(), attendeePreferences,comment,filmName,quota, filmID);
-    axios.post('https://wlobby-backend.herokuapp.com/create/advert/',{
-      'Date': (date.toLocaleDateString() + " " + time.toString()).toString(),
-      'AttendeePreference' : attendeePreferences.toString(),
-      'Description': comment.toString(),
-      'FilmID': filmID.toString(),
-      'OwnerID': '7',
-      'Quota': quota.toString(),
-      'Status': "Active"
-    }).then((response) => {
-      if(response.data.status === "Success") {
-        alert("Advert created successfully");
-      }
-      else {
-        alert("Advert creation failed");
-      }
-    })
+
+
+
+    // axios.post('https://wlobby-backend.herokuapp.com/create/advert/',{
+    //   'Date': (date.toLocaleDateString() + " " + time.toString()).toString(),
+    //   'AttendeePreference' : attendeePreferences.toString(),
+    //   'Description': comment.toString(),
+    //   'FilmID': filmID.toString(),
+    //   'OwnerID': '7',
+    //   'Quota': quota.toString(),
+    //   'Status': "Active"
+    // }).then((response) => {
+    //   if(response.data.status === "Success") {
+    //     alert("Advert created successfully");
+    //   }
+    //   else {
+    //     alert("Advert creation failed");
+    //   }
+    // })
   }
 
   return (
@@ -107,27 +116,6 @@ const SetScreen = ({ route: { params } }) => {
             <ScrollView style={styles.container} contentContainerStyle={{paddingBottom: '100%'}}
                         showsVerticalScrollIndicator={false}>
               <View style={styles.container}>
-                <TextInput
-                    onFocus={() => {
-                      setIsPressedSuggestion(false);
-                      if (filmName.length === 0) {
-                        setMenuVisible(false);
-                      }
-                    }}
-                    onBlur={() => handleOnBlur()}
-                    label={"Film Name"}
-                    style={styles.textInput}
-                    onChangeText={(text) => {
-                      if (text && text.length > 0) {
-                        setFilteredData(filterData(text));
-                      } else if (text && text.length === 0) {
-                        setFilteredData(filmName);
-                      }
-                      setMenuVisible(true);
-                      setFilmName(text);
-                    }}
-                    value={filmName}
-                />
                 {menuVisible && filteredData && (
                     <View
                         style={{
@@ -208,7 +196,11 @@ const SetScreen = ({ route: { params } }) => {
               </SafeAreaView>
               <Button style={styles.button} icon="popcorn" mode="contained"
                       onPress={() => handleSubmit()}>
-                Let's Watch
+                Change Plans!
+              </Button>
+              <Button style={styles.button} icon="delete-forever-outline" mode="contained"
+                      onPress={() => console.log("delete advert")}>
+                Delete this advert
               </Button>
             </ScrollView>
           </Card.Content>
@@ -217,7 +209,7 @@ const SetScreen = ({ route: { params } }) => {
   );
 };
 
-export default SetScreen;
+export default UpdateAdvertScreen;
 
 const styles = StyleSheet.create({
   container: {

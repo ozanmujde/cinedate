@@ -181,7 +181,7 @@ export default class FlipcardComponent extends Component {
                       this.sendAppeal()
                       alert("Your appeal has been sent to the owner");
                     } else {
-                      alert("You can't appeal to yourself");
+                      this.props.navigation.navigate("UpdateAdvertScreen", {movieName: this.props.filmName, advert: this.props.advert});
                     }
                   }}
                 >

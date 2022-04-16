@@ -26,6 +26,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import SendVerificationScreen from "../screens/SendVerificationScreen";
 import PubNub from "pubnub";
 import { PubNubProvider, usePubNub } from "pubnub-react";
+import UpdateAdvertScreen from "../screens/UpdateAdvertScreen";
 
 const router = () => {
   const { state } = useContext(AuthContext);
@@ -95,6 +96,11 @@ const router = () => {
                 name="ModalRemoveFilmScreen"
                 component={ModalRemoveFilmScreen}
                 options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                  name="UpdateAdvertScreen"
+                  component={UpdateAdvertScreen}
+                  options={{ headerShown: false }}
               />
             </Stack.Group>
           </Stack.Navigator>
