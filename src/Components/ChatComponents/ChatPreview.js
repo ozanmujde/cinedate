@@ -23,6 +23,30 @@ const ChatPreview = (props) => {
   useEffect(() => {
     getUserData(otherID);
   }, [channelId, userData]);
+
+  function parseDate(LastLogIn) {
+    let st = LastLogIn.split(" ")[0].split("-").reverse().join(".");
+   // let st = "15.04.2022";
+    let pattern = /(\d{2})\.(\d{2})\.(\d{4})/;
+    let dt = new Date(st.replace(pattern,'$3-$2-$1')).toLocaleDateString("en-GB");
+    let time = LastLogIn.split(" ")[1].split(".")[0].split(":")[0] + ":" + LastLogIn.split(" ")[1].split(".")[0].split(":")[1];
+
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+
+    const today = new Date();
+    today.setDate(today.getDate());
+
+    if(today.toLocaleDateString("en-GB") === dt) {
+      return time;
+    }
+    if(yesterday.toLocaleDateString("en-GB") === dt) {
+      dt = "Yesterday";
+      return dt;
+    }
+    return dt + " " + time;
+  }
+
   return (
     <SafeAreaView forceInset={{ top: "always" }}>
       <View style={styles.container}>
@@ -54,7 +78,7 @@ const ChatPreview = (props) => {
                     "en-GB"
                   )
                 : " "} */}
-              {userData.LastLogIn ? userData.LastLogIn.toString() : " "}
+              {userData.LastLogIn ? parseDate(userData.LastLogIn) : " "}
             </Text>
           </View>
           <Text style={styles.text} numberOfLines={1}>
