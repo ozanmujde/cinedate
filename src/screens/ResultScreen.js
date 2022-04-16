@@ -9,7 +9,7 @@ import useResults from "../hooks/useResults";
 
 const ResultScreen = ({ route: { params } }) => {
   const [result, setResult] = useState(null);
-  const { id, isDetailScreen, filmID, advert } = params;
+  const { id, isDetailScreen, filmID, advert, isMyAdvert } = params;
   //   const id = navigation.getParam("id"); // this is how we get id from navigation
   //const getResult = useSelector((state) => state.results.result);
 
@@ -51,6 +51,7 @@ const ResultScreen = ({ route: { params } }) => {
           navigation={navigation}
           movieID={params.filmID}
           isDetailScreen={params.isDetailScreen}
+          isMyAdvert={params.isMyAdvert}
       />
     </ScrollView>
     // </SafeAreaView>

@@ -112,6 +112,7 @@ const HomeScreen = () => {
                     advert={item}
                     navigation={navigation}
                     movieID={item.FilmID}
+                    isMyAdvert={item.OwnerID === 7 ? 0: 1}
                   />
                 </Animated.View>
               );

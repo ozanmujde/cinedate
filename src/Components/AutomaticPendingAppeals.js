@@ -43,7 +43,8 @@ const AutomaticPendingAppeals = ({advert, navigation, movieID, pendingStatus, is
       image: uri,
       isDetailScreen: true,
       filmID: movieID,
-      advert: advert
+      advert: advert,
+      isMyAdvert: isMyAdvert,
     });
   };
 

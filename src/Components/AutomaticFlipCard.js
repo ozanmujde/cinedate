@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import FlipcardComponent from "./FlipcardComponent";
 import useResults from "../hooks/useResults";
 
-const AutomaticFlipCard = ({ advert, navigation, movieID, isDetailScreen }) => {
+const AutomaticFlipCard = ({ advert, navigation, movieID, isDetailScreen, isMyAdvert }) => {
   const [
     searchMovieApi,
     errorMessage,
@@ -36,6 +36,7 @@ const AutomaticFlipCard = ({ advert, navigation, movieID, isDetailScreen }) => {
         isDetailScreen={isDetailScreen}
         comments={"Çok iyi film olcak hacı gel kesin"}
         navigation={navigation}
+        isMyAdvert={isMyAdvert}
       />
     // </View>
   );

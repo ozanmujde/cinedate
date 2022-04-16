@@ -46,7 +46,6 @@ export default class FlipcardComponent extends Component {
         .then(function (response) {
           console.log(response.data);
         })
-
   }
   render() {
     return (
@@ -170,7 +169,7 @@ export default class FlipcardComponent extends Component {
                   style={styles.button}
                   icon="account-plus"
                   mode="contained"
-                  disabled={this.props.isDetailScreen}
+                  disabled={this.props.isMyAdvert !== 0 ? Object.keys(this.props.advert.AttendeeIDs).includes("7") : false}
                   onPress={() => {
                     if (this.props.advert.OwnerID !== 7) {
                       const appeal = [
