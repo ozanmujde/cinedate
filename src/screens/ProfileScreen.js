@@ -31,7 +31,7 @@ const ProfileScreen = ({ route: { params } }) => {
   const [refreshing, setRefreshing] = useState(false);
   useEffect(() => {
     getUserData(userID);
-  }, [userID]);
+  }, [userID,userData]);
 
   const onRefresh = (userID) => {
     setRefreshing(true);
@@ -69,7 +69,7 @@ const ProfileScreen = ({ route: { params } }) => {
               alignItems: "center",
             }}
           >
-            <SvgUri width="150" height="150" uri={DELETETHAT} />
+            <SvgUri width="150" height="150" uri={userData.ProfilePhoto} />
 
             {/* <Image style={styles.userImg} source={{ uri: "https://i0.wp.com/shiftdelete.net/wp-content/uploads/2022/03/recep-ivedik-7-ilk-video.jpg?fit=1280%2C720&ssl=1" }} /> */}
           </View>

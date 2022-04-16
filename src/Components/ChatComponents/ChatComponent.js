@@ -27,7 +27,7 @@ const ChatComponent = (props) => {
     );
   }, [channels]);
 
-  console.log(messages);
+  // console.log(messages);
   const [message, setMessage] = useState("");
   // const handleMessage = (event) => {
   //   const message = event.message;
@@ -49,7 +49,11 @@ const ChatComponent = (props) => {
     pubnub.subscribe({ channels: [channels[0]], withPresence: true });
     pubnub.objects.setChannelMembers({
       channels: [str],
-      uuids: ["Ozan"], 
+      uuids: ["Ozan"],
+    });
+    pubnub.objects.setMemberships({
+      channels: [str],
+      uuids: ["Ozan"],
     });
     return () => {
       pubnub.removeListener(listener);

@@ -21,6 +21,7 @@ import { AvatarGenerator } from "random-avatar-generator";
 import { countries } from "../countries";
 import { Ionicons } from "@expo/vector-icons";
 import AntDesign from "react-native-vector-icons/AntDesign";
+import axios from "axios";
 
 //TODO: Authentication la beraber burasi degismeli
 const ProfileSettingsScreen = ({ route: { params } }) => {
@@ -29,21 +30,46 @@ const ProfileSettingsScreen = ({ route: { params } }) => {
   const [name, setName] = useState(userData.Name);
   const [surname, setSurname] = useState(userData.Surname);
   const [email, setEmail] = useState(userData.Email);
-  const [age, setAge] = useState(userData.Age);
   const [about, setAbout] = useState(userData.About);
   const [bio, setBio] = useState(userData.Bio);
   const [interests, setInterests] = useState(userData.Interests);
   const [location, setLocation] = useState(userData.Location);
+  const [username, setUsername] = useState(userData.Username);
 
   const generator = new AvatarGenerator();
   //generator.generateRandomAvatar()
-  const [profilePhoto, setProfilePhoto] = useState(
-    generator.generateRandomAvatar()
-  ); //TODO: burada generator.generateRandomAvatar() yerine userData.ProfilePhoto yapilacak
+  const [profilePhoto, setProfilePhoto] = useState(userData.ProfilePhoto);
 
   const updateNewUser = () => {
-    // TODO: Backend degisince buraya bak
-    console.log(name, surname, email, age, about, bio, profilePhoto);
+    const newData = {
+      ...userData,
+      Name: name,
+      Surname: surname,
+      Email: email,
+      About: about,
+      Bio: bio,
+      ProfilePhoto: profilePhoto,
+      Interests: interests,
+      Location: location,
+      Username: username,
+    };
+    const jsonData = JSON.stringify(newData);
+    var config = {
+      method: "post",
+      url: "https://wlobby-backend.herokuapp.com/update/user/",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: jsonData,
+    };
+
+    axios(config)
+      .then(function (response) {
+        // console.log(JSON.stringify(response.data));
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
   const renderDropdown = (item) => {
     return (
@@ -101,6 +127,14 @@ const ProfileSettingsScreen = ({ route: { params } }) => {
         style={styles.input}
         onChangeText={(text) => {
           setSurname(text);
+        }}
+      />
+      <TextInput
+        label="UserName"
+        value={username}
+        style={styles.input}
+        onChangeText={(text) => {
+          setUsername(text);
         }}
       />
       <TextInput
