@@ -20,7 +20,8 @@ import { AvatarGenerator } from "random-avatar-generator";
 import { SvgUri } from "react-native-svg";
 import { Ionicons } from "@expo/vector-icons";
 import AntDesign from "react-native-vector-icons/AntDesign";
-
+const TEMP_IMAGE =
+  "https://avataaars.io/?accessoriesType=Prescription02&avatarStyle=Circle&clotheColor=Red&clotheType=Hoodie&eyeType=Squint&eyebrowType=FlatNatural&facialHairColor=BlondeGolden&facialHairType=MoustacheFancy&hairColor=BlondeGolden&hatColor=PastelYellow&mouthType=Serious&skinColor=DarkBrown&topType=LongHairStraight";
 const ProfileScreen = ({ route: { params } }) => {
   // console.log(params);
 
@@ -40,10 +41,6 @@ const ProfileScreen = ({ route: { params } }) => {
   };
 
   const { signout } = useContext(AuthContext);
-  // console.log("userID", userID);
-  // console.log("userData", userData);
-  const DELETETHAT = generator.generateRandomAvatar();
-  // console.log("generator", generator.generateRandomAvatar());
   return (
     <SafeAreaView
       // forceInset={{ top: "always" }}
@@ -69,7 +66,20 @@ const ProfileScreen = ({ route: { params } }) => {
               alignItems: "center",
             }}
           >
-            <SvgUri width="150" height="150" uri={userData.ProfilePhoto} />
+            <SvgUri
+              width="150"
+              height="150"
+              uri={
+                userData.ProfilePhoto
+                  ? userData.ProfilePhoto.charAt(0) == "h"
+                    ? userData.ProfilePhoto
+                    : TEMP_IMAGE
+                  : TEMP_IMAGE
+              }
+              style={{
+                alignSelf: "center",
+              }}
+            />
 
             {/* <Image style={styles.userImg} source={{ uri: "https://i0.wp.com/shiftdelete.net/wp-content/uploads/2022/03/recep-ivedik-7-ilk-video.jpg?fit=1280%2C720&ssl=1" }} /> */}
           </View>

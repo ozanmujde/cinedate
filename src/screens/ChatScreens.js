@@ -170,12 +170,16 @@ const ChatScreens = ({ navigation }) => {
             <Pressable
               onPress={() => {
                 // console.log(item.id);
-                navigation.navigate("ChatScreen", {
+                const myID = 7;
+                const tmp = item.split("c");
+                let otherID = tmp[0] == myID ? tmp[1] : tmp[0];
+                navigation.navigate("ChatScreen", {//TODO: AUth gelince degistir
                   channelId: item,
+                  otherID: otherID,
                 });
               }}
             >
-              <ChatPreview userId={item} />
+              <ChatPreview channelId={item}  />
               <Divider inset={true} insetType="left" />
             </Pressable>
           )}
