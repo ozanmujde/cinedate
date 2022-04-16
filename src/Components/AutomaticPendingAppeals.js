@@ -145,11 +145,15 @@ const AutomaticPendingAppeals = ({advert, navigation, movieID, pendingStatus, is
     return (
         <View style={{flexDirection: 'row'}}>
           {
-            isMyAdvert === 0 || isMyAdvert === 1 ?
+            isMyAdvert === 0 ?
                 <TouchableOpacity>
                   <IconButton icon="delete" style={{backgroundColor: 'red'}}
                               onPress={() => deleteAdvert()}/>
-                </TouchableOpacity> : null
+                </TouchableOpacity> : isMyAdvert === 1 ?
+                    <TouchableOpacity>
+                      <IconButton icon="delete" style={{backgroundColor: 'red'}}
+                                  onPress={() => rejectUser(userId,username)}/>
+                    </TouchableOpacity> : null
           }
           {
             isMyAdvert === 2 ? <>
@@ -216,6 +220,10 @@ const AutomaticPendingAppeals = ({advert, navigation, movieID, pendingStatus, is
     );
   }
 
+  function function2(userID) {
+    navigation.navigate("Profile", { userID });
+  }
+
   return (
       <>
         {
@@ -224,7 +232,7 @@ const AutomaticPendingAppeals = ({advert, navigation, movieID, pendingStatus, is
                   ? Object.entries(pendingUsers).map(([userId, username]) => {
                     return(
                         <View>
-                          <TouchableOpacity onPress={() => function1()}>
+                          <TouchableOpacity onPress={() => function2(userId)}>
                             <Card.Title style={{borderWidth: .5, borderColor: "black"}}
                                         title={username}
                                         subtitle={isLoading ? "Loading..." : movieInfo.original_title}
@@ -235,10 +243,20 @@ const AutomaticPendingAppeals = ({advert, navigation, movieID, pendingStatus, is
                         </View>
                         );
                   })
-                  : <TouchableOpacity onPress={() => function1()}>
+                  : isMyAdvert === 0 ?
+                      <TouchableOpacity onPress={() => function1()}>
+                        <Card.Title style={{borderWidth: .5, borderColor: "black"}}
+                                    title={isLoading ? "Loading..." : movieInfo.original_title}
+                                    subtitle={"monica"}
+                                    left={(props) => handleLeft(props)}
+                                    right={(props) => renderLeftActions(props)}
+                        />
+                      </TouchableOpacity>
+                  :
+                      <TouchableOpacity onPress={() => function1()}>
                     <Card.Title style={{borderWidth: .5, borderColor: "black"}}
                                 title={isLoading ? "Loading..." : movieInfo.original_title}
-                                subtitle={"omer"}
+                                subtitle={advert.OwnerID}
                                 left={(props) => handleLeft(props)}
                                 right={(props) => renderLeftActions(props)}
                     />

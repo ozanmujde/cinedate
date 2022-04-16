@@ -44,7 +44,6 @@ function InboxScreen() {
           />
       );
     } else if (isMyAdvert === 1 && Object.keys(item.AttendeeIDs).includes("7")) {
-      console.log("truexd")
       return (
           <AutomaticPendingAppeals
               advert={item}

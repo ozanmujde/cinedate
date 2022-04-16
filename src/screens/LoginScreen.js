@@ -11,6 +11,7 @@ import React, { useContext, useState } from "react";
 import LoginScreen from "react-native-login-screen";
 import { Context as AuthContext } from "../context/AuthContext";
 import { Card } from "react-native-paper";
+import {SocialIcon} from "react-native-elements";
 
 const Login = ({ navigation }) => {
   const { signin } = useContext(AuthContext);
@@ -26,6 +27,7 @@ const Login = ({ navigation }) => {
         logoImageSource={require("../../assets/Wlobby-logos_transparent.png")}
         logoImageStyle={{ width: 300, height: 300, marginBottom: -80 }}
         loginButtonStyle={{ backgroundColor: "#6200ed" }}
+        disableSocialButtons={true}
         onLoginPress={() => {
           signin({ email, password });
         }}
@@ -34,8 +36,33 @@ const Login = ({ navigation }) => {
         }}
         haveAccountText={"Don't have an accont? Sign Up."}
       />
+      <SocialIcon
+          style={{marginTop: -10}}
+          title='Sign In With Google'
+          button
+          type='google'
+      />
+      <SocialIcon
+          title='Sign In With AppleID'
+          style={{backgroundColor: 'gray'}}
+          button
+          type='apple'
+      />
+      <SocialIcon
+          title='Sign In With Github'
+          style={{backgroundColor: 'black'}}
+          button
+          type='github'
+      />
+      <SocialIcon
+          title='Sign In With Facebook'
+          button
+          type='facebook'
+      />
     </ScrollView>
-  );
+
+
+);
 };
 
 export default Login;
