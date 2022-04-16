@@ -8,20 +8,20 @@ const ProfileScreen = (props) => {
   return (
     <SafeAreaView forceInset={{ top: "always" }}>
       <View style={styles.container}>
-        <Avatar
+        {/* <Avatar
           rounded
           size={60}
           title={Users[id].name}
           source={{
             uri: Users[id].imageUri,
           }}
-        />
+        /> */}
         {/* <View style={styles.badgeContainer}>
           <Text style={styles.badgeText}>4</Text>
         </View> */}
         <View style={styles.rightContainer}>
           <View style={styles.row}>
-            <Text style={styles.userName}>{Users[id].name}</Text>
+            {/* <Text style={styles.userName}>{Users[id].name}</Text> */}
             <Text style={styles.text}> 11:11</Text>
           </View>
           <Text style={styles.text} numberOfLines={1}>

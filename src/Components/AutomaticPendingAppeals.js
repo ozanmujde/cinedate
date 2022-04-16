@@ -1,11 +1,11 @@
-import {TouchableOpacity, View} from "react-native";
+import {TouchableOpacity, View,LogBox} from "react-native";
 import React, {useEffect} from "react";
 import useResults from "../hooks/useResults";
 import {Avatar, Card, IconButton} from "react-native-paper";
 import tmdb from "../api/tmdb";
 import axios from "axios";
-
 let result;
+LogBox.ignoreAllLogs()
 const AutomaticPendingAppeals = ({advert, navigation, movieID, pendingStatus, isMyAdvert, pendingUsers}) => {
   const [
     searchMovieApi,

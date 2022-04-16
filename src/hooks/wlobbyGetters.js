@@ -4,7 +4,7 @@ import wlobby from "../api/wlobby";
 export function getUsers() {
   const [userData, setUserData] = useState({});
   const [errorMessage, setErrorMessage] = useState("");
-
+  const [usersData, setUsersData] = useState([]);
   const getUserData = async (userID) => {
     try {
       const response = await wlobby.get("/get/user/", {
@@ -18,7 +18,16 @@ export function getUsers() {
       setErrorMessage("Something went wrong");
     }
   };
-  return [getUserData, userData, errorMessage];
+  const getUsersData = async () => {
+    try {
+      const response = await wlobby.get("/get/users/");
+      setUsersData(response.data.Items);
+      setErrorMessage("");
+    } catch (err) {
+      setErrorMessage("Something went wrong");
+    }
+  };
+  return [getUserData, userData, getUsersData, usersData, errorMessage];
 }
 
 export function getAdverts() {
@@ -49,6 +58,7 @@ export function getAdvertWithFilmID() {
           FilmID: filmID,
         },
       });
+      console.log(filmID);
       setAdvert(response.data.Items);
       setLoading(false);
       setErrorMessage("");

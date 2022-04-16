@@ -8,7 +8,7 @@ import Users from "../../../assets/Users";
 
 const ChatComponent = (props) => {
   const pubnub = usePubNub();
-  const str = props.userId + "Ozan";
+  const str = props.channelId;
   // console.log(props);
   const [messages, setMessages] = useState([]);
   const [channels] = useState([str]);
@@ -47,14 +47,14 @@ const ChatComponent = (props) => {
   useEffect(() => {
     pubnub.addListener(listener);
     pubnub.subscribe({ channels: [channels[0]], withPresence: true });
-    pubnub.objects.setChannelMembers({
-      channels: [str],
-      uuids: ["Ozan"],
-    });
-    pubnub.objects.setMemberships({
-      channels: [str],
-      uuids: ["Ozan"],
-    });
+    // pubnub.objects.setChannelMembers({
+    //   channels: [str],
+    //   uuids: ["Ozan"],
+    // });
+    // pubnub.objects.setMemberships({
+    //   channels: [str],
+    //   uuids: ["Ozan"],
+    // });
     return () => {
       pubnub.removeListener(listener);
       pubnub.unsubscribeAll();
@@ -82,7 +82,7 @@ const ChatComponent = (props) => {
       .publish({
         message: message[0],
         channel: channels[0],
-        sendBy: props.userId,
+        sendBy: 7, //TODO AUTH gelince burasi degisecek
       })
       .then(() => setMessage(""));
   }, []);

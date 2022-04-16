@@ -16,17 +16,17 @@ import PubNub from "pubnub";
 
 const ChatScreen = (props) => {
   const navigation = props.navigation;
-  const userID = props.route.params.userId;
+  const channelId = props.route.params.channelId;
 
-  useEffect(() => {
-    navigation.setOptions({
-      headerTitle: () => <ChatHeader userId={userID} />,
-    });
-  }, [userID]);
+  // useEffect(() => {
+  //   navigation.setOptions({
+  //     headerTitle: () => <ChatHeader userId={userID} />,
+  //   });
+  // }, [userID]);
 
   return (
     // <PubNubProvider client={pubnub}>
-      <ChatComponent userId={props.route.params.userId} />
+    <ChatComponent channelId={channelId} />
     // </PubNubProvider>
   );
 };

@@ -50,6 +50,7 @@ const AdvertListScreen = ({ route: { params } }) => {
     getMovieDetails(movieId);
     getAdvertsWithFilmID(movieId);
   }, [movieId]);
+  console.log(advert);
   return (
     <SafeAreaView style={styles.container}>
       <Backdrop path={movieInfo.backdrop_path} />
