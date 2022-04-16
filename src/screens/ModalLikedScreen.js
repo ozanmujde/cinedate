@@ -11,9 +11,9 @@ const { width, height } = Dimensions.get("window");
 
 const ModalLikedScreen = ({ route: { params } }) => {
   const navigation = useNavigation();
-  const films = params.films;
-  const setFilms = params.setFilms;
+  const filmList = params.filmList;
   const isWatched = params.isWatched;
+  const userData = params.userData;
   const [searchTerm, setSearchTerm] = useState("");
   const [searchMovieApi, errorMessage, results] = useResults();
   return (
@@ -25,9 +25,9 @@ const ModalLikedScreen = ({ route: { params } }) => {
       />
       <SearchList
         results={results}
-        films={films}
-        setFilms={setFilms}
+        filmList={filmList}
         isWatched={isWatched}
+        userData={userData}
       />
     </>
   );

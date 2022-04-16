@@ -12,18 +12,52 @@ import { SafeAreaView } from "react-navigation";
 
 import { useNavigation } from "@react-navigation/native";
 import ResultsDetail from "./ResultsDetail";
+import axios from "axios";
 import { Divider } from "react-native-elements";
 import AdvertListScreen from "../screens/AdvertListScreen";
 
 const ITEM_SIZE = 100 + 20 * 3;
 
-const SearchList = ({ results, films, setFilms, isWatched }) => {
+const SearchList = ({ results, filmList, isWatched, userData }) => {
   if (!results.length) {
     // there is no result dont show anything
     return null;
   }
   const navigation = useNavigation();
   const scrollY = useRef(new Animated.Value(0)).current;
+  const updateNewUser = (item) => {
+    let newData = userData;
+    if (isWatched) {
+      newData = {
+        ...userData,
+        WatchedFilms: [...userData.WatchedFilms, item.id],
+      };
+    } else {
+      newData = {
+        ...userData,
+        LikedFilms: [...userData.LikedFilms, item.id],
+      };
+    }
+
+    const jsonData = JSON.stringify(newData);
+    var config = {
+      method: "post",
+      url: "https://wlobby-backend.herokuapp.com/update/user/",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: jsonData,
+    };
+    console.log(jsonData);
+    axios(config)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <Animated.FlatList
@@ -67,12 +101,18 @@ const SearchList = ({ results, films, setFilms, isWatched }) => {
 
           return (
             <TouchableOpacity
-              onPress={() => { //TODO: user update gelince degistir
+              onPress={() => {
+                //TODO: user update gelince degistir
                 // console.log(item);
-                if (films.includes(item.id)) {
-                  alert("You already liked this movie");
+                if (filmList.includes(item.id)) {
+                  if (isWatched) {
+                    alert("You already watched this movie");
+                  } else {
+                    alert("You already liked this movie");
+                  }
                 } else {
-                  setFilms((oldArray) => [...oldArray, item.id]);
+                  updateNewUser(item);
+                  // setFilms([...userData.WatchedFilms, item.id]);
                   navigation.goBack();
                 }
               }}

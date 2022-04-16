@@ -12,9 +12,8 @@ import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import AntDesign from "react-native-vector-icons/AntDesign";
 
-const FilmList = ({ filmList, button, isWatched }) => {
+const FilmList = ({ filmList, button, isWatched, userData }) => {
   const navigation = useNavigation();
-  const [films, setFilms] = useState(filmList);
   return (
     <View
       style={{
@@ -27,7 +26,7 @@ const FilmList = ({ filmList, button, isWatched }) => {
       <FlatList
         showsHorizontalScrollIndicator={false}
         horizontal={true}
-        data={films}
+        data={filmList}
         keyExtractor={(item) => item}
         renderItem={({ item }) => {
           return (
@@ -42,9 +41,9 @@ const FilmList = ({ filmList, button, isWatched }) => {
                   onLongPress={() => {
                     navigation.navigate("ModalRemoveFilmScreen", {
                       movieId: item,
-                      films,
-                      setFilms,
+                      filmList,
                       isWatched,
+                      userData,
                     });
                   }}
                 >
@@ -71,9 +70,9 @@ const FilmList = ({ filmList, button, isWatched }) => {
           <TouchableOpacity
             onPress={() => {
               navigation.navigate("ModalLikedScreen", {
-                films,
-                setFilms,
+                filmList,
                 isWatched,
+                userData,
               });
             }}
           >

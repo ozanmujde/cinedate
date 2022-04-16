@@ -31,7 +31,7 @@ const ProfileScreen = ({ route: { params } }) => {
   const [refreshing, setRefreshing] = useState(false);
   useEffect(() => {
     getUserData(userID);
-  }, [userID,userData]);
+  }, [userID, userData]);
 
   const onRefresh = (userID) => {
     setRefreshing(true);
@@ -108,9 +108,19 @@ const ProfileScreen = ({ route: { params } }) => {
           <Divider orientation="horizontal" />
           {/* <Text>{userData.UserID}</Text> */}
           <Text style={styles.SubTitle}>Liked</Text>
-          <FilmList filmList={userData.LikedFilms} button={true} isWatched={false}/>
+          <FilmList
+            filmList={userData.LikedFilms}
+            button={true}
+            isWatched={false}
+            userData={userData}
+          />
           <Text style={styles.SubTitle}>Watched</Text>
-          <FilmList filmList={userData.WatchedFilms} button={true} isWatched={true}/>
+          <FilmList
+            filmList={userData.WatchedFilms}
+            button={true}
+            isWatched={true}
+            userData={userData}
+          />
           <Text style={styles.SubTitle}>Adverts</Text>
           <AutomaticFilmList advertList={userData.AdvertIDs} />
           <Text></Text>
