@@ -33,6 +33,7 @@
     "expo-linear-gradient": "^11.0.3",
     "expo-status-bar": "~1.2.0",
     "hermes-engine": "^0.5.2-rc1",
+    "intl": "^1.2.5",
     "make-plural": "^7.1.0",
     "moti": "^0.17.1",
     "pubnub": "^4.37.0",

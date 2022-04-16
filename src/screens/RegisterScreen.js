@@ -4,7 +4,8 @@ import User from "../classes/User";
 import {countries} from "../countries";
 import {Dropdown} from 'react-native-element-dropdown';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import getRandomAvatar from "../classes/avatars";
+import "intl";
+import 'intl/locale-data/jsonp/en';
 import {
     Avatar,
     Button,

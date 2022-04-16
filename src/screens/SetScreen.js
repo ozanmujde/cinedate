@@ -6,6 +6,8 @@ import {DatePickerInput, enGB, registerTranslation, TimePickerModal} from 'react
 import Autocomplete from "../Components/Autocomplete";
 import useResults from "../hooks/useResults";
 import axios from "axios";
+import "intl";
+import 'intl/locale-data/jsonp/en';
 
 registerTranslation('en-GB', enGB);
 
@@ -168,30 +170,30 @@ const SetScreen = ({ route: { params } }) => {
                          maxLength={100}
                          right={<TextInput.Affix text={"/" + (100 - comment.length)}/>}
               />
-              {/*<DatePickerInput*/}
-              {/*    style={styles.textInput}*/}
-              {/*    locale="en"*/}
-              {/*    label="Date Of Film Session"*/}
-              {/*    value={date}*/}
-              {/*    onChange={(d) => setDate(d)}*/}
-              {/*    inputMode="start"*/}
-              {/*    validRange={{*/}
-              {/*      startDate: new Date(),*/}
-              {/*    }}*/}
-              {/*    saveLabel="Save"*/}
-              {/*    animationType="slide"*/}
-              {/*/>*/}
-              {/*<TimePickerModal*/}
-              {/*    visible={visible}*/}
-              {/*    onDismiss={onDismiss}*/}
-              {/*    onConfirm={onConfirm}*/}
-              {/*    label="Select time"*/}
-              {/*    uppercase={false}*/}
-              {/*    cancelLabel="Cancel"*/}
-              {/*    confirmLabel="Ok"*/}
-              {/*    animationType="fade"*/}
-              {/*    backgroundColor="white"*/}
-              {/*/>*/}
+              <DatePickerInput
+                 style={styles.textInput}
+                  locale="en"
+                  label="Date Of Film Session"
+                  value={date}
+                  onChange={(d) => setDate(d)}
+                  inputMode="start"
+                  validRange={{
+                    startDate: new Date(),
+                  }}
+                  saveLabel="Save"
+                  animationType="slide"
+              />
+              <TimePickerModal
+                  visible={visible}
+                  onDismiss={onDismiss}
+                  onConfirm={onConfirm}
+                  label="Select time"
+                  uppercase={false}
+                  cancelLabel="Cancel"
+                  confirmLabel="Ok"
+                  animationType="fade"
+                  backgroundColor="white"
+              />
               <Button style={{marginTop: -15}} onPress={() => setVisible(true)}>
                 Pick time
               </Button>
