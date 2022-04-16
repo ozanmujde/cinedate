@@ -14,6 +14,12 @@ const ChatPreview = (props) => {
   const tmp = channelId.split("c");
   // console.log(generator.generateRandomAvatar());
   let otherID = tmp[0] == myID ? tmp[1] : tmp[0];
+  if (userData.LastLogIn) {
+    const toStr = userData.LastLogIn.toString();
+    const date = new Date(toStr);
+    const dateString = date.toLocaleString("en-GB");
+    console.log(dateString);
+  }
   useEffect(() => {
     getUserData(otherID);
   }, [channelId, userData]);
@@ -42,7 +48,11 @@ const ChatPreview = (props) => {
             <Text style={styles.userName}>
               {userData.Name} {userData.Surname}{" "}
             </Text>
-            <Text style={styles.text}> {userData.LastLogIn}</Text>
+            <Text style={styles.text}>
+              {userData.LastLogIn
+                ? Date(userData.LastLogIn.toString()).toLocaleString("en-GB")
+                : " "}
+            </Text>
           </View>
           <Text style={styles.text} numberOfLines={1}>
             {userData.About}

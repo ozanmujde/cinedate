@@ -31,7 +31,7 @@ const FilmList = ({ filmList, button, isWatched, userData }) => {
         renderItem={({ item }) => {
           return (
             <>
-              {button ? (
+              {button && userData.UserID === 7 ? (
                 <TouchableOpacity
                   onPress={() => {
                     navigation.navigate("AdvertListScreen", {
@@ -65,7 +65,7 @@ const FilmList = ({ filmList, button, isWatched, userData }) => {
         }}
       />
 
-      {button ? (
+      {button && userData.UserID === 7 ? (
         <View style={{ flexGrow: 100 }}>
           <TouchableOpacity
             onPress={() => {
