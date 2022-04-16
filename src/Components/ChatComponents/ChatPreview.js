@@ -44,7 +44,7 @@ const ChatPreview = (props) => {
       dt = "Yesterday";
       return dt;
     }
-    return dt + " " + time;
+    return dt;
   }
 
   return (
