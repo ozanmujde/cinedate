@@ -42,7 +42,6 @@ const ChatScreens = ({ navigation }) => {
           }
         });
       });
-      console.log("uniqueUsers", uniqueUsers);
     } catch (error) {
       console.log(error);
     }

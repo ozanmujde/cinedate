@@ -1,4 +1,4 @@
-import {Alert, Image, ScrollView, StyleSheet, View} from 'react-native';
+import {Alert, Image, LogBox, ScrollView, StyleSheet, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {NavigationActions as navigation, SafeAreaView} from "react-navigation";
 import {Button, Card, Headline, HelperText, Menu, Switch, TextInput} from 'react-native-paper';
@@ -8,14 +8,12 @@ import axios from "axios";
 import "intl";
 import 'intl/locale-data/jsonp/en';
 import {Time} from "react-native-gifted-chat";
+import {useNavigation} from "@react-navigation/native";
 
 registerTranslation('en-GB', enGB);
 
 const UpdateAdvertScreen = ({ route: { params } }) => {
-
-  console.log(params.date);
-  let x = params.date;
-  console.log(x)
+  LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
   const [filmName, setFilmName] = React.useState(params.movieName);
   const [quota, setQuota] = React.useState(params.advert.Quota.toString());
 
@@ -31,8 +29,12 @@ const UpdateAdvertScreen = ({ route: { params } }) => {
 
   const hideDialog = () => setVisible(false);
 
-  const [date, setDate] = React.useState();
-  const [time, setTime] = React.useState();
+  const [date, setDate] = React.useState(params.date);
+  const [time, setTime] = React.useState(params.time);
+
+  const handleChangeDate = (date) => {
+    setDate(date.toLocaleDateString());
+  };
 
   const onDismiss = React.useCallback(() => {
     setVisible(false)
@@ -58,6 +60,7 @@ const UpdateAdvertScreen = ({ route: { params } }) => {
   const [isPressedSuggestion, setIsPressedSuggestion] = useState(false);
   const [uri, setUri] = useState(null);
   const [filmID, setFilmID] = useState(null);
+  const navigation = useNavigation();
 
   const filterData = (text) => {
     filmNames = results.map(result => result.original_title);
@@ -77,7 +80,7 @@ const UpdateAdvertScreen = ({ route: { params } }) => {
     }
   }
 
-  const [attendeePreferences, setAttendeePreferences] = useState("all");
+  const [attendeePreferences, setAttendeePreferences] = useState(params.advert.AttendeePreference);
   function handleSubmit() {
     if(menSwitch && womenSwitch) {
       setAttendeePreferences("all");
@@ -89,35 +92,52 @@ const UpdateAdvertScreen = ({ route: { params } }) => {
       setAttendeePreferences("male");
     }
     searchMovieApi(filmName);
-    console.log(results[0].id);
-    setFilmID(results[0].id);
-    console.log(filmID);
-    console.log(date.toLocaleDateString(),time.toString(), attendeePreferences,comment,filmName,quota, filmID);
 
-    // const newData= {
-    //   ...params.advert,
-    //   Date : params.advert.Date,
-    //   AttendeePreference : attendeePreferences,
-    //   Description : comment,
-    //   Quota : quota,
-    // };
-    //
-    // const jsonData = JSON.stringify(newData);
-    //
-    // var config = {
-    //   method: 'get',
-    //   url: 'https://wlobby-backend.herokuapp.com/update/advert/',
-    //   headers: { },
-    //   data: jsonData,
-    // };
-    //
-    // axios(config)
-    //     .then(function (response) {
-    //       console.log(JSON.stringify(response.data));
-    //     })
-    //     .catch(function (error) {
-    //       console.log(error);
-    //     });
+    Alert.alert(
+        "Advert Will Be Updated",
+        "Are you sure you want to update this advert?",
+        [
+          {
+            text: "Yes",
+            onPress: () => {
+              const newData= {
+                ...params.advert,
+                Date : date.toLocaleDateString() + " " + time.toString(),
+                AttendeePreference : attendeePreferences,
+                Description : comment,
+                Quota : quota.toString(),
+                OwnerID: params.advert.OwnerID.toString(),
+                FilmID: params.advert.FilmID.toString(),
+                AdvertID: params.advert.AdvertID.toString(),
+              };
+
+              const jsonData = JSON.stringify(newData);
+
+              console.log("JsonData", jsonData);
+              var config = {
+                method: 'put',
+                url: 'https://wlobby-backend.herokuapp.com/update/advert/',
+                headers: {},
+                data: jsonData,
+              };
+
+              axios(config)
+                  .then(function (response) {
+                    console.log(JSON.stringify(response.data));
+                    navigation.navigate("Home");
+                  })
+                  .catch(function (error) {
+                    console.log(error);
+                  });
+            },
+          },
+          {
+            text: "No",
+          },
+        ]
+    );
+
+
 
     // axios.post('https://wlobby-backend.herokuapp.com/create/advert/',{
     //   'Date': (date.toLocaleDateString() + " " + time.toString()).toString(),
@@ -146,7 +166,7 @@ const UpdateAdvertScreen = ({ route: { params } }) => {
             text: "Yes",
             onPress: () => {
               axios.post('https://wlobby-backend.herokuapp.com/delete/advert/?AdvertID=' + params.advert.AdvertID).then((response) => {
-                console.log(response.data);
+                console.log("response data", response.data);
                 if(response.data.Status === "Success") {
                   alert("Advert deleted successfully");
                   navigation.navigate("Home");
@@ -238,7 +258,7 @@ const UpdateAdvertScreen = ({ route: { params } }) => {
                   locale="en"
                   label="Date Of Film Session"
                   value={date}
-                  onChange={(d) => setDate(d)}
+                  onChange={(d) => handleChangeDate(d)}
                   inputMode="start"
                   validRange={{
                     startDate: new Date(),

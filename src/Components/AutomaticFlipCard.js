@@ -20,10 +20,12 @@ const AutomaticFlipCard = ({ advert, navigation, movieID, isDetailScreen, isMyAd
     isDetailScreen = false;
   }
 
-  let dateString = advert.Date;
-  let date = advert.Date.split(" ")[0].split("-").join("/");
-  date = new Date(date).toLocaleDateString("en-GB");
-  let time = advert.Date.split(" ")[1].split(":")[0] + ":" + advert.Date.split(" ")[1].split(":")[1];
+  let date = advert.Date.split(" ")[0];
+  console.log(date);
+  var pattern = /(\d{2})\.(\d{2})\.(\d{4})/;
+  date = new Date(date.replace(pattern,'$3-$2-$1'));
+
+  let time = advert.Date.split(" ")[1];
   time = new Time(time).props;
 
   useEffect(() => {
