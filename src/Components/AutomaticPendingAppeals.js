@@ -27,14 +27,14 @@ const AutomaticPendingAppeals = ({advert, navigation, movieID}) => {
       "https://image.tmdb.org/t/p/w185_and_h278_bestv2/" + movieInfo.poster_path;
 
   return (
-    <PendingAppealsComponent
-        filmName={isLoading ? "Loading..." : movieInfo.original_title}
-        ownerName={"omer"}
-        navigation={navigation}
-        pendingStatus={"Pending"}
-        movieID={movieID}
-        advert={advert}
-    />
+      <PendingAppealsComponent
+          filmName={isLoading ? "Loading..." : movieInfo.original_title}
+          ownerName={"omer"}
+          navigation={navigation}
+          pendingStatus={"Pending"}
+          movieID={movieID}
+          advert={advert}
+      />
   );
 }
 
