@@ -27,7 +27,7 @@ const AdminUsers = ({ route: { params } }) => {
   const [numberOfItemsPerPage, onItemsPerPageChange] = React.useState(numberOfItemsPerPageList[0]);
   const from = page * numberOfItemsPerPage;
   const to = Math.min((page + 1) * numberOfItemsPerPage, items.length);
-
+  const navigation = useNavigation();
   React.useEffect(() => {
     setPage(0);
   }, [numberOfItemsPerPage]);
@@ -49,7 +49,7 @@ const AdminUsers = ({ route: { params } }) => {
           {
             params.users.slice(page * numberOfItemsPerPage,
             page * numberOfItemsPerPage + numberOfItemsPerPage).map(user => (
-                <DataTable.Row onPress={() => console.log("pressed")}>
+                <DataTable.Row onPress={() => navigation.navigate("ModalRowOptions", {user})}>
                   <DataTable.Cell>{user.Username}</DataTable.Cell>
                   <DataTable.Cell>{user.Email}</DataTable.Cell>
                   <DataTable.Cell>{user.Age}</DataTable.Cell>
