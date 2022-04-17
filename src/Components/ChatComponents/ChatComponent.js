@@ -118,6 +118,9 @@ const ChatComponent = (props) => {
         style={{
           backgroundColor: "white",
         }}
+        renderAvatar={(props) => {
+          return null;
+        }}
         renderSend={renderSend}
       />
     </View>
