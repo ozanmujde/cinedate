@@ -1,9 +1,15 @@
 import {Image, SafeAreaView, ScrollView, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+
+
+
+import React, {useContext} from 'react';
 import User from "../classes/User";
 import {countries} from "../countries";
 import {Dropdown} from 'react-native-element-dropdown';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import { Context as AuthContext } from "../context/AuthContext";
+import { getUsers } from "../hooks/wlobbyGetters";
+
 import "intl";
 import 'intl/locale-data/jsonp/en';
 import {
@@ -26,6 +32,9 @@ import { AvatarGenerator } from "random-avatar-generator";
 import { SvgUri } from "react-native-svg";
 
 const RegisterScreen = () => {
+
+    const [username,setUserName] = React.useState("");
+    const { signUp ,state  } = useContext(AuthContext);
     const [email, setEmail] = React.useState("");
     const [name, setName] = React.useState("");
     const [password, setPassword] = React.useState("");
@@ -84,21 +93,50 @@ const RegisterScreen = () => {
     const navigation = useNavigation();
 
     function handleSubmit() {
+        setUserName((name.toLowerCase() + surname.toLowerCase() + Math.floor(Math.random() * 100)).toString());
         if(email !== "" && name !== "" && surname !== "" && location !== "" && sex !== "" && randomAvatar !== "") {
-            console.log(randomAvatar,sex,email,bio,name,surname,age,name.toLowerCase() + surname.toLowerCase() + Math.floor(Math.random() * 100))
-            axios.post('https://wlobby-backend.herokuapp.com/create/user/',{
-                'ProfilePhoto': randomAvatar,
-                'Sex' : sex.toString(),
-                'Email': email.toString(),
-                'About': bio.toString(),
-                'Name': name.toString(),
-                'Surname': surname.toString(),
-                'Age': age,
-                'Username': (name.toLowerCase() + surname.toLowerCase() + Math.floor(Math.random() * 100)).toString()
-            }).then((response) => {
-                alert("You have successfully registered!");
-                navigation.navigate('SendVerificationScreen');
+            var flag = true; //true means email has not registered yet
+            // console.log(randomAvatar,sex,email,bio,name,surname,age,name.toLowerCase() + surname.toLowerCase() + Math.floor(Math.random() * 100));
+
+            axios.post('https://wlobby-backend.herokuapp.com/get/users/').then((response) => {
+                //console.log("bbbb",response);
+                for (var i = 0; i <response.data.Items.length; i++) {
+                    var user = response.data.Items[i];
+                    var emailDataBase=user.Email;
+                    if (emailDataBase===email){
+                        flag=false;
+                    }
+
+
+                }
+               signUp({email:email.toString(), password:password.toString(),username:username.toString()});
+
+                if (flag&&state.isSignUp===true){
+                    axios.post('https://wlobby-backend.herokuapp.com/create/user/',{
+                        'ProfilePhoto': randomAvatar,
+                        'Sex' : sex.toString(),
+                        'Email': email.toString(),
+                        'About': bio.toString(),
+                        'Name': name.toString(),
+                        'Surname': surname.toString(),
+                        'Age': age,
+                        'Username': username.toString(),
+                    }).then((response) => {
+                        console.log("aaaa",response.data);
+                        alert("Please confirm your Email!");
+                        navigation.navigate("SendVerificationScreen");
+
+                    });
+                }
+                else{
+                    alert("Email registered already");
+                }
+
             });
+
+
+
+
         }
         else {
             alert("Please fill required areas!");
@@ -138,6 +176,10 @@ const RegisterScreen = () => {
         setAge(tempAge);
     }
 
+    function handleOnChangeEmail(email) {
+        setEmail(email)
+    }
+
     return (
         <SafeAreaView style={styles.mainContainer}>
             <ScrollView contentContainerStyle={{paddingBottom: '100%'}} showsVerticalScrollIndicator={false}>
@@ -150,7 +192,7 @@ const RegisterScreen = () => {
                             }}/>
                         <Button onPress={handleRandomizeButton}>GET RANDOM</Button>
                         <TextInput style={styles.textInput} label="Email" value={email}
-                                   onChangeText={email => setEmail(email)}/>
+                                   onChangeText={email => handleOnChangeEmail(email)}/>
                         <TextInput style={styles.textInput} label="Name" value={name}
                                    onChangeText={name => setName(name)}/>
                         <TextInput style={styles.textInput} label="Surname" value={surname}
