@@ -55,6 +55,10 @@ const ChatComponent = (props) => {
     //   channels: [str],
     //   uuids: ["Ozan"],
     // });
+    // pubnub.objects.removeMemberships({
+    //   channels: ["4c7", "7c7"],
+    //   uuids: ["Ozan"],
+    // });
     return () => {
       pubnub.removeListener(listener);
       pubnub.unsubscribeAll();
@@ -86,6 +90,7 @@ const ChatComponent = (props) => {
       })
       .then(() => setMessage(""));
   }, []);
+
   // useEffect(() => {
   //   setMessage([
   //     {
