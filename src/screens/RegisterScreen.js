@@ -5,7 +5,7 @@ import {countries} from "../countries";
 import {Dropdown} from 'react-native-element-dropdown';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { Context as AuthContext } from "../context/AuthContext";
-
+import { getUsers } from "../hooks/wlobbyGetters";
 import getRandomAvatar from "../classes/avatars";
 import {
     Avatar,
@@ -90,11 +90,21 @@ const RegisterScreen = () => {
     function handleSubmit() {
         setUserName((name.toLowerCase() + surname.toLowerCase() + Math.floor(Math.random() * 100)).toString());
         if(email !== "" && name !== "" && surname !== "" && location !== "" && sex !== "" && randomAvatar !== "") {
+
             console.log(randomAvatar,sex,email,bio,name,surname,age,name.toLowerCase() + surname.toLowerCase() + Math.floor(Math.random() * 100));
             signUp({email:email.toString(), password:password.toString(),username:username.toString()});
+            axios.post('https://wlobby-backend.herokuapp.com/get/users/').then((response) => {
+                //console.log("bbbb",response);
+                console.log(response.data.Items);
+                for (var k in response.data.Items) {
+                    var obj = JSON.parse(response.data.Items);
+                    console.log(response.data.Items);
+                }
+
+            });
+
 
             if (state.isSignUp===true){
-
                 axios.post('https://wlobby-backend.herokuapp.com/create/user/',{
                     'ProfilePhoto': randomAvatar,
                     'Sex' : sex.toString(),
@@ -107,7 +117,8 @@ const RegisterScreen = () => {
                 }).then((response) => {
                     console.log("aaaa",response.data);
                     alert("You have successfully registered!");
-                    navigation.navigate('Login');
+                    navigation.navigate("SendVerificationScreen");
+
                 });
             }
             else{
