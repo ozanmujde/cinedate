@@ -27,6 +27,8 @@ import SendVerificationScreen from "../screens/SendVerificationScreen";
 import PubNub from "pubnub";
 import { PubNubProvider, usePubNub } from "pubnub-react";
 import UpdateAdvertScreen from "../screens/UpdateAdvertScreen";
+import AdminPanel from "../screens/AdminPanel";
+import AdminUsers from "../screens/AdminUsers";
 
 const router = () => {
   const { state } = useContext(AuthContext);
@@ -57,6 +59,16 @@ const router = () => {
           <Stack.Screen
             name="SendVerificationScreen"
             component={SendVerificationScreen}
+          />
+          <Stack.Screen
+              name="AdminPanel"
+              component={AdminPanel}
+              options={{ headerShown: false }}
+          />
+          <Stack.Screen
+              name="AdminUsers"
+              component={AdminUsers}
+              options={{ headerShown: false }}
           />
         </Stack.Navigator>
       ) : (
