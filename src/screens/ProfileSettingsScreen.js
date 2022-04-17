@@ -1,30 +1,19 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  ScrollView,
-  KeyboardAvoidingView,
-  SafeAreaView,
-  FlatList,
-  Image,
-  TouchableOpacity,
-} from "react-native";
+import {FlatList, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View,} from "react-native";
 
-import React, { useState } from "react";
-import { Button, Chip, TextInput, Subheading } from "react-native-paper";
-import { Dropdown } from "react-native-element-dropdown";
-import { useNavigation } from "@react-navigation/native";
-import { Input } from "react-native-elements";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { SvgUri } from "react-native-svg";
-import { AvatarGenerator } from "random-avatar-generator";
-import { countries } from "../countries";
-import { Ionicons } from "@expo/vector-icons";
+import React, {useState} from "react";
+import {Button, Chip, Subheading, TextInput} from "react-native-paper";
+import {Dropdown} from "react-native-element-dropdown";
+import {useNavigation} from "@react-navigation/native";
+import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
+import {SvgUri} from "react-native-svg";
+import {AvatarGenerator} from "random-avatar-generator";
+import {countries} from "../countries";
+import {Ionicons} from "@expo/vector-icons";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import axios from "axios";
 
 //TODO: Authentication la beraber burasi degismeli
-const ProfileSettingsScreen = ({ route: { params } }) => {
+const ProfileSettingsScreen = ({route: {params}}) => {
   const userData = params.userData;
   const navigation = useNavigation();
   const [name, setName] = useState(userData.Name);
@@ -88,17 +77,19 @@ const ProfileSettingsScreen = ({ route: { params } }) => {
   };
   //   console.log("userData", userData);
   return (
-    <KeyboardAwareScrollView style={styles.container}>
-      {/* <Image
+      <SafeAreaView style={styles.mainContainer}>
+        <KeyboardAwareScrollView style={styles.container} showsVerticalScrollIndicator={false} contentContainerStyle={{paddingBottom: '50%'}}>
+          {/* <Image
         source={require("../../assets/Wlobby-logos_transparent.png")}
         style={{
           width: "100%",
           height: "20%",
         }}
       /> */}
-      <SvgUri
-        width="100"
-        height="100"
+          <Image source={require('../../assets/Wlobby-logos_transparent.png')} style={styles.logo}/>
+          <SvgUri
+              width="100"
+              height="100"
         uri={profilePhoto}
         style={{
           alignSelf: "center",
@@ -236,16 +227,18 @@ const ProfileSettingsScreen = ({ route: { params } }) => {
         </View>
       </View>
       <Button
-        style={{ marign: 20, padding: 20 }}
-        icon="account-check"
-        onPress={() => {
-          updateNewUser();
-          navigation.goBack();
-        }}
+          style={{marign: 20, padding: 20}}
+          icon="account-check"
+          onPress={() => {
+            updateNewUser();
+            navigation.goBack();
+          }}
       >
         Save
       </Button>
-    </KeyboardAwareScrollView>
+        </KeyboardAwareScrollView>
+
+      </SafeAreaView>
   );
 };
 
@@ -304,5 +297,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  logo: {
+    width: '100%',
+    height: '20%',
+  },
+  mainContainer: {
+    flex: 1,
+    alignItems: 'center',
+    backgroundColor: '#fff',
   },
 });
