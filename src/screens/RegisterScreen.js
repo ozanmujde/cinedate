@@ -30,6 +30,7 @@ import axios from "axios";
 import {useNavigation} from "@react-navigation/native";
 import { AvatarGenerator } from "random-avatar-generator";
 import { SvgUri } from "react-native-svg";
+import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 
 const RegisterScreen = () => {
 
@@ -182,7 +183,7 @@ const RegisterScreen = () => {
 
     return (
         <SafeAreaView style={styles.mainContainer}>
-            <ScrollView contentContainerStyle={{paddingBottom: '100%'}} showsVerticalScrollIndicator={false}>
+            <KeyboardAwareScrollView contentContainerStyle={{paddingBottom: '100%'}} showsVerticalScrollIndicator={false}>
                 <Image source={require('../../assets/Wlobby-logos_transparent.png')} style={styles.logo}/>
                 {/* <Card.Content> */}
                 <SafeAreaView>
@@ -317,7 +318,7 @@ const RegisterScreen = () => {
                     </Button>
                 </SafeAreaView>
                 {/* </Card.Content> */}
-            </ScrollView>
+            </KeyboardAwareScrollView>
         </SafeAreaView>
     );
 };

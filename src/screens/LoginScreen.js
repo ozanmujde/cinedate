@@ -51,41 +51,15 @@ const Login = ({ navigation }) => {
               navigation.navigate("Signup");
             }}
             haveAccountText={"Don't have an accont? Sign Up."}
+            disableSocialButtons={true}
         />
 
         <SocialIcon
-            style={{marginTop: -10}}
-            title='Sign In With Google'
+            title='Log in as Admin'
             button
             type='google'
             onPress={() => {
-              console.log('Pressed');
-            }}
-        />
-        <SocialIcon
-            title='Sign In With AppleID'
-            style={{backgroundColor: 'gray'}}
-            button
-            type='apple'
-            onPress={() => {
-              console.log('Pressed');
-            }}
-        />
-        <SocialIcon
-            title='Sign In With Github'
-            style={{backgroundColor: 'black'}}
-            button
-            type='github'
-            onPress={() => {
-              console.log('Pressed');
-            }}
-        />
-        <SocialIcon
-            title='Sign In With Facebook'
-            button
-            type='facebook'
-            onPress={() => {
-              console.log('Pressed');
+              navigation.navigate("AdminPanel");
             }}
         />
 

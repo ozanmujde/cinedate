@@ -319,7 +319,7 @@ const styles = StyleSheet.create({
   },
   backendContainer: {
     flex: 1,
-    width: "70%",
+    width: "80%",
     height: "100%",
     alignSelf: "center",
     marginTop: 10,

@@ -152,7 +152,7 @@ const AutomaticPendingAppeals = ({advert, navigation, movieID, pendingStatus, is
                 <TouchableOpacity>
                   <IconButton icon="delete" style={{backgroundColor: 'red'}}
                               onPress={() => deleteAdvert()}/>
-                </TouchableOpacity> : isMyAdvert === 1 ?
+                </TouchableOpacity> : isMyAdvert === 1 && pendingStatus !== "Approved" ?
                     <TouchableOpacity>
                       <IconButton icon="delete" style={{backgroundColor: 'red'}}
                                   onPress={() => rejectUser(userId,username)}/>
@@ -273,7 +273,7 @@ const AutomaticPendingAppeals = ({advert, navigation, movieID, pendingStatus, is
                               <TouchableOpacity onPress={() => function1()}>
                                 <Card.Title style={{borderWidth: .5, borderColor: "black"}}
                                             title={isLoading ? "Loading..." : movieInfo.original_title}
-                                            subtitle={"getSubTitle()"}
+                                            subtitle={getSubTitle()}
                                             left={(props) => handleLeft(props)}
                                             right={(props) => renderLeftActions(props)}
                                 />

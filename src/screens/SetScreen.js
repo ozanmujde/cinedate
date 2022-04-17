@@ -8,6 +8,7 @@ import axios from "axios";
 import "intl";
 import 'intl/locale-data/jsonp/en';
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import {useNavigation} from "@react-navigation/native";
 
 registerTranslation('en-GB', enGB);
 
@@ -17,6 +18,8 @@ const SetScreen = ({ route: { params } }) => {
 
   const onChangeFilmName = filmName => setFilmName(filmName);
   const onChangeQuota = quota => setQuota(quota);
+
+  const navigation = useNavigation();
 
   const hasErrors = () => {
     return quota.length >=2;
@@ -97,6 +100,7 @@ const SetScreen = ({ route: { params } }) => {
       console.log(response.data);
       if(response.data.Status === "Success") {
         alert("Advert created successfully");
+        navigation.navigate('Home');
       }
       else {
         alert("Advert creation failed");
