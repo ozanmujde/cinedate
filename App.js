@@ -7,6 +7,14 @@ import { createStackNavigator } from "react-navigation-stack";
 import Router from "./src/routers/Router";
 import { Provider as AuthProvider } from "./src/context/AuthContext";
 
+//bugra start
+import Amplify from "aws-amplify";
+import config from "./src/aws-exports";
+
+Amplify.configure(config);
+
+//bugra end
+
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 

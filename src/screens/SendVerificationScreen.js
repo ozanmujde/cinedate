@@ -1,27 +1,42 @@
 import {StyleSheet, Image, TouchableOpacity, View} from "react-native";
-import React, {useEffect} from "react";
+import React, {useContext, useEffect} from "react";
 import {SafeAreaView} from "moti";
-import {Button, Headline, TextInput, Title} from "react-native-paper";
+import {Button, TextInput} from "react-native-paper";
 import {useNavigation} from "@react-navigation/native";
+import { Context as AuthContext } from "../context/AuthContext";
 
 
 const SendVerificationScreen = () => {
   const [email, setEmail] = React.useState("");
+  const {confirmEmail} = useContext(AuthContext);
+  const {state} = useContext(AuthContext);
   const [verificationCode, setVerificationCode] = React.useState("");
-
-  function confirmEmail() {
-    console.log("submit");
-  }
   const navigation = useNavigation();
 
-  useEffect(() => {
-    navigation.setOptions({
-      headerTitle: () => (<Headline userId={2}>Confirm Email </Headline>),
-        });
-  }, []);
+  function handleOnPress() {
 
+    if(email !== "" && verificationCode !== ""){
+      console.log(state.isConfirmed);
+      confirmEmail({email:email.toString(), code:verificationCode.toString()})
+
+      if (state.isConfirmed===true){
+        navigation.navigate("Login");
+      }
+      console.log("after",state.isConfirmed);
+
+
+    }
+    else {
+      alert("Please fill required areas!");
+    }
+
+
+
+  }
 
   return (
+
+
       <SafeAreaView style={styles.mainContainer}>
         <Image source={require('../../assets/Wlobby-logos_transparent.png')} style={styles.logo}/>
         <TextInput style={styles.textInput} label="Email" value={email}
@@ -29,7 +44,7 @@ const SendVerificationScreen = () => {
         <TextInput style={styles.textInput} label="Verification Code" value={verificationCode}
                    onChangeText={verificationCode => setVerificationCode(verificationCode)}/>
         <Button style={styles.button} icon="check" mode="contained"
-                onPress={() => confirmEmail()}>
+                onPress={() => handleOnPress()}>
           Confirm Email
         </Button>
       </SafeAreaView>
@@ -50,7 +65,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     backgroundColor: "#fff",
   },
-  button : {
+  button: {
     marginTop: 10,
     marginHorizontal: 20,
     borderRadius: 10
