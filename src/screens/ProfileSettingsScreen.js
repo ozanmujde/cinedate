@@ -299,4 +299,10 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 16,
   },
+  item: {
+    padding: 17,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
 });
