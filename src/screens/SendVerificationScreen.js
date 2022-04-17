@@ -9,16 +9,20 @@ import { Context as AuthContext } from "../context/AuthContext";
 const SendVerificationScreen = () => {
     const [email, setEmail] = React.useState("");
     const {confirmEmail} = useContext(AuthContext);
+    const {state} = useContext(AuthContext);
     const [verificationCode, setVerificationCode] = React.useState("");
     const navigation = useNavigation();
 
     function handleOnPress() {
 
-        console.log("111111111111111111111");
         if(email !== "" && verificationCode !== ""){
-            console.log("22222222222222222222222222");
+            console.log(state.isConfirmed);
             confirmEmail({email:email.toString(), code:verificationCode.toString()})
-            navigation.navigate("Login");
+
+            if (state.isConfirmed===true){
+                navigation.navigate("Login");
+            }
+            console.log("after",state.isConfirmed);
 
 
         }
