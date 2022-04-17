@@ -1,15 +1,22 @@
-import {Image, ScrollView, StyleSheet, View} from 'react-native';
+import {Alert, Image, ScrollView, StyleSheet, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {SafeAreaView} from "react-navigation";
+import {NavigationActions as navigation, SafeAreaView} from "react-navigation";
 import {Button, Card, Headline, HelperText, Menu, Switch, TextInput} from 'react-native-paper';
 import {DatePickerInput, enGB, registerTranslation, TimePickerModal} from 'react-native-paper-dates'
 import Autocomplete from "../Components/Autocomplete";
 import useResults from "../hooks/useResults";
 import axios from "axios";
+import "intl";
+import 'intl/locale-data/jsonp/en';
+import {Time} from "react-native-gifted-chat";
 
 registerTranslation('en-GB', enGB);
 
 const UpdateAdvertScreen = ({ route: { params } }) => {
+
+  console.log(params.date);
+  let x = params.date;
+  console.log(x)
   const [filmName, setFilmName] = React.useState(params.movieName);
   const [quota, setQuota] = React.useState(params.advert.Quota.toString());
 
@@ -25,8 +32,8 @@ const UpdateAdvertScreen = ({ route: { params } }) => {
 
   const hideDialog = () => setVisible(false);
 
-  const [date, setDate] = React.useState(params.advert.Date.toString().split(" ")[0]);
-  const [time, setTime] = React.useState(params.advert.Date.toString().split(" ")[1] === "" ? "00:00" : params.advert.Date.toString().split(" ")[1]);
+  const [date, setDate] = React.useState();
+  const [time, setTime] = React.useState();
 
   const onDismiss = React.useCallback(() => {
     setVisible(false)
@@ -88,7 +95,30 @@ const UpdateAdvertScreen = ({ route: { params } }) => {
     console.log(filmID);
     console.log(date.toLocaleDateString(),time.toString(), attendeePreferences,comment,filmName,quota, filmID);
 
-
+    // const newData= {
+    //   ...params.advert,
+    //   Date : params.advert.Date,
+    //   AttendeePreference : attendeePreferences,
+    //   Description : comment,
+    //   Quota : quota,
+    // };
+    //
+    // const jsonData = JSON.stringify(newData);
+    //
+    // var config = {
+    //   method: 'get',
+    //   url: 'https://wlobby-backend.herokuapp.com/update/advert/',
+    //   headers: { },
+    //   data: jsonData,
+    // };
+    //
+    // axios(config)
+    //     .then(function (response) {
+    //       console.log(JSON.stringify(response.data));
+    //     })
+    //     .catch(function (error) {
+    //       console.log(error);
+    //     });
 
     // axios.post('https://wlobby-backend.herokuapp.com/create/advert/',{
     //   'Date': (date.toLocaleDateString() + " " + time.toString()).toString(),
@@ -108,6 +138,33 @@ const UpdateAdvertScreen = ({ route: { params } }) => {
     // })
   }
 
+  function deleteAdvert() {
+    Alert.alert(
+        "Advert Will Be Deleted",
+        "Are you sure you want to delete this advert?",
+        [
+          {
+            text: "Yes",
+            onPress: () => {
+              axios.post('https://wlobby-backend.herokuapp.com/delete/advert/?AdvertID=' + params.advert.AdvertID).then((response) => {
+                console.log(response.data);
+                if(response.data.Status === "Success") {
+                  alert("Advert deleted successfully");
+                  navigation.navigate("Home");
+                }
+                else {
+                  alert("Advert deletion failed");
+                }
+              })
+            },
+          },
+          {
+            text: "No",
+          },
+        ]
+    );
+  }
+
   return (
       <SafeAreaView style={styles.mainContainer}>
         <Image source={require('../../assets/Wlobby-logos_transparent.png')} style={styles.logo}/>
@@ -115,33 +172,54 @@ const UpdateAdvertScreen = ({ route: { params } }) => {
           <Card.Content>
             <ScrollView style={styles.container} contentContainerStyle={{paddingBottom: '100%'}}
                         showsVerticalScrollIndicator={false}>
-              <View style={styles.container}>
-                {menuVisible && filteredData && (
-                    <View
-                        style={{
-                          flex: 1,
-                          backgroundColor: 'white',
-                          borderWidth: 2,
-                          flexDirection: 'column',
-                          borderColor: 'grey',
-                        }}
-                    >
-                      {filteredData.map((datum, i) => (
-                          <Menu.Item
-                              key={i}
-                              style={[{ width: '100%' , backgroundColor: 'white'}]}
-                              icon='popcorn'
-                              onPress={() => {
-                                setIsPressedSuggestion(true);
-                                setFilmName(datum);
-                                setMenuVisible(false);
-                              }}
-                              title={datum}
-                          />
-                      ))}
-                    </View>
-                )}
-              </View>
+              {/*<View style={styles.container}>*/}
+              {/*  <TextInput*/}
+              {/*      onFocus={() => {*/}
+              {/*        setIsPressedSuggestion(false);*/}
+              {/*        if (filmName.length === 0) {*/}
+              {/*          setMenuVisible(false);*/}
+              {/*        }*/}
+              {/*      }}*/}
+              {/*      onBlur={() => handleOnBlur()}*/}
+              {/*      label={"Film Name"}*/}
+              {/*      style={styles.textInput}*/}
+              {/*      onChangeText={(text) => {*/}
+              {/*        if (text && text.length > 0) {*/}
+              {/*          setFilteredData(filterData(text));*/}
+              {/*        } else if (text && text.length === 0) {*/}
+              {/*          setFilteredData(filmName);*/}
+              {/*        }*/}
+              {/*        setMenuVisible(true);*/}
+              {/*        setFilmName(text);*/}
+              {/*      }}*/}
+              {/*      value={filmName}*/}
+              {/*  />*/}
+              {/*  {menuVisible && filteredData && (*/}
+              {/*      <View*/}
+              {/*          style={{*/}
+              {/*            flex: 1,*/}
+              {/*            backgroundColor: 'white',*/}
+              {/*            borderWidth: 2,*/}
+              {/*            flexDirection: 'column',*/}
+              {/*            borderColor: 'grey',*/}
+              {/*          }}*/}
+              {/*      >*/}
+              {/*        {filteredData.map((datum, i) => (*/}
+              {/*            <Menu.Item*/}
+              {/*                key={i}*/}
+              {/*                style={[{ width: '100%' , backgroundColor: 'white'}]}*/}
+              {/*                icon='popcorn'*/}
+              {/*                onPress={() => {*/}
+              {/*                  setIsPressedSuggestion(true);*/}
+              {/*                  setFilmName(datum);*/}
+              {/*                  setMenuVisible(false);*/}
+              {/*                }}*/}
+              {/*                title={datum}*/}
+              {/*            />*/}
+              {/*        ))}*/}
+              {/*      </View>*/}
+              {/*  )}*/}
+              {/*</View>*/}
               <TextInput style={styles.textInput} label="Number Of Attendees" value={quota} keyboardType='numeric'
                          onChangeText={onChangeQuota}/>
               <HelperText style={{margin: -10}} type="error" visible={hasErrors()}>
@@ -156,34 +234,34 @@ const UpdateAdvertScreen = ({ route: { params } }) => {
                          maxLength={100}
                          right={<TextInput.Affix text={"/" + (100 - comment.length)}/>}
               />
-              {/*<DatePickerInput*/}
-              {/*    style={styles.textInput}*/}
-              {/*    locale="en"*/}
-              {/*    label="Date Of Film Session"*/}
-              {/*    value={date}*/}
-              {/*    onChange={(d) => setDate(d)}*/}
-              {/*    inputMode="start"*/}
-              {/*    validRange={{*/}
-              {/*      startDate: new Date(),*/}
-              {/*    }}*/}
-              {/*    saveLabel="Save"*/}
-              {/*    animationType="slide"*/}
-              {/*/>*/}
-              {/*<TimePickerModal*/}
-              {/*    visible={visible}*/}
-              {/*    onDismiss={onDismiss}*/}
-              {/*    onConfirm={onConfirm}*/}
-              {/*    label="Select time"*/}
-              {/*    uppercase={false}*/}
-              {/*    cancelLabel="Cancel"*/}
-              {/*    confirmLabel="Ok"*/}
-              {/*    animationType="fade"*/}
-              {/*    backgroundColor="white"*/}
-              {/*/>*/}
+              <DatePickerInput
+                  style={styles.textInput}
+                  locale="en"
+                  label="Date Of Film Session"
+                  value={date}
+                  onChange={(d) => setDate(d)}
+                  inputMode="start"
+                  validRange={{
+                    startDate: new Date(),
+                  }}
+                  saveLabel="Save"
+                  animationType="slide"
+              />
+              <TimePickerModal
+                  visible={visible}
+                  onDismiss={onDismiss}
+                  onConfirm={onConfirm}
+                  label="Select time"
+                  uppercase={false}
+                  cancelLabel="Cancel"
+                  confirmLabel="Ok"
+                  animationType="fade"
+                  backgroundColor="white"
+              />
               <Button style={{marginTop: -15}} onPress={() => setVisible(true)}>
                 Pick time
               </Button>
-              <TextInput label="Time" value={time} style={{backgroundColor: '#fff'}}/>
+              <TextInput label="Time" value={params.time} style={{backgroundColor: '#fff'}}/>
               <SafeAreaView style={styles.switchContainer}>
                 <SafeAreaView style={styles.menSwitch}>
                   <Switch disabled={!womenSwitch} value={menSwitch} onValueChange={onToggleMenSwitch} color={'#6200ed'}/>
@@ -199,7 +277,7 @@ const UpdateAdvertScreen = ({ route: { params } }) => {
                 Change Plans!
               </Button>
               <Button style={styles.button} icon="delete-forever-outline" mode="contained"
-                      onPress={() => console.log("delete advert")}>
+                      onPress={() => deleteAdvert()}>
                 Delete this advert
               </Button>
             </ScrollView>

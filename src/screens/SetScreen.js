@@ -53,7 +53,7 @@ const SetScreen = ({ route: { params } }) => {
   const [filteredData, setFilteredData] = useState([]);
   const [isPressedSuggestion, setIsPressedSuggestion] = useState(false);
   const [uri, setUri] = useState(null);
-  const [filmID, setFilmID] = useState(null);
+  const [filmID, setFilmID] = useState(0);
 
   const filterData = (text) => {
     filmNames = results.map(result => result.original_title);
@@ -79,20 +79,23 @@ const SetScreen = ({ route: { params } }) => {
       setAttendeePreferences("all");
     }
     searchMovieApi(filmName);
+    let filmid = results[0].id;
+    console.log(filmid);
     console.log(results[0].id);
     setFilmID(results[0].id);
     console.log(filmID);
-    console.log(date.toLocaleDateString(),time.toString(), attendeePreferences,comment,filmName,quota, filmID);
+    console.log(date.toLocaleDateString(),time.toString(), attendeePreferences,comment,filmName,quota,filmid );
     axios.post('https://wlobby-backend.herokuapp.com/create/advert/',{
       'Date': (date.toLocaleDateString() + " " + time.toString()).toString(),
       'AttendeePreference' : attendeePreferences.toString(),
       'Description': comment.toString(),
-      'FilmID': filmID.toString(),
-      'OwnerID': '7',
+      'FilmID': filmid.toString(),
+      'OwnerID': "7",
       'Quota': quota.toString(),
       'Status': "Active"
     }).then((response) => {
-      if(response.data.status === "Success") {
+      console.log(response.data);
+      if(response.data.Status === "Success") {
         alert("Advert created successfully");
       }
       else {

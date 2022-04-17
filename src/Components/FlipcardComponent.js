@@ -152,16 +152,14 @@ export default class FlipcardComponent extends Component {
                   style={styles.textInput}
                   disabled={true}
                   label={"Date"}
-                  value={this.props.advert.Date.toString()}
+                  value={this.props.date}
                 />
                 <TextInput
                   style={styles.textInput}
                   disabled={true}
                   label={"Time"}
                   value={
-                    new Date().getHours().toString().padStart(2, "0") +
-                    ":" +
-                    new Date().getMinutes().toString().padStart(2, "0")
+                    this.props.time
                   }
                 />
                 {/* TODO: AUTH geldiginde burayi static kontrol yerine auth userID si ile kontrol et */}
@@ -181,7 +179,8 @@ export default class FlipcardComponent extends Component {
                       this.sendAppeal()
                       alert("Your appeal has been sent to the owner");
                     } else {
-                      this.props.navigation.navigate("UpdateAdvertScreen", {movieName: this.props.filmName, advert: this.props.advert});
+                      console.log("film name: " + this.props.filmName);
+                      this.props.navigation.navigate("UpdateAdvertScreen", {movieName: this.props.filmName, advert: this.props.advert, date: this.props.date, time: this.props.time});
                     }
                   }}
                 >
