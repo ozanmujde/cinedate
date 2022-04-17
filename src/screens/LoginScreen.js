@@ -13,28 +13,47 @@ import { Context as AuthContext } from "../context/AuthContext";
 import { Card } from "react-native-paper";
 import {SocialIcon} from "react-native-elements";
 
+
 const Login = ({ navigation }) => {
-  const { signin } = useContext(AuthContext);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+
+
+  const { signIn } = useContext(AuthContext);
+  let {email} = "";
+  let {password} = "";
+  function onChangeEmail(text) {
+    email = text;
+  }
+
+  function onChangePassword(text) {
+    password = text;
+  }
+
   return (
     <ScrollView
       style={styles.ScrollViewContainer}
       showsVerticalScrollIndicator={false}
     >
       <LoginScreen
-        logoImageSource={require("../../assets/Wlobby-logos_transparent.png")}
-        logoImageStyle={{ width: 300, height: 300, marginBottom: -80 }}
-        loginButtonStyle={{ backgroundColor: "#6200ed" }}
-        disableSocialButtons={true}
-        onLoginPress={() => {
-          signin({ email, password });
-        }}
-        onHaveAccountPress={() => {
-          navigation.navigate("Signup");
-        }}
-        haveAccountText={"Don't have an accont? Sign Up."}
+          logoImageSource={require("../../assets/Wlobby-logos_transparent.png")}
+          logoImageStyle={{ width: 300, height: 300, marginBottom: -80 }}
+          loginButtonStyle={{ backgroundColor: "#6200ed" }}
+
+          onEmailChange={(text) => {
+            onChangeEmail(text);
+          }}
+          onPasswordChange={(text) => {
+            onChangePassword(text);
+          }}
+
+          onLoginPress={() => {
+            signIn({email, password});
+          }}
+          onHaveAccountPress={() => {
+            navigation.navigate("Signup");
+          }}
+          haveAccountText={"Don't have an accont? Sign Up."}
       />
+
       <SocialIcon
           style={{marginTop: -10}}
           title='Sign In With Google'
@@ -70,6 +89,7 @@ const Login = ({ navigation }) => {
             console.log('Pressed');
           }}
       />
+
     </ScrollView>
 
 
