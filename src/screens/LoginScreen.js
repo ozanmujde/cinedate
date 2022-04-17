@@ -17,7 +17,6 @@ const Login = ({ navigation }) => {
   const { signin } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   return (
     <ScrollView
       style={styles.ScrollViewContainer}
@@ -46,12 +45,12 @@ const Login = ({ navigation }) => {
           }}
       />
       <SocialIcon
-          title='Sign In With AppleID'
+          title='Log in as Admin'
           style={{backgroundColor: 'gray'}}
           button
           type='apple'
           onPress={() => {
-            console.log('Pressed');
+            navigation.navigate("AdminPanel");
           }}
       />
       <SocialIcon
