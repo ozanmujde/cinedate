@@ -3,7 +3,6 @@ import React, {useEffect, useState} from 'react';
 import {SafeAreaView} from "react-navigation";
 import {Button, Card, Headline, HelperText, Menu, Switch, TextInput} from 'react-native-paper';
 import {DatePickerInput, enGB, registerTranslation, TimePickerModal} from 'react-native-paper-dates'
-import Autocomplete from "../Components/Autocomplete";
 import useResults from "../hooks/useResults";
 import axios from "axios";
 import "intl";

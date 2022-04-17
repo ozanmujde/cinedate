@@ -41,23 +41,35 @@ const Login = ({ navigation }) => {
           title='Sign In With Google'
           button
           type='google'
+          onPress={() => {
+            console.log('Pressed');
+          }}
       />
       <SocialIcon
           title='Sign In With AppleID'
           style={{backgroundColor: 'gray'}}
           button
           type='apple'
+          onPress={() => {
+            console.log('Pressed');
+          }}
       />
       <SocialIcon
           title='Sign In With Github'
           style={{backgroundColor: 'black'}}
           button
           type='github'
+          onPress={() => {
+            console.log('Pressed');
+          }}
       />
       <SocialIcon
           title='Sign In With Facebook'
           button
           type='facebook'
+          onPress={() => {
+            console.log('Pressed');
+          }}
       />
     </ScrollView>
 

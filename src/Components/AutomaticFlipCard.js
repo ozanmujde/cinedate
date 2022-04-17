@@ -41,7 +41,6 @@ const AutomaticFlipCard = ({ advert, navigation, movieID, isDetailScreen, isMyAd
         advert={advert}
         filmImage={uri}
         isDetailScreen={isDetailScreen}
-        comments={"Çok iyi film olcak hacı gel kesin"}
         navigation={navigation}
         isMyAdvert={isMyAdvert}
         date={date}
