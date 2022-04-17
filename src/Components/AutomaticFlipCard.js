@@ -8,6 +8,7 @@ const AutomaticFlipCard = ({ advert, navigation, movieID, isDetailScreen, isMyAd
 
   useEffect(() => {
     getMovieDetails(movieID);
+    console.log("movieID", movieID);
     console.log("movieInfo", movieInfo);
   }, [movieID]);
   const [
@@ -24,6 +25,7 @@ const AutomaticFlipCard = ({ advert, navigation, movieID, isDetailScreen, isMyAd
   if(isDetailScreen !== true) {
     isDetailScreen = false;
   }
+  console.log("movieID", movieID);
 
   let date = advert.Date.split(" ")[0];
   var pattern = /(\d{2})\.(\d{2})\.(\d{4})/;
@@ -33,7 +35,7 @@ const AutomaticFlipCard = ({ advert, navigation, movieID, isDetailScreen, isMyAd
   time = new Time(time).props;
 
   // console.log('advert',advert);
-  let uri =
+  const uri =
     "https://image.tmdb.org/t/p/w185_and_h278_bestv2/" + movieInfo.poster_path;
   return (
     // <View style={{ flex: 1, backgroundColor:"red" }}>

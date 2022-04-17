@@ -51,6 +51,7 @@ const AdvertListScreen = ({ route: { params } }) => {
     getMovieDetails(movieId);
     getAdvertsWithFilmID(movieId);
   }, [movieId]);
+  console.log("advert", advert);
   return (
     <SafeAreaView style={styles.container}>
       <Backdrop path={movieInfo.backdrop_path} />
@@ -70,13 +71,10 @@ const AdvertListScreen = ({ route: { params } }) => {
               renderItem={({ item }) => {
                 return (
                   <AutomaticFlipCard
-                    style={{ height: "100%", width: "100%" }}
                     advert={item}
-                    movieID={advert.FilmID}
-                    filmImage={uri}
-                    isDetailScreen={false}
-                    comments={"Çok iyi film olcak hacı gel kesin"}
                     navigation={navigation}
+                    movieID={item.FilmID}
+                    isMyAdvert={item.OwnerID === 7 ? 0 : 1}
                   />
                 );
               }}
@@ -91,7 +89,11 @@ const AdvertListScreen = ({ route: { params } }) => {
                 style={styles.fab}
                 medium
                 icon="plus"
-                onPress={() => navigation.navigate("Set", {movieName: movieInfo.original_title})}
+                onPress={() =>
+                  navigation.navigate("Set", {
+                    movieName: movieInfo.original_title,
+                  })
+                }
               />
             </>
             // </View>
