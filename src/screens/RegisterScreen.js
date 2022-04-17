@@ -104,8 +104,8 @@ const RegisterScreen = () => {
 
 
                 }
-
                 signUp({email:email.toString(), password:password.toString(),username:username.toString()});
+
 
                 if (flag&&state.isSignUp===true){
                     axios.post('https://wlobby-backend.herokuapp.com/create/user/',{
@@ -127,7 +127,6 @@ const RegisterScreen = () => {
                 else{
                     alert("Email registered already");
                 }
-
 
             });
 

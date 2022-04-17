@@ -24,7 +24,6 @@ const confirmEmail = (dispatch) => async ({ email, code }) => {
 
     const response = await Auth.confirmSignUp(email,code);
 
-
     console.log("confirm response" , response);
     alert("You have successfully registered!");
     dispatch({ type: "confirmemail", payload: response });
@@ -50,7 +49,7 @@ const authReducer = (state, action) => {
     case "signup":
       return { ...state, isSignedIn: false,isSignUp:true };
     case "confirmemail":
-      return { ...state, isSignedIn: false,isSignUp:true,isConfirmed:true };
+      return { ...state, isConfirmed:true };
     default:
       return state;
   }
@@ -66,10 +65,9 @@ const signUp = (dispatch) => async ({ email, password,username }) => {
           password:password,
           attributes:{email:email},
         });
-
-
     dispatch({ type: "signup", payload: response });
   } catch (err) {
+    alert(err);
     dispatch({
       type: "add_error",
       payload: "Something went wrong with sign up",
