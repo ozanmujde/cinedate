@@ -1,8 +1,3 @@
-
-const Stack = createNativeStackNavigator();
-const Tab = createBottomTabNavigator();
-
-
 import React, { useContext } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -18,7 +13,11 @@ import config from "./src/aws-exports";
 
 Amplify.configure(config);
 
-//end
+//bugra end
+
+const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
+
 export default function App() {
   // const { state } = useContext(AuthContext);
 
