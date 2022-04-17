@@ -29,51 +29,28 @@ const ChatScreens = ({ navigation }) => {
   //   getUsers();
   // const [channels, setChannels] = useState([]);
 
-  const getUniqUsers = async () => {
+  const getUniqueUsers = async () => {
     let uniqueUsers = [];
     try {
       const res = await axios.get(
-        "https://wlobby-backend.herokuapp.com/get/users/"
+          "https://wlobby-backend.herokuapp.com/get/user/adverts/?UserID=7"
       );
-
-      let userData = res.data.Items;
-
-      let advertIDs = [];
-      userData.map((user) => {
-        // console.log("user", user);
-        if (user.UserID === 7) {
-          // console.log(user.AdvertIDs);
-          for (let id of user.AdvertIDs) {
-            // console.log(id);
-            if (!advertIDs.includes(id)) {
-              // console.log("hey", id);
-              advertIDs.push(id);
-            }
+      res.data.Items.map((item) => {
+        Object.keys(item.AttendeeIDs).map((key) => {
+          if (uniqueUsers.indexOf(key) === -1 && key !== "7") {
+            uniqueUsers.push(key);
           }
-        }
+        });
       });
-      const response = await axios.get(
-        "https://wlobby-backend.herokuapp.com/get/adverts/"
-      );
-      let adverts = response.data.Items;
-      for (let id of advertIDs) {
-        for (let advert of adverts) {
-          if (advert.AdvertID === id) {
-            for (let attendee of Object.keys(advert.AttendeeIDs)) {
-              if (!uniqueUsers.includes(attendee)) {
-                uniqueUsers.push(attendee);
-              }
-            }
-          }
-        }
-      }
-    } catch (err) {
-      console.log(err);
+      console.log("uniqueUsers", uniqueUsers);
+    } catch (error) {
+      console.log(error);
     }
+
     return uniqueUsers;
   };
 
-  getUniqUsers().then((users) => {
+  getUniqueUsers().then((users) => {
     // console.log("channels", channels);
     let idArr = [];
     let fullidArr = [];
