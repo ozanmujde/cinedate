@@ -46,7 +46,6 @@ const ChatScreens = ({ navigation }) => {
     } catch (error) {
       console.log(error);
     }
-x
     return uniqueUsers;
   };
 
