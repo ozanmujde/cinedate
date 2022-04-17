@@ -6,6 +6,8 @@ import {Dropdown} from 'react-native-element-dropdown';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import "intl";
 import 'intl/locale-data/jsonp/en';
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+
 import {
     Avatar,
     Button,
@@ -140,7 +142,7 @@ const RegisterScreen = () => {
 
     return (
         <SafeAreaView style={styles.mainContainer}>
-            <ScrollView contentContainerStyle={{paddingBottom: '100%'}} showsVerticalScrollIndicator={false}>
+            <KeyboardAwareScrollView contentContainerStyle={{paddingBottom: '100%'}} showsVerticalScrollIndicator={false}>
                 <Image source={require('../../assets/Wlobby-logos_transparent.png')} style={styles.logo}/>
                 {/* <Card.Content> */}
                     <SafeAreaView>
@@ -275,7 +277,7 @@ const RegisterScreen = () => {
                         </Button>
                     </SafeAreaView>
                 {/* </Card.Content> */}
-            </ScrollView>
+            </KeyboardAwareScrollView>
         </SafeAreaView>
     );
 };
