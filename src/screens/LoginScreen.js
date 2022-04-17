@@ -16,6 +16,7 @@ import {SocialIcon} from "react-native-elements";
 
 const Login = ({ navigation }) => {
 
+
   const { signIn } = useContext(AuthContext);
   let {email} = "";
   let {password} = "";
@@ -63,12 +64,12 @@ const Login = ({ navigation }) => {
           }}
       />
       <SocialIcon
-          title='Sign In With AppleID'
+          title='Log in as Admin'
           style={{backgroundColor: 'gray'}}
           button
           type='apple'
           onPress={() => {
-            console.log('Pressed');
+            navigation.navigate("AdminPanel");
           }}
       />
       <SocialIcon

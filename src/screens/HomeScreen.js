@@ -37,9 +37,9 @@ const HomeScreen = () => {
 
   useEffect(() => {
     getAdvertsData();
-    navigation.setOptions({
-      headerTitle: () => <ChatHeader userId={2} />,
-    });
+    // navigation.setOptions({
+    //   headerTitle: () => <ChatHeader userId={2} />,
+    // });
   }, []);
 
   let FlatListItemSeparator;

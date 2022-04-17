@@ -33,7 +33,7 @@ const ChatScreens = ({ navigation }) => {
     let uniqueUsers = [];
     try {
       const res = await axios.get(
-          "https://wlobby-backend.herokuapp.com/get/user/adverts/?UserID=7"
+        "https://wlobby-backend.herokuapp.com/get/user/adverts/?UserID=7"
       );
       res.data.Items.map((item) => {
         Object.keys(item.AttendeeIDs).map((key) => {
@@ -42,11 +42,9 @@ const ChatScreens = ({ navigation }) => {
           }
         });
       });
-      console.log("uniqueUsers", uniqueUsers);
     } catch (error) {
       console.log(error);
     }
-
     return uniqueUsers;
   };
 
@@ -82,23 +80,30 @@ const ChatScreens = ({ navigation }) => {
         // console.log("ids", idArr);
         for (let id of idArr) {
           const tmp = id.split(" ");
-          // console.log("tmp", tmp);
+          console.log("tmp", tmp);
           fullidArr.push(tmp[0] + "c" + tmp[1]);
           fullidArr.push(tmp[1] + "c" + tmp[0]);
         }
         // console.log("fullids", fullidArr);
-        for (let i = 0; i < fullidArr.length - 1; i++) {
+        for (let i = 0; i <= fullidArr.length - 2; i += 2) {
           if (
             !channels.includes(fullidArr[i]) &&
             !channels.includes(fullidArr[i + 1])
           ) {
+            console.log("--------------------");
+            console.log("fullid+1", fullidArr[i + 1]);
+            console.log("fullid+1", channels.includes(fullidArr[i + 1]));
+            console.log("channels", channels);
+            console.log("fullid", channels.includes(fullidArr[i]));
+            console.log("fullid", fullidArr[i]);
             newChannels.push(fullidArr[i]);
+            console.log("--------------------");
           }
         }
         // console.log("newChannels", newChannels);
         for (let channel of newChannels) {
           const tmp = channel.split("c");
-          // console.log("tmp", tmp);
+          console.log("tmp", tmp);
           pubnub.objects.setMemberships({
             channels: [channel],
             uuids: [tmp[0], tmp[1]],
@@ -124,10 +129,9 @@ const ChatScreens = ({ navigation }) => {
                 setFinalChannels([...finalChannels, element.channel.id]);
               }
             });
-            // console.log("finalChannels", finalChannels);
+            console.log("finalChannels", finalChannels);
           }
         );
-
       }
     );
   });
@@ -135,7 +139,6 @@ const ChatScreens = ({ navigation }) => {
   //   console.log("users", users);
   //   console.log("adverts", adverts);
   // }
-
 
   return (
     <SafeAreaView style={styles.page} forceInset={{ top: "always" }}>
@@ -149,13 +152,14 @@ const ChatScreens = ({ navigation }) => {
                 const myID = 7;
                 const tmp = item.split("c");
                 let otherID = tmp[0] == myID ? tmp[1] : tmp[0];
-                navigation.navigate("ChatScreen", {//TODO: AUth gelince degistir
+                navigation.navigate("ChatScreen", {
+                  //TODO: AUth gelince degistir
                   channelId: item,
                   otherID: otherID,
                 });
               }}
             >
-              <ChatPreview channelId={item}  />
+              <ChatPreview channelId={item} />
               <Divider inset={true} insetType="left" />
             </Pressable>
           )}

@@ -21,12 +21,15 @@ import ProfileSettingsScreen from "../screens/ProfileSettingsScreen";
 import ModalChipsScreen from "../screens/ModalChipsScreen";
 import ModalLikedScreen from "../screens/ModalLikedScreen";
 import ModalRemoveFilmScreen from "../screens/ModalRemoveFilmScreen";
+import ModalRowOptions from "../screens/ModalRowOptions";
 import { Context as AuthContext } from "../context/AuthContext";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import SendVerificationScreen from "../screens/SendVerificationScreen";
 import PubNub from "pubnub";
 import { PubNubProvider, usePubNub } from "pubnub-react";
 import UpdateAdvertScreen from "../screens/UpdateAdvertScreen";
+import AdminPanel from "../screens/AdminPanel";
+import AdminUsers from "../screens/AdminUsers";
 
 const router = () => {
   const { state } = useContext(AuthContext);
@@ -58,6 +61,23 @@ const router = () => {
             name="SendVerificationScreen"
             component={SendVerificationScreen}
           />
+          <Stack.Screen
+            name="AdminPanel"
+            component={AdminPanel}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="AdminUsers"
+            component={AdminUsers}
+            options={{ headerShown: false }}
+          />
+          <Stack.Group screenOptions={{ presentation: "modal" }}>
+            <Stack.Screen
+              name="ModalRowOptions"
+              component={ModalRowOptions}
+              options={{ headerShown: false }}
+            />
+          </Stack.Group>
         </Stack.Navigator>
       ) : (
         <PubNubProvider client={pubnub}>
@@ -98,9 +118,9 @@ const router = () => {
                 options={{ headerShown: false }}
               />
               <Stack.Screen
-                  name="UpdateAdvertScreen"
-                  component={UpdateAdvertScreen}
-                  options={{ headerShown: false }}
+                name="UpdateAdvertScreen"
+                component={UpdateAdvertScreen}
+                options={{ headerShown: false }}
               />
             </Stack.Group>
           </Stack.Navigator>

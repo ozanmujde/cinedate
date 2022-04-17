@@ -152,7 +152,7 @@ export default class FlipcardComponent extends Component {
                   style={styles.textInput}
                   disabled={true}
                   label={"Date"}
-                  value={this.props.date}
+                  value={this.props.date.toLocaleDateString(  )}
                 />
                 <TextInput
                   style={styles.textInput}
@@ -179,7 +179,7 @@ export default class FlipcardComponent extends Component {
                       this.sendAppeal()
                       alert("Your appeal has been sent to the owner");
                     } else {
-                      console.log("film name: " + this.props.filmName);
+                      // console.log("film name: " + this.props.filmName);
                       this.props.navigation.navigate("UpdateAdvertScreen", {movieName: this.props.filmName, advert: this.props.advert, date: this.props.date, time: this.props.time});
                     }
                   }}

@@ -7,6 +7,7 @@ import useResults from "../hooks/useResults";
 import axios from "axios";
 import "intl";
 import 'intl/locale-data/jsonp/en';
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 registerTranslation('en-GB', enGB);
 
@@ -108,7 +109,7 @@ const SetScreen = ({ route: { params } }) => {
         <Image source={require('../../assets/Wlobby-logos_transparent.png')} style={styles.logo}/>
         <Card style={{width: '90%', height: '90%'}}>
           <Card.Content>
-            <ScrollView style={styles.container} contentContainerStyle={{paddingBottom: '100%'}}
+            <KeyboardAwareScrollView style={styles.container} contentContainerStyle={{paddingBottom: '100%'}}
                         showsVerticalScrollIndicator={false}>
               <View style={styles.container}>
                 <TextInput
@@ -214,7 +215,7 @@ const SetScreen = ({ route: { params } }) => {
                       onPress={() => handleSubmit()}>
                 Let's Watch
               </Button>
-            </ScrollView>
+            </KeyboardAwareScrollView>
           </Card.Content>
         </Card>
       </SafeAreaView>

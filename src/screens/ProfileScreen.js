@@ -111,9 +111,9 @@ const ProfileScreen = ({ route: { params } }) => {
               : ""}
           </Text>
           <Text style={styles.Interest}>
-            {Object.keys(userData).length !== 0
+            {Object.keys(userData).length !== 0 && userData.Interests
               ? userData.Interests.join(" ") || "No Interest added"
-              : " "}
+              : "No Interest has been added"}
           </Text>
           <Divider orientation="horizontal" />
           {/* <Text>{userData.UserID}</Text> */}

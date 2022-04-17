@@ -1,9 +1,10 @@
-import {TouchableOpacity, View,LogBox} from "react-native";
+import {LogBox, TouchableOpacity, View} from "react-native";
 import React, {useEffect} from "react";
 import useResults from "../hooks/useResults";
 import {Avatar, Card, IconButton} from "react-native-paper";
 import tmdb from "../api/tmdb";
 import axios from "axios";
+
 let result;
 LogBox.ignoreAllLogs()
 const AutomaticPendingAppeals = ({advert, navigation, movieID, pendingStatus, isMyAdvert, pendingUsers}) => {
@@ -18,9 +19,10 @@ const AutomaticPendingAppeals = ({advert, navigation, movieID, pendingStatus, is
     isLoading,
   ] = useResults();
 
-  const [uri, setUri] = React.useState("");
+  console.log("adasdqad", advert.OwnerID);
   useEffect(() => {
     getMovieDetails(movieID);
+    getSubTitle();
   }, [movieID]);
 
   const [showButton, setShowButton] = React.useState(true);
@@ -222,7 +224,20 @@ const AutomaticPendingAppeals = ({advert, navigation, movieID, pendingStatus, is
   }
 
   function function2(userID) {
-    navigation.navigate("Profile", { userID });
+    navigation.navigate("Profile", {userID});
+  }
+
+  let subtitle = "";
+
+  function getSubTitle() {
+
+    axios.get('https://wlobby-backend.herokuapp.com/get/user/?UserID=' + advert.OwnerID)
+        .then(res => {
+          console.log(res.data.Item.Username);
+          subtitle = res.data.Item.Username;
+          return res.data.Item.Username;
+        })
+    return subtitle;
   }
 
   return (
@@ -231,7 +246,7 @@ const AutomaticPendingAppeals = ({advert, navigation, movieID, pendingStatus, is
           showButton
               ? Object.keys(pendingUsers).length !== 0 && isMyAdvert === 2
                   ? Object.entries(pendingUsers).map(([userId, username]) => {
-                    return(
+                    return (
                         <View>
                           <TouchableOpacity onPress={() => function2(userId)}>
                             <Card.Title style={{borderWidth: .5, borderColor: "black"}}
@@ -253,15 +268,26 @@ const AutomaticPendingAppeals = ({advert, navigation, movieID, pendingStatus, is
                                     right={(props) => renderLeftActions(props)}
                         />
                       </TouchableOpacity>
-                  :
-                      <TouchableOpacity onPress={() => function1()}>
-                    <Card.Title style={{borderWidth: .5, borderColor: "black"}}
-                                title={isLoading ? "Loading..." : movieInfo.original_title}
-                                subtitle={advert.OwnerID}
-                                left={(props) => handleLeft(props)}
-                                right={(props) => renderLeftActions(props)}
-                    />
-                  </TouchableOpacity>
+                      : isMyAdvert === 1
+                          ? advert.OwnerID !== 7 ?
+                              <TouchableOpacity onPress={() => function1()}>
+                                <Card.Title style={{borderWidth: .5, borderColor: "black"}}
+                                            title={isLoading ? "Loading..." : movieInfo.original_title}
+                                            subtitle={"getSubTitle()"}
+                                            left={(props) => handleLeft(props)}
+                                            right={(props) => renderLeftActions(props)}
+                                />
+                              </TouchableOpacity>
+                              : null
+                          :
+                          <TouchableOpacity onPress={() => function1()}>
+                            <Card.Title style={{borderWidth: .5, borderColor: "black"}}
+                                        title={isLoading ? "Loading..." : movieInfo.original_title}
+                                        subtitle={getSubTitle()}
+                                        left={(props) => handleLeft(props)}
+                                        right={(props) => renderLeftActions(props)}
+                            />
+                          </TouchableOpacity>
               : null
         }
       </>
