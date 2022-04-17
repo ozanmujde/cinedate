@@ -22,10 +22,13 @@ const signIn = (dispatch) => async ({ email, password }) => {
 const confirmEmail = (dispatch) => async ({ email, code }) => {
   try {
 
-    console.log("emailll codeeee ", email,code);
+
 
     const response = await Auth.confirmSignUp(email,code);
+
+    console.log("confirm response" , response);
     dispatch({ type: "confirmemail", payload: response });
+    alert("You have successfully registered!");
   } catch (err) {
     dispatch({
       type: "add_error",
@@ -65,7 +68,6 @@ const signUp = (dispatch) => async ({ email, password,username }) => {
 
     dispatch({ type: "signup", payload: response });
   } catch (err) {
-    alert(err);
     dispatch({
       type: "add_error",
       payload: "Something went wrong with sign up",

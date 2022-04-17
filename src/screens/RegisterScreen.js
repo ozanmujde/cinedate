@@ -90,40 +90,49 @@ const RegisterScreen = () => {
     function handleSubmit() {
         setUserName((name.toLowerCase() + surname.toLowerCase() + Math.floor(Math.random() * 100)).toString());
         if(email !== "" && name !== "" && surname !== "" && location !== "" && sex !== "" && randomAvatar !== "") {
+            var flag = true; //true means email has not registered yet
+           // console.log(randomAvatar,sex,email,bio,name,surname,age,name.toLowerCase() + surname.toLowerCase() + Math.floor(Math.random() * 100));
 
-            console.log(randomAvatar,sex,email,bio,name,surname,age,name.toLowerCase() + surname.toLowerCase() + Math.floor(Math.random() * 100));
-            signUp({email:email.toString(), password:password.toString(),username:username.toString()});
             axios.post('https://wlobby-backend.herokuapp.com/get/users/').then((response) => {
                 //console.log("bbbb",response);
-                console.log(response.data.Items);
-                for (var k in response.data.Items) {
-                    var obj = JSON.parse(response.data.Items);
-                    console.log(response.data.Items);
+                for (var i = 0; i <response.data.Items.length; i++) {
+                    var user = response.data.Items[i];
+                    var emailDataBase=user.Email;
+                    if (emailDataBase===email){
+                        flag=false;
+                    }
+
+
                 }
+
+                signUp({email:email.toString(), password:password.toString(),username:username.toString()});
+
+                if (flag&&state.isSignUp===true){
+                    axios.post('https://wlobby-backend.herokuapp.com/create/user/',{
+                        'ProfilePhoto': randomAvatar,
+                        'Sex' : sex.toString(),
+                        'Email': email.toString(),
+                        'About': bio.toString(),
+                        'Name': name.toString(),
+                        'Surname': surname.toString(),
+                        'Age': age,
+                        'Username': username.toString(),
+                    }).then((response) => {
+                        console.log("aaaa",response.data);
+                        alert("Please confirm your Email!");
+                        navigation.navigate("SendVerificationScreen");
+
+                    });
+                }
+                else{
+                    alert("Email registered already");
+                }
+
 
             });
 
 
-            if (state.isSignUp===true){
-                axios.post('https://wlobby-backend.herokuapp.com/create/user/',{
-                    'ProfilePhoto': randomAvatar,
-                    'Sex' : sex.toString(),
-                    'Email': email.toString(),
-                    'About': bio.toString(),
-                    'Name': name.toString(),
-                    'Surname': surname.toString(),
-                    'Age': age,
-                    'Username': username.toString(),
-                }).then((response) => {
-                    console.log("aaaa",response.data);
-                    alert("You have successfully registered!");
-                    navigation.navigate("SendVerificationScreen");
 
-                });
-            }
-            else{
-                alert("Email registered already");
-            }
 
         }
         else {

@@ -13,11 +13,26 @@ const SendVerificationScreen = () => {
     const navigation = useNavigation();
 
     function handleOnPress() {
-        confirmEmail({email:email.toString(), code:verificationCode.toString()})
-        navigation.navigate("Login");
+
+        console.log("111111111111111111111");
+        if(email !== "" && verificationCode !== ""){
+            console.log("22222222222222222222222222");
+            confirmEmail({email:email.toString(), code:verificationCode.toString()})
+            navigation.navigate("Login");
+
+
+        }
+        else {
+            alert("Please fill required areas!");
+        }
+
+
+
     }
 
     return (
+
+
         <SafeAreaView style={styles.mainContainer}>
             <Image source={require('../../assets/Wlobby-logos_transparent.png')} style={styles.logo}/>
             <TextInput style={styles.textInput} label="Email" value={email}
