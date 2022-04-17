@@ -1,3 +1,8 @@
+
+const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
+
+
 import React, { useContext } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -7,9 +12,13 @@ import { createStackNavigator } from "react-navigation-stack";
 import Router from "./src/routers/Router";
 import { Provider as AuthProvider } from "./src/context/AuthContext";
 
-const Stack = createNativeStackNavigator();
-const Tab = createBottomTabNavigator();
+//bugra start
+import Amplify from "aws-amplify";
+import config from "./src/aws-exports";
 
+Amplify.configure(config);
+
+//end
 export default function App() {
   // const { state } = useContext(AuthContext);
 

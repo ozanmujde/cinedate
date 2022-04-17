@@ -1,13 +1,17 @@
 import {Image, SafeAreaView, ScrollView, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+
+
+
+import React, {useContext} from 'react';
 import User from "../classes/User";
 import {countries} from "../countries";
 import {Dropdown} from 'react-native-element-dropdown';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import { Context as AuthContext } from "../context/AuthContext";
+import { getUsers } from "../hooks/wlobbyGetters";
+
 import "intl";
 import 'intl/locale-data/jsonp/en';
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-
 import {
     Avatar,
     Button,
@@ -28,6 +32,9 @@ import { AvatarGenerator } from "random-avatar-generator";
 import { SvgUri } from "react-native-svg";
 
 const RegisterScreen = () => {
+
+    const [username,setUserName] = React.useState("");
+    const { signUp ,state  } = useContext(AuthContext);
     const [email, setEmail] = React.useState("");
     const [name, setName] = React.useState("");
     const [password, setPassword] = React.useState("");
@@ -86,21 +93,50 @@ const RegisterScreen = () => {
     const navigation = useNavigation();
 
     function handleSubmit() {
+        setUserName((name.toLowerCase() + surname.toLowerCase() + Math.floor(Math.random() * 100)).toString());
         if(email !== "" && name !== "" && surname !== "" && location !== "" && sex !== "" && randomAvatar !== "") {
-            console.log(randomAvatar,sex,email,bio,name,surname,age,name.toLowerCase() + surname.toLowerCase() + Math.floor(Math.random() * 100))
-            axios.post('https://wlobby-backend.herokuapp.com/create/user/',{
-                'ProfilePhoto': randomAvatar,
-                'Sex' : sex.toString(),
-                'Email': email.toString(),
-                'About': bio.toString(),
-                'Name': name.toString(),
-                'Surname': surname.toString(),
-                'Age': age,
-                'Username': (name.toLowerCase() + surname.toLowerCase() + Math.floor(Math.random() * 100)).toString()
-            }).then((response) => {
-                alert("You have successfully registered!");
-                navigation.navigate('SendVerificationScreen');
+            var flag = true; //true means email has not registered yet
+            // console.log(randomAvatar,sex,email,bio,name,surname,age,name.toLowerCase() + surname.toLowerCase() + Math.floor(Math.random() * 100));
+
+            axios.post('https://wlobby-backend.herokuapp.com/get/users/').then((response) => {
+                //console.log("bbbb",response);
+                for (var i = 0; i <response.data.Items.length; i++) {
+                    var user = response.data.Items[i];
+                    var emailDataBase=user.Email;
+                    if (emailDataBase===email){
+                        flag=false;
+                    }
+
+
+                }
+                signUp({email:email.toString(), password:password.toString(),username:username.toString()});
+
+                if (flag&&state.isSignUp===true){
+                    axios.post('https://wlobby-backend.herokuapp.com/create/user/',{
+                        'ProfilePhoto': randomAvatar,
+                        'Sex' : sex.toString(),
+                        'Email': email.toString(),
+                        'About': bio.toString(),
+                        'Name': name.toString(),
+                        'Surname': surname.toString(),
+                        'Age': age,
+                        'Username': username.toString(),
+                    }).then((response) => {
+                        console.log("aaaa",response.data);
+                        alert("Please confirm your Email!");
+                        navigation.navigate("SendVerificationScreen");
+
+                    });
+                }
+                else{
+                    alert("Email registered already");
+                }
+
             });
+
+
+
+
         }
         else {
             alert("Please fill required areas!");
@@ -140,144 +176,148 @@ const RegisterScreen = () => {
         setAge(tempAge);
     }
 
+    function handleOnChangeEmail(email) {
+        setEmail(email)
+    }
+
     return (
         <SafeAreaView style={styles.mainContainer}>
-            <KeyboardAwareScrollView contentContainerStyle={{paddingBottom: '100%'}} showsVerticalScrollIndicator={false}>
+            <ScrollView contentContainerStyle={{paddingBottom: '100%'}} showsVerticalScrollIndicator={false}>
                 <Image source={require('../../assets/Wlobby-logos_transparent.png')} style={styles.logo}/>
                 {/* <Card.Content> */}
-                    <SafeAreaView>
-                        <SvgUri width="100" height="100" uri={randomAvatar}
-                         style={{
-                            alignSelf: 'center'
+                <SafeAreaView>
+                    <SvgUri width="100" height="100" uri={randomAvatar}
+                            style={{
+                                alignSelf: 'center'
                             }}/>
-                        <Button onPress={handleRandomizeButton}>GET RANDOM</Button>
-                        <TextInput style={styles.textInput} label="Email" value={email}
-                                   onChangeText={email => setEmail(email)}/>
-                        <TextInput style={styles.textInput} label="Name" value={name}
-                                   onChangeText={name => setName(name)}/>
-                        <TextInput style={styles.textInput} label="Surname" value={surname}
-                                   onChangeText={surname => setSurname(surname)}/>
-                        <DatePickerInput
-                            style={styles.textInput}
-                            label="Birthday"
-                            value={birthday}
-                            onChange={(d) => handleBirthday(d)}
-                            inputMode="start"
-                            validRange={{
-                                endDate: new Date(),
-                            }}
-                            saveLabel="Save"
-                            animationType="slide"
-                            locale={'en'}/>
-                        <TextInput disabled={true} style={styles.age} label="Age"
-                                   value={(new Date().getFullYear() - birthday.getFullYear()).toString()}/>
-                        <TextInput style={styles.textInput}
-                                   label="Tell people about yourself (Bio)"
-                                   multiline={true}
-                                   error={bio.length > 100}
-                                   value={bio} onChangeText={setBio}
-                                   placeholder="Tell people about yourself"
-                                   maxLength={100}
-                                   right={<TextInput.Affix text={"/" + (100 - bio.length)}/>}
-                        />
-                        <Divider style={{borderWidth: 0.4}}/>
-                        <Divider style={{borderWidth: 0.1}}/>
-                        <Provider>
-                            <View style={{
-                                borderWidth: 1,
-                                width: "50%",
-                                borderRadius: 5,
-                                margin: 5,
-                                alignSelf: "center",
-                                borderColor: "#6200ed"
-                            }}>
-                                <Button onPress={showDialog}>{sex ? sex : "Select Sex"}</Button>
-                                <Portal>
-                                    <Dialog visible={visible} onDismiss={hideDialog}>
-                                        <Dialog.Title>Select Sex</Dialog.Title>
-                                        <Dialog.Content>
-                                            <RadioButton.Group onValueChange={value => setSex(value)} value={sex}>
-                                                <RadioButton.Item style={{width: '100%'}} color="#6200ed" label="Male"
-                                                                  value="male"/>
-                                                <RadioButton.Item style={{width: '100%'}} color="#6200ed" label="Female"
-                                                                  value="female"/>
-                                                <RadioButton.Item style={{width: '100%'}} color="#6200ed" label="Other"
-                                                                  value="other"/>
-                                            </RadioButton.Group>
-                                        </Dialog.Content>
-                                        <Dialog.Actions>
-                                            <Button onPress={hideDialog}>Done</Button>
-                                        </Dialog.Actions>
-                                    </Dialog>
-                                </Portal>
-                            </View>
-                        </Provider>
-                        <Divider style={{borderWidth: 0.4}}/>
-                        <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                            <Subheading style={{paddingLeft: 10}}>Country</Subheading>
-                            <Dropdown
-                                style={styles.dropdown}
-                                placeholderStyle={styles.placeholderStyle}
-                                selectedTextStyle={styles.selectedTextStyle}
-                                inputSearchStyle={styles.inputSearchStyle}
-                                iconStyle={styles.iconStyle}
-                                data={countries}
-                                search
-                                maxHeight={300}
-                                labelField="label"
-                                valueField="value"
-                                placeholder="Select item"
-                                searchPlaceholder="Search..."
-                                value={value}
-                                onChange={item => {
-                                    setCountryCode(item.value);
-                                }}
-                                renderLeftIcon={() => (
-                                    <AntDesign style={styles.icon} color="black" name="Safety" size={20}/>
-                                )}
-                                renderItem={renderItem}
-                            />
+                    <Button onPress={handleRandomizeButton}>GET RANDOM</Button>
+                    <TextInput style={styles.textInput} label="Email" value={email}
+                               onChangeText={email => handleOnChangeEmail(email)}/>
+                    <TextInput style={styles.textInput} label="Name" value={name}
+                               onChangeText={name => setName(name)}/>
+                    <TextInput style={styles.textInput} label="Surname" value={surname}
+                               onChangeText={surname => setSurname(surname)}/>
+                    <DatePickerInput
+                        style={styles.textInput}
+                        label="Birthday"
+                        value={birthday}
+                        onChange={(d) => handleBirthday(d)}
+                        inputMode="start"
+                        validRange={{
+                            endDate: new Date(),
+                        }}
+                        saveLabel="Save"
+                        animationType="slide"
+                        locale={'en'}/>
+                    <TextInput disabled={true} style={styles.age} label="Age"
+                               value={(new Date().getFullYear() - birthday.getFullYear()).toString()}/>
+                    <TextInput style={styles.textInput}
+                               label="Tell people about yourself (Bio)"
+                               multiline={true}
+                               error={bio.length > 100}
+                               value={bio} onChangeText={setBio}
+                               placeholder="Tell people about yourself"
+                               maxLength={100}
+                               right={<TextInput.Affix text={"/" + (100 - bio.length)}/>}
+                    />
+                    <Divider style={{borderWidth: 0.4}}/>
+                    <Divider style={{borderWidth: 0.1}}/>
+                    <Provider>
+                        <View style={{
+                            borderWidth: 1,
+                            width: "50%",
+                            borderRadius: 5,
+                            margin: 5,
+                            alignSelf: "center",
+                            borderColor: "#6200ed"
+                        }}>
+                            <Button onPress={showDialog}>{sex ? sex : "Select Sex"}</Button>
+                            <Portal>
+                                <Dialog visible={visible} onDismiss={hideDialog}>
+                                    <Dialog.Title>Select Sex</Dialog.Title>
+                                    <Dialog.Content>
+                                        <RadioButton.Group onValueChange={value => setSex(value)} value={sex}>
+                                            <RadioButton.Item style={{width: '100%'}} color="#6200ed" label="Male"
+                                                              value="male"/>
+                                            <RadioButton.Item style={{width: '100%'}} color="#6200ed" label="Female"
+                                                              value="female"/>
+                                            <RadioButton.Item style={{width: '100%'}} color="#6200ed" label="Other"
+                                                              value="other"/>
+                                        </RadioButton.Group>
+                                    </Dialog.Content>
+                                    <Dialog.Actions>
+                                        <Button onPress={hideDialog}>Done</Button>
+                                    </Dialog.Actions>
+                                </Dialog>
+                            </Portal>
                         </View>
-                        <TextInput
-                            style={styles.textInput}
-                            label="Password"
-                            secureTextEntry={secureTextEntry}
-                            value={password}
-                            onChangeText={password => setPassword(password)}
-                            right={
-                                <TextInput.Icon
-                                    name={secureTextEntry ? "eye" : "eye-off"}
-                                    onPress={() => {
-                                        setSecureTextEntry(!secureTextEntry);
-                                        return false;
-                                    }}
-                                />
-                            }
+                    </Provider>
+                    <Divider style={{borderWidth: 0.4}}/>
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                        <Subheading style={{paddingLeft: 10}}>Country</Subheading>
+                        <Dropdown
+                            style={styles.dropdown}
+                            placeholderStyle={styles.placeholderStyle}
+                            selectedTextStyle={styles.selectedTextStyle}
+                            inputSearchStyle={styles.inputSearchStyle}
+                            iconStyle={styles.iconStyle}
+                            data={countries}
+                            search
+                            maxHeight={300}
+                            labelField="label"
+                            valueField="value"
+                            placeholder="Select item"
+                            searchPlaceholder="Search..."
+                            value={value}
+                            onChange={item => {
+                                setCountryCode(item.value);
+                            }}
+                            renderLeftIcon={() => (
+                                <AntDesign style={styles.icon} color="black" name="Safety" size={20}/>
+                            )}
+                            renderItem={renderItem}
                         />
-                        <TextInput
-                            style={styles.textInput}
-                            label="Confirm Password"
-                            secureTextEntry={secureTextEntryForConfirm}
-                            value={confirmPassword}
-                            onChangeText={confirmPassword => setConfirmPassword(confirmPassword)}
-                            right={
-                                <TextInput.Icon
-                                    name={secureTextEntryForConfirm ? "eye" : "eye-off"}
-                                    onPress={() => {
-                                        setSecureTextEntryForConfirm(!secureTextEntryForConfirm);
-                                        return false;
-                                    }}
-                                />
-                            }
-                        />
-                        <HelperText type="error" visible={arePasswordsSame()}>Passwords must match</HelperText>
-                        <Button style={styles.button} icon="check" mode="contained"
-                                onPress={() => handleSubmit()}>
-                            Submit
-                        </Button>
-                    </SafeAreaView>
+                    </View>
+                    <TextInput
+                        style={styles.textInput}
+                        label="Password"
+                        secureTextEntry={secureTextEntry}
+                        value={password}
+                        onChangeText={password => setPassword(password)}
+                        right={
+                            <TextInput.Icon
+                                name={secureTextEntry ? "eye" : "eye-off"}
+                                onPress={() => {
+                                    setSecureTextEntry(!secureTextEntry);
+                                    return false;
+                                }}
+                            />
+                        }
+                    />
+                    <TextInput
+                        style={styles.textInput}
+                        label="Confirm Password"
+                        secureTextEntry={secureTextEntryForConfirm}
+                        value={confirmPassword}
+                        onChangeText={confirmPassword => setConfirmPassword(confirmPassword)}
+                        right={
+                            <TextInput.Icon
+                                name={secureTextEntryForConfirm ? "eye" : "eye-off"}
+                                onPress={() => {
+                                    setSecureTextEntryForConfirm(!secureTextEntryForConfirm);
+                                    return false;
+                                }}
+                            />
+                        }
+                    />
+                    <HelperText type="error" visible={arePasswordsSame()}>Passwords must match</HelperText>
+                    <Button style={styles.button} icon="check" mode="contained"
+                            onPress={() => handleSubmit()}>
+                        Submit
+                    </Button>
+                </SafeAreaView>
                 {/* </Card.Content> */}
-            </KeyboardAwareScrollView>
+            </ScrollView>
         </SafeAreaView>
     );
 };

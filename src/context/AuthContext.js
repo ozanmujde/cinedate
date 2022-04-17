@@ -1,43 +1,80 @@
 import createDataContext from "./createDataContext";
+import {Auth} from "aws-amplify"
+
+
+
+
+const signIn = (dispatch) => async ({ email, password }) => {
+
+  try {
+    //const response = await Auth.signIn(email,password);
+    dispatch({ type: "signin", payload: "response" });
+  } catch (err) {
+    alert(err);
+    dispatch({
+      type: "add_error",
+      payload: "Something went wrong with sign in",
+    });
+  }
+};
+
+
+const confirmEmail = (dispatch) => async ({ email, code }) => {
+  try {
+
+    const response = await Auth.confirmSignUp(email,code);
+
+    console.log("confirm response" , response);
+    alert("You have successfully registered!");
+    dispatch({ type: "confirmemail", payload: response });
+  } catch (err) {
+    console.log(err);
+    alert("Can not confirm email, please check the code");
+    dispatch({
+      type: "add_error",
+      payload: "Something went wrong with confirm",
+    });
+  }
+};
+
+
 
 const authReducer = (state, action) => {
+
   switch (action.type) {
     case "signin":
-      // if (
-      //   action.payload.email === "admin" &&
-      //   action.payload.password === "123"
-      // ) {
-        return { ...state, isSignedIn: true };
+      return { ...state, isSignedIn: true };
     case "signout":
       return { ...state, isSignedIn: false };
-      // }
+    case "signup":
+      return { ...state, isSignedIn: false,isSignUp:true };
+    case "confirmemail":
+      return { ...state, isConfirmed:true };
     default:
       return state;
   }
 };
 
-const signup = (dispatch) => {
-  return () => {};
-  //   return async ({ email, password }) => {
-  //     try {
-  //       const response = await trackerApi.post("/signup", { email, password });
-  //       console.log(response.data);
-  //     } catch (err) {
-  //       console.log(err.response.data);
-  //       dispatch({
-  //         type: "add_error",
-  //         payload: "xxxxx",
-  //       });
-  //     }
-  //   };
+
+const signUp = (dispatch) => async ({ email, password,username }) => {
+
+  try {
+    const response = await Auth.signUp(
+        {
+          username:email,
+          password:password,
+          attributes:{email:email},
+        });
+    dispatch({ type: "signup", payload: response });
+  } catch (err) {
+    alert(err);
+    dispatch({
+      type: "add_error",
+      payload: "Something went wrong with sign up",
+    });
+  }
 };
 
-const signin = (dispatch) => {
-  return ({ email, password }) => {
-    dispatch({ type: "signin", payload: { email, password } });
-    // console.log('asd');
-  };
-};
 
 const signout = (dispatch) => {
   return () => {
@@ -46,7 +83,7 @@ const signout = (dispatch) => {
 };
 
 export const { Provider, Context } = createDataContext(
-  authReducer,
-  { signin, signout, signup },
-  { isSignedIn: false, errorMessage: "" }
+    authReducer,
+    { signIn, signout, signUp,confirmEmail},
+    { isSignedIn: false,isSignUp:false,isConfirmed:false, errorMessage: "" }
 );
