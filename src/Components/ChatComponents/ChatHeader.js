@@ -15,7 +15,7 @@ const ChatHeader = (props) => {
   const tmp = channelId.split("c");
   // console.log(generator.generateRandomAvatar());
   let otherID = tmp[0] == myID ? tmp[1] : tmp[0];
-  console.log("other", otherID);
+  // console.log("other", otherID);
   useEffect(() => {
     getUserData(otherID);
   }, [channelId, userData]);
