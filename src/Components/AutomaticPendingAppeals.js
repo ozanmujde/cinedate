@@ -39,7 +39,7 @@ const AutomaticPendingAppeals = ({advert, navigation, movieID, pendingStatus, is
       console.log("Something went wrong");
     }
 
-    setUri("https://image.tmdb.org/t/p/w185_and_h278_bestv2/" + result.poster_path);
+    let uri = ("https://image.tmdb.org/t/p/w185_and_h278_bestv2/" + result.poster_path);
     navigation.navigate('ResultScreen', {
       id: result.id,
       image: uri,
