@@ -33,11 +33,12 @@ const ModalChipsScreen = ({ route: { params } }) => {
               alert("Interest already added");
             } else {
               setInterests((oldArray) => [...oldArray, interest]);
+              navigation.goBack();
             }
           } else {
             setInterests((oldArray) => [...oldArray, interest]);
+            navigation.goBack();
           }
-          navigation.goBack();
         }}
       />
     </View>
