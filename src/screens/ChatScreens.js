@@ -155,7 +155,11 @@ const ChatScreens = ({ navigation }) => {
                 // console.log(item.id);
                 const myID = state.userID;
                 const tmp = item.split("c");
-                let otherID = tmp[0] == myID ? tmp[1] : tmp[0];
+                let otherID = tmp[0] === myID.toString() ? tmp[1] : tmp[0];
+                console.log("otherID", otherID);
+                console.log(typeof otherID);
+                console.log("myID", myID);
+                console.log(typeof myID);
                 navigation.navigate("ChatScreen", {
                   //TODO: AUth gelince degistir
                   channelId: item,

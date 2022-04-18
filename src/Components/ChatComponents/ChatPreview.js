@@ -1,19 +1,21 @@
-import React, { useEffect } from "react";
+import React, { useEffect,useContext } from "react";
 import { StyleSheet, SafeAreaView, View } from "react-native";
 import { Avatar, Text } from "react-native-elements";
 import { getUsers } from "../../hooks/wlobbyGetters";
 import { SvgUri } from "react-native-svg";
 import { AvatarGenerator } from "random-avatar-generator";
+import {Context as AuthContext} from '../../context/AuthContext';
 const TEMP_IMAGE =
   "https://avataaars.io/?accessoriesType=Prescription02&avatarStyle=Circle&clotheColor=Red&clotheType=Hoodie&eyeType=Squint&eyebrowType=FlatNatural&facialHairColor=BlondeGolden&facialHairType=MoustacheFancy&hairColor=BlondeGolden&hatColor=PastelYellow&mouthType=Serious&skinColor=DarkBrown&topType=LongHairStraight";
 const ChatPreview = (props) => {
   const channelId = props.channelId;
   const generator = new AvatarGenerator();
+  const { state } = useContext(AuthContext);
   const [getUserData, userData, errorMessage] = getUsers();
-  const myID = 7; //TODO: AUth gelince degistir
+  const myID = state.userID;
   const tmp = channelId.split("c");
   // console.log(generator.generateRandomAvatar());
-  let otherID = tmp[0] == myID ? tmp[1] : tmp[0];
+  let otherID = tmp[0] === myID.toString() ? tmp[1] : tmp[0];
   // if (userData.LastLogIn) {
   //   const toStr = userData.LastLogIn.toString();
   //   const date = new Date(toStr);
