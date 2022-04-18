@@ -5,14 +5,16 @@ import {
   Pressable,
   TouchableOpacity,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { FlatList } from "react-native-gesture-handler";
 import FilmImage from "./FilmImage";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import AntDesign from "react-native-vector-icons/AntDesign";
+import { Context as AuthContext } from "../../context/AuthContext";
 
 const FilmList = ({ filmList, button, isWatched, userData }) => {
+  const { state } = useContext(AuthContext);
   const navigation = useNavigation();
   return (
     <View
@@ -31,7 +33,7 @@ const FilmList = ({ filmList, button, isWatched, userData }) => {
         renderItem={({ item }) => {
           return (
             <>
-              {button && userData.UserID === 7 ? (
+              {button && userData.UserID === state.userID ? (
                 <TouchableOpacity
                   onPress={() => {
                     navigation.navigate("AdvertListScreen", {
@@ -65,7 +67,7 @@ const FilmList = ({ filmList, button, isWatched, userData }) => {
         }}
       />
 
-      {button && userData.UserID === 7 ? (
+      {button && userData.UserID === state.userID ? (
         <View style={{ flexGrow: 100 }}>
           <TouchableOpacity
             onPress={() => {

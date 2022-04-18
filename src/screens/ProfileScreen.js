@@ -33,7 +33,7 @@ const ProfileScreen = ({ route: { params } }) => {
   const [refreshing, setRefreshing] = useState(false);
   useEffect(() => {
     getUserData(userID);
-    console.log(userData);
+    // console.log(userData);
   }, [userID, userData]);
 
   const onRefresh = (userID) => {

@@ -4,6 +4,7 @@ import useResults from "../hooks/useResults";
 import {Avatar, Card, IconButton} from "react-native-paper";
 import tmdb from "../api/tmdb";
 import axios from "axios";
+import {Context as AuthContext} from "../context/AuthContext";
 
 let result;
 LogBox.ignoreAllLogs()

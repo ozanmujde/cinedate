@@ -104,11 +104,17 @@ const SearchList = ({ results, filmList, isWatched, userData }) => {
               onPress={() => {
                 //TODO: user update gelince degistir
                 // console.log(item);
-                if (filmList.includes(item.id)) {
-                  if (isWatched) {
-                    alert("You already watched this movie");
+                if (Object.keys(filmList).length !== 0) {
+                  if (filmList.includes(item.id)) {
+                    if (isWatched) {
+                      alert("You already watched this movie");
+                    } else {
+                      alert("You already liked this movie");
+                    }
                   } else {
-                    alert("You already liked this movie");
+                    updateNewUser(item);
+                    // setFilms([...userData.WatchedFilms, item.id]);
+                    navigation.goBack();
                   }
                 } else {
                   updateNewUser(item);
