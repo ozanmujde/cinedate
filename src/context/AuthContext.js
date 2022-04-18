@@ -62,8 +62,7 @@ const authReducer = (state, action) => {
   }
 };
 
-const signUp =
-  (dispatch) =>
+const signUp = (dispatch) =>
   async ({ email, password }) => {
     try {
       const response = await Auth.signUp({
@@ -73,7 +72,22 @@ const signUp =
       });
       dispatch({ type: "signup", payload: response });
     } catch (err) {
+        const res = await axios.get(
+            "https://wlobby-backend.herokuapp.com/get/users/"
+        );
+        res.data.Items.map((item) => {
+            // console.log("item", item);
+            // console.log("email", email);
+            if (item.Email === email) {
+                console.log(item.UserID);
+                axios.post('https://wlobby-backend.herokuapp.com/delete/user/?UserID=' + item.UserID)
+                    .then((response) => {
+                    });
+            }
+        });
+
       alert(err);
+
       dispatch({
         type: "add_error",
         payload: "Something went wrong with sign up",
