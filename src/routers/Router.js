@@ -139,6 +139,7 @@ const router = () => {
   );
 };
 const BottomTabNavigator = () => {
+  const { state } = useContext(AuthContext);
   const Tab = createBottomTabNavigator();
   return (
       <Tab.Navigator
@@ -201,7 +202,7 @@ const BottomTabNavigator = () => {
               ),
             }}
             initialParams={{
-              userID: 7,
+              userID: state.userID,
             }}
         />
       </Tab.Navigator>
