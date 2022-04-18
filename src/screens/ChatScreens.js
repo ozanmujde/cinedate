@@ -35,9 +35,10 @@ const ChatScreens = ({ navigation }) => {
     let uniqueUsers = [];
     try {
       const res = await axios.get(
-        `https://wlobby-backend.herokuapp.com/get/user/adverts/?UserID={state.userID}`
+        `https://wlobby-backend.herokuapp.com/get/user/adverts/?UserID=${state.userID}`
       );
       res.data.Items.map((item) => {
+        console.log("item", item);
         Object.keys(item.AttendeeIDs).map((key) => {
           if (uniqueUsers.indexOf(key) === -1 && key !== state.userID.toString()) { //TODO: burasi sikinit olabilir int to str
             uniqueUsers.push(key);
@@ -127,6 +128,7 @@ const ChatScreens = ({ navigation }) => {
           function (status, response) {
             response.data.map((element) => {
               // console.log("element", element);
+              console.log("element", element);
               if (!finalChannels.includes(element.channel.id)) {
                 setFinalChannels([...finalChannels, element.channel.id]);
               }
