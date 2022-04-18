@@ -45,6 +45,7 @@ const AdminAdverts = ({ route: { params } }) => {
     } catch (error) {
       console.log(error);
     }
+
     return adverts;
   }
   useEffect(() => {
@@ -70,26 +71,24 @@ const AdminAdverts = ({ route: { params } }) => {
                 <DataTable.Title numeric>Time</DataTable.Title>
               </DataTable.Header>
               {
-                adverts.length !== 0 ?
-                getadverts().slice(page * numberOfItemsPerPage,
+                adverts.slice(page * numberOfItemsPerPage,
                     page * numberOfItemsPerPage + numberOfItemsPerPage).map(advert => (
                     <DataTable.Row onPress={() => console.log("pressed")}>
-                      <DataTable.Cell numeric>{advert.AdvertID}</DataTable.Cell>
+                      <DataTable.Cell>{advert.AdvertID}</DataTable.Cell>
                       <DataTable.Cell>{advert.AttendeePreference}</DataTable.Cell>
                       <DataTable.Cell>{advert.FilmID}</DataTable.Cell>
                       <DataTable.Cell>{advert.OwnerID}</DataTable.Cell>
-                      <DataTable.Cell numeric>Quota</DataTable.Cell>
+                      <DataTable.Cell numeric>{advert.Quota}</DataTable.Cell>
                       <DataTable.Cell>{advert.Date.split(" ")[0]}</DataTable.Cell>
                       <DataTable.Cell>{advert.Date.split(" ")[1]}</DataTable.Cell>
-
                     </DataTable.Row>
-                )) : console.log("asdasd")
+                ))
               }
               <DataTable.Pagination
                   page={page}
-                  numberOfPages={Math.ceil(params.users.length / numberOfItemsPerPage)}
+                  numberOfPages={Math.ceil(adverts.length / numberOfItemsPerPage)}
                   onPageChange={page => setPage(page)}
-                  label={`${from + 1}-${to} of ${params.users.length}`}
+                  label={`${from + 1}-${to} of ${adverts.length}`}
                   showFastPaginationControls
                   numberOfItemsPerPageList={numberOfItemsPerPageList}
                   numberOfItemsPerPage={numberOfItemsPerPage}

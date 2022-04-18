@@ -96,28 +96,20 @@ const RegisterScreen = () => {
     function handleSubmit() {
         setUserName((name.toLowerCase() + surname.toLowerCase() + Math.floor(Math.random() * 100)).toString());
         if(email !== "" && name !== "" && surname !== "" && location !== "" && sex !== "" && randomAvatar !== "") {
-            let flag = true; //true means email has not registered yet
-            // console.log(randomAvatar,sex,email,bio,name,surname,age,name.toLowerCase() + surname.toLowerCase() + Math.floor(Math.random() * 100));
+
 
             axios.post('https://wlobby-backend.herokuapp.com/get/users/').then((response) => {
+                let flag = true;
                 for (var i = 0; i <response.data.Items.length; i++) {
                     var user = response.data.Items[i];
                     var emailDataBase=user.Email;
-                    // console.log("emaildatabase",emailDataBase);
-                    // console.log("email",email);
                     if (emailDataBase===email){
                         console.log("email already registered",emailDataBase);
                         flag=false;
                     }
-
-
                 };
 
-                console.log("before",state.isSignUp);
-                signUp({email:email.toString(), password:password.toString(),username:username.toString()});
-                console.log("after",state.isSignUp);
-
-                if (flag&&state.isSignUp===true){
+                if (flag){
                     axios.post('https://wlobby-backend.herokuapp.com/create/user/',{
                         'ProfilePhoto': randomAvatar,
                         'Sex' : sex.toString(),
@@ -128,19 +120,17 @@ const RegisterScreen = () => {
                         'Age': age,
                         'Username': username.toString(),
                     }).then((response) => {
-                        console.log("aaaa",response.data);
-                        alert("Please confirm your Email!");
-                        navigation.navigate("SendVerificationScreen");
+                        signUp({email:email.toString(), password:password.toString()})
+                            .then((response) => {
+                            alert("Please confirm your Email!");
+                            navigation.navigate("SendVerificationScreen");
+                        });
 
                     });
                 }
-                else if(!flag){
+                else if(flag===false){
                     alert("Email registered already");
                 }
-                else {
-                    alert("An error occured during sign-up");
-                }
-
             });
 
 
