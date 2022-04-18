@@ -7,7 +7,7 @@ import {Auth} from "aws-amplify"
 const signIn = (dispatch) => async ({ email, password }) => {
 
   try {
-    //const response = await Auth.signIn(email,password);
+    const response = await Auth.signIn(email,password);
     dispatch({ type: "signin", payload: "response" });
   } catch (err) {
     alert(err);
@@ -56,7 +56,7 @@ const authReducer = (state, action) => {
 };
 
 
-const signUp = (dispatch) => async ({ email, password,username }) => {
+const signUp = (dispatch) => async ({ email, password }) => {
 
   try {
     const response = await Auth.signUp(

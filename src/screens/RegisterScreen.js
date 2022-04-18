@@ -99,7 +99,6 @@ const RegisterScreen = () => {
             // console.log(randomAvatar,sex,email,bio,name,surname,age,name.toLowerCase() + surname.toLowerCase() + Math.floor(Math.random() * 100));
 
             axios.post('https://wlobby-backend.herokuapp.com/get/users/').then((response) => {
-                //console.log("bbbb",response);
                 for (var i = 0; i <response.data.Items.length; i++) {
                     var user = response.data.Items[i];
                     var emailDataBase=user.Email;
@@ -108,8 +107,11 @@ const RegisterScreen = () => {
                     }
 
 
-                }
+                };
+
+                console.log("before",state.isSignUp);
                 signUp({email:email.toString(), password:password.toString(),username:username.toString()});
+                console.log("after",state.isSignUp);
 
                 if (flag&&state.isSignUp===true){
                     axios.post('https://wlobby-backend.herokuapp.com/create/user/',{
@@ -128,13 +130,14 @@ const RegisterScreen = () => {
 
                     });
                 }
-                else{
+                else if(!flag){
                     alert("Email registered already");
+                }
+                else {
+                    alert("An error occured during sign-up");
                 }
 
             });
-
-
 
 
         }
