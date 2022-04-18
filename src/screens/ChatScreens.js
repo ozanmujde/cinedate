@@ -74,16 +74,16 @@ const ChatScreens = ({ navigation }) => {
         sort: "",
       },
       function (status, response) {
-        // console.log("response", response);
+        console.log("response", response);
         response.data.map((element) => {
           // console.log("element", element);
           channels.push(element.channel.id);
         });
-        // console.log("channels", channels);
+        console.log("channels", channels);
         // console.log("ids", idArr);
         for (let id of idArr) {
           const tmp = id.split(" ");
-          console.log("tmp", tmp);
+          // console.log("tmp", tmp);
           fullidArr.push(tmp[0] + "c" + tmp[1]);
           fullidArr.push(tmp[1] + "c" + tmp[0]);
         }
@@ -93,23 +93,27 @@ const ChatScreens = ({ navigation }) => {
             !channels.includes(fullidArr[i]) &&
             !channels.includes(fullidArr[i + 1])
           ) {
-            console.log("--------------------");
-            console.log("fullid+1", fullidArr[i + 1]);
-            console.log("fullid+1", channels.includes(fullidArr[i + 1]));
-            console.log("channels", channels);
-            console.log("fullid", channels.includes(fullidArr[i]));
-            console.log("fullid", fullidArr[i]);
+            // console.log("--------------------");
+            // console.log("fullid+1", fullidArr[i + 1]);
+            // console.log("fullid+1", channels.includes(fullidArr[i + 1]));
+            // console.log("channels", channels);
+            // console.log("fullid", channels.includes(fullidArr[i]));
+            // console.log("fullid", fullidArr[i]);
             newChannels.push(fullidArr[i]);
-            console.log("--------------------");
+            // console.log("--------------------");
           }
         }
         // console.log("newChannels", newChannels);
         for (let channel of newChannels) {
           const tmp = channel.split("c");
-          console.log("tmp", tmp);
+          // console.log("tmp", tmp);
           pubnub.objects.setMemberships({
             channels: [channel],
-            uuids: [tmp[0], tmp[1]],
+            uuid: tmp[0],
+          });
+          pubnub.objects.setMemberships({
+            channels: [channel],
+            uuid: tmp[1],
           });
         }
         pubnub.objects.getMemberships(

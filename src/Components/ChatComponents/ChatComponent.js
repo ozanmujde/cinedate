@@ -58,8 +58,8 @@ const ChatComponent = (props) => {
     //   uuids: ["Ozan"],
     // });
     // pubnub.objects.removeMemberships({
-    //   channels: ["4c7", "7c7"],
-    //   uuids: ["Ozan"],
+    //   channels: ["149c152", "149c7"],
+    //   uuids: [state.userID.toString()],
     // });
     return () => {
       pubnub.removeListener(listener);
