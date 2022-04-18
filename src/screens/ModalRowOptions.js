@@ -13,9 +13,7 @@ const ModalRowOptions = ({route: {params}}) => {
     axios.post('https://wlobby-backend.herokuapp.com/delete/user/?UserID=' + params.userData.UserID)
         .then((response) => {
           // console.log(response.data);
-
-
-          alert("User deleted successfully");
+          alert("User deleted from apps' database , Please delete also from AWS pool to prevent conflict");
           navigation.navigate("AdminUsers", {users: params.usersData});
         });
   }
