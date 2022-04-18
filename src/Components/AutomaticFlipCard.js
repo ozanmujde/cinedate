@@ -36,7 +36,8 @@ const AutomaticFlipCard = ({ advert, navigation, movieID, isDetailScreen, isMyAd
 
   // console.log('advert',advert);
   const uri =
-    "https://image.tmdb.org/t/p/w185_and_h278_bestv2/" + movieInfo.poster_path;
+    "https://image.tmdb.org/t/p/w342" + movieInfo.poster_path;
+    console.log('uri',uri);
   return (
     // <View style={{ flex: 1, backgroundColor:"red" }}>
       <FlipcardComponent
