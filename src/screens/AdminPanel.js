@@ -24,11 +24,11 @@ const AdminPanel = () => {
   }, []);
 
   function handleSubmit() {
-    // if (adminUsername === "admin" && adminPassword === "admin") {
+    if (adminUsername === "admin" && adminPassword === "admin") {
       setShowAdminPanel(true);
-    // } else {
-    //   alert("Wrong username or password");
-    // }
+    } else {
+      alert("Wrong username or password");
+    }
   }
 
   return (
