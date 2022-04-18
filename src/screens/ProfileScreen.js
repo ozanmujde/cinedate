@@ -33,6 +33,7 @@ const ProfileScreen = ({ route: { params } }) => {
   const [refreshing, setRefreshing] = useState(false);
   useEffect(() => {
     getUserData(userID);
+    console.log(userData);
   }, [userID, userData]);
 
   const onRefresh = (userID) => {
@@ -143,7 +144,6 @@ const ProfileScreen = ({ route: { params } }) => {
           >
             Sign Out
           </Button>
-          {/* TODO: Burasi auth la degismeli */}
           {userID === state.userID ? (
             <Button
               style={styles.button}

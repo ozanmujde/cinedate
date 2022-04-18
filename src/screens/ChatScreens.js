@@ -5,15 +5,17 @@ import {
   StyleSheet,
   View,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useContext } from "react";
 import ChatPreview from "../Components/ChatComponents/ChatPreview";
 import Users from "../../assets/Users";
 import { Divider } from "react-native-elements";
 import { usePubNub } from "pubnub-react";
 import axios from "axios";
 import { getAdverts } from "../hooks/wlobbyGetters";
+import { Context as AuthContext } from "../context/AuthContext";
 
 const ChatScreens = ({ navigation }) => {
+  const { state } = useContext(AuthContext);
   // const [users, setUsers] = useState([]);
   // const [advertIDs, setAdvertIDs] = useState([]);
   // const [getAdvertsData, adverts, errorMessage, loading] = getAdverts();
@@ -33,11 +35,11 @@ const ChatScreens = ({ navigation }) => {
     let uniqueUsers = [];
     try {
       const res = await axios.get(
-        "https://wlobby-backend.herokuapp.com/get/user/adverts/?UserID=7"
+        `https://wlobby-backend.herokuapp.com/get/user/adverts/?UserID={state.userID}`
       );
       res.data.Items.map((item) => {
         Object.keys(item.AttendeeIDs).map((key) => {
-          if (uniqueUsers.indexOf(key) === -1 && key !== "7") {
+          if (uniqueUsers.indexOf(key) === -1 && key !== state.userID.toString()) { //TODO: burasi sikinit olabilir int to str
             uniqueUsers.push(key);
           }
         });
@@ -55,11 +57,11 @@ const ChatScreens = ({ navigation }) => {
     let newChannels = [];
     for (let user of users) {
       //TODO: AUth gelince duzelt
-      idArr.push("7" + " " + user.toString());
+      idArr.push(state.userID.toString() + " " + user.toString());
     }
     pubnub.objects.getMemberships(
       {
-        uuid: "Ozan",
+        uuid: state.userID.toString(),
         include: "custom",
         count: 50,
         page: 1,
@@ -111,7 +113,7 @@ const ChatScreens = ({ navigation }) => {
         }
         pubnub.objects.getMemberships(
           {
-            uuid: "Ozan",
+            uuid: state.userID.toString(),
             include: "custom",
             count: 50,
             page: 1,
@@ -149,7 +151,7 @@ const ChatScreens = ({ navigation }) => {
             <Pressable
               onPress={() => {
                 // console.log(item.id);
-                const myID = 7;
+                const myID = state.userID;
                 const tmp = item.split("c");
                 let otherID = tmp[0] == myID ? tmp[1] : tmp[0];
                 navigation.navigate("ChatScreen", {
