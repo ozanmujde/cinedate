@@ -118,21 +118,26 @@ const RegisterScreen = () => {
                 console.log("after",state.isSignUp);
 
                 if (flag&&state.isSignUp===true){
-                    axios.post('https://wlobby-backend.herokuapp.com/create/user/',{
-                        'ProfilePhoto': randomAvatar,
-                        'Sex' : sex.toString(),
-                        'Email': email.toString(),
-                        'About': bio.toString(),
-                        'Name': name.toString(),
-                        'Surname': surname.toString(),
-                        'Age': age,
-                        'Username': username.toString(),
-                    }).then((response) => {
-                        console.log("aaaa",response.data);
-                        alert("Please confirm your Email!");
-                        navigation.navigate("SendVerificationScreen");
+                console.log((new Date().getFullYear() - birthday.getFullYear()).toString());
+                    if(age !== "0") {
+                        axios.post('https://wlobby-backend.herokuapp.com/create/user/',{
+                            'ProfilePhoto': randomAvatar,
+                            'Sex' : sex.toString(),
+                            'Email': email.toString(),
+                            'About': bio.toString(),
+                            'Name': name.toString(),
+                            'Surname': surname.toString(),
+                            'Age': (new Date().getFullYear() - birthday.getFullYear()).toString(),
+                            'Username': username.toString(),
+                            'LikedFilms': [],
+                            'Interests': [],
+                        }).then((response) => {
+                            console.log("aaaa",response.data);
+                            alert("Please confirm your Email!");
+                            navigation.navigate("SendVerificationScreen");
 
-                    });
+                        });
+                    }
                 }
                 else if(!flag){
                     alert("Email registered already");

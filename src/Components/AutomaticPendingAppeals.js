@@ -235,7 +235,6 @@ const AutomaticPendingAppeals = ({advert, navigation, movieID, pendingStatus, is
   function getSubTitle() {
     axios.get('https://wlobby-backend.herokuapp.com/get/user/?UserID=' + advert.OwnerID)
         .then(res => {
-          console.log("here",res.data.Item.Username);
           setSubTitle(res.data.Item.Username);
           return res.data.Item.Username;
         })
