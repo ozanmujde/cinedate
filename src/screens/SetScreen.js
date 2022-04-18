@@ -83,35 +83,36 @@ const SetScreen = ({ route: { params } }) => {
     }
     searchMovieApi(filmName);
     let filmid = results[0].id;
-    console.log(filmid);
-    console.log(results[0].id);
     setFilmID(results[0].id);
-    console.log(filmID);
-    console.log(date.toLocaleDateString(),time.toString(), attendeePreferences,comment,filmName,quota,filmid );
-    axios.post('https://wlobby-backend.herokuapp.com/create/advert/',{
-      'Date': (date.toLocaleDateString() + " " + time.toString()).toString(),
-      'AttendeePreference' : attendeePreferences.toString(),
-      'Description': comment.toString(),
-      'FilmID': filmid.toString(),
-      'OwnerID': "7",
-      'Quota': quota.toString(),
-      'Status': "Active"
-    }).then((response) => {
-      console.log(response.data);
-      if(response.data.Status === "Success") {
-        alert("Advert created successfully");
-        navigation.navigate('Home');
-      }
-      else {
-        alert("Advert creation failed");
-      }
-    })
+    if(Number(quota) <= 10) {
+      axios.post('https://wlobby-backend.herokuapp.com/create/advert/',{
+        'Date': (date.toLocaleDateString() + " " + time.toString()).toString(),
+        'AttendeePreference' : attendeePreferences.toString(),
+        'Description': comment.toString(),
+        'FilmID': filmid.toString(),
+        'OwnerID': "7",
+        'Quota': quota.toString(),
+        'Status': "Active"
+      }).then((response) => {
+        console.log(response.data);
+        if(response.data.Status === "Success") {
+          alert("Advert created successfully");
+          navigation.navigate('Home');
+        }
+        else {
+          alert("Advert creation failed");
+        }
+      })
+    } else {
+      alert("Quota should be less than 10");
+    }
+
   }
 
   return (
       <SafeAreaView style={styles.mainContainer}>
         <Image source={require('../../assets/Wlobby-logos_transparent.png')} style={styles.logo}/>
-        <Card style={{width: '90%', height: '90%'}}>
+        <Card style={{width: '90%', height: '90%', backgroundColor: 'lightgray'}}>
           <Card.Content>
             <KeyboardAwareScrollView style={styles.container} contentContainerStyle={{paddingBottom: '100%'}}
                         showsVerticalScrollIndicator={false}>
