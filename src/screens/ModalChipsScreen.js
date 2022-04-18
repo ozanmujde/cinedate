@@ -28,8 +28,12 @@ const ModalChipsScreen = ({ route: { params } }) => {
         small
         icon="plus"
         onPress={() => {
-          if (interests.includes(interest)) {
-            alert("Interest already added");
+          if (interests) {
+            if (interests.includes(interest)) {
+              alert("Interest already added");
+            } else {
+              setInterests((oldArray) => [...oldArray, interest]);
+            }
           } else {
             setInterests((oldArray) => [...oldArray, interest]);
           }

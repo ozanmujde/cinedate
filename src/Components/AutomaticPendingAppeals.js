@@ -1,5 +1,5 @@
 import {LogBox, TouchableOpacity, View} from "react-native";
-import React, {useEffect} from "react";
+import React, {useEffect,useContext} from "react";
 import useResults from "../hooks/useResults";
 import {Avatar, Card, IconButton} from "react-native-paper";
 import tmdb from "../api/tmdb";
@@ -18,7 +18,7 @@ const AutomaticPendingAppeals = ({advert, navigation, movieID, pendingStatus, is
     moviesInfos,
     isLoading,
   ] = useResults();
-
+  const {state} = useContext(AuthContext);
   useEffect(() => {
     getMovieDetails(movieID);
     getSubTitle();
@@ -270,7 +270,7 @@ const AutomaticPendingAppeals = ({advert, navigation, movieID, pendingStatus, is
                         />
                       </TouchableOpacity>
                       : isMyAdvert === 1
-                          ? advert.OwnerID !== 7 ?
+                          ? advert.OwnerID !== state.userID ?
                               <TouchableOpacity onPress={() => function1()}>
                                 <Card.Title style={{borderWidth: .5, borderColor: "black"}}
                                             title={isLoading ? "Loading..." : movieInfo.original_title}
