@@ -14,6 +14,7 @@ const ChatComponent = (props) => {
   // console.log(props);
   const [messages, setMessages] = useState([]);
   const [channels] = useState([str]);
+  console.log("state", state.userID);
   useEffect(() => {
     pubnub.fetchMessages(
       {
@@ -84,11 +85,12 @@ const ChatComponent = (props) => {
     //   avatar: Users[props.userId].imageUri,
     // };
     console.log("channels", channels);
+    console.log("message", message);
     pubnub
       .publish({
         message: message[0],
         channel: channels[0],
-        sendBy: 7, //TODO AUTH gelince burasi degisecek
+        sendBy: state.userID, //TODO AUTH gelince burasi degisecek
       })
       .then(() => setMessage(""));
   }, []);
@@ -119,7 +121,7 @@ const ChatComponent = (props) => {
         messages={messages}
         onSend={sendMessage}
         user={{
-          _id: state.userId,
+          _id: state.userID,
         }}
         sendOnEnter={true}
         style={{
