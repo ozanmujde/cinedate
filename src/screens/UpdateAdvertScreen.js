@@ -32,8 +32,8 @@ const UpdateAdvertScreen = ({ route: { params } }) => {
   const [date, setDate] = React.useState(params.date);
   const [time, setTime] = React.useState(params.time);
 
-  const handleChangeDate = (date) => {
-    setDate(date.toLocaleDateString());
+  const handleChangeDate = (text) => {
+    setDate(text);
   };
 
   const onDismiss = React.useCallback(() => {
@@ -280,7 +280,7 @@ const UpdateAdvertScreen = ({ route: { params } }) => {
               <Button style={{marginTop: -15}} onPress={() => setVisible(true)}>
                 Pick time
               </Button>
-              <TextInput label="Time" value={params.time} style={{backgroundColor: '#fff'}}/>
+              <TextInput label="Time" value={time} style={{backgroundColor: '#fff'}}/>
               <SafeAreaView style={styles.switchContainer}>
                 <SafeAreaView style={styles.menSwitch}>
                   <Switch disabled={!womenSwitch} value={menSwitch} onValueChange={onToggleMenSwitch} color={'#6200ed'}/>

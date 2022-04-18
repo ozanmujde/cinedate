@@ -5,6 +5,12 @@ import useResults from "../hooks/useResults";
 import {Time} from "react-native-gifted-chat";
 
 const AutomaticFlipCard = ({ advert, navigation, movieID, isDetailScreen, isMyAdvert }) => {
+
+  useEffect(() => {
+    getMovieDetails(movieID);
+    console.log("movieID", movieID);
+    console.log("movieInfo", movieInfo);
+  }, [movieID]);
   const [
     searchMovieApi,
     errorMessage,
@@ -19,22 +25,18 @@ const AutomaticFlipCard = ({ advert, navigation, movieID, isDetailScreen, isMyAd
   if(isDetailScreen !== true) {
     isDetailScreen = false;
   }
+  console.log("movieID", movieID);
 
   let date = advert.Date.split(" ")[0];
-  console.log(date);
   var pattern = /(\d{2})\.(\d{2})\.(\d{4})/;
   date = new Date(date.replace(pattern,'$3-$2-$1'));
 
   let time = advert.Date.split(" ")[1];
   time = new Time(time).props;
 
-  useEffect(() => {
-    getMovieDetails(movieID);
-  }, [movieID]);
   // console.log('advert',advert);
   const uri =
     "https://image.tmdb.org/t/p/w185_and_h278_bestv2/" + movieInfo.poster_path;
-    // console.log("movieInfo", movieInfo);
   return (
     // <View style={{ flex: 1, backgroundColor:"red" }}>
       <FlipcardComponent

@@ -16,6 +16,7 @@ import FlipcardComponent from "../Components/FlipcardComponent";
 import { useNavigation } from "@react-navigation/native";
 import Backdrop from "../Components/Backdrop";
 import { FAB } from "react-native-paper";
+import AutomaticFlipCard from "../Components/AutomaticFlipCard";
 const { width, height } = Dimensions.get("window");
 
 const AdvertListScreen = ({ route: { params } }) => {
@@ -50,7 +51,7 @@ const AdvertListScreen = ({ route: { params } }) => {
     getMovieDetails(movieId);
     getAdvertsWithFilmID(movieId);
   }, [movieId]);
-  console.log(advert);
+  console.log("advert", advert);
   return (
     <SafeAreaView style={styles.container}>
       <Backdrop path={movieInfo.backdrop_path} />
@@ -69,14 +70,11 @@ const AdvertListScreen = ({ route: { params } }) => {
               showsVerticalScrollIndicator={false}
               renderItem={({ item }) => {
                 return (
-                  <FlipcardComponent
-                    style={{ height: "100%", width: "100%" }}
-                    filmName={isLoading ? "" : movieInfo.original_title}
+                  <AutomaticFlipCard
                     advert={item}
-                    filmImage={uri}
-                    isDetailScreen={false}
-                    comments={"Çok iyi film olcak hacı gel kesin"}
                     navigation={navigation}
+                    movieID={item.FilmID}
+                    isMyAdvert={item.OwnerID === 7 ? 0 : 1}
                   />
                 );
               }}
@@ -91,7 +89,11 @@ const AdvertListScreen = ({ route: { params } }) => {
                 style={styles.fab}
                 medium
                 icon="plus"
-                onPress={() => navigation.navigate("Set", {movieName: movieInfo.original_title})}
+                onPress={() =>
+                  navigation.navigate("Set", {
+                    movieName: movieInfo.original_title,
+                  })
+                }
               />
             </>
             // </View>

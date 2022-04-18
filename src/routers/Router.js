@@ -30,6 +30,8 @@ import { PubNubProvider, usePubNub } from "pubnub-react";
 import UpdateAdvertScreen from "../screens/UpdateAdvertScreen";
 import AdminPanel from "../screens/AdminPanel";
 import AdminUsers from "../screens/AdminUsers";
+import AdminAdverts from "../screens/AdminAdverts";
+import AdminProfileSettingsScreen from "../screens/AdminProfileSettingsScreen";
 
 const router = () => {
   const { state } = useContext(AuthContext);
@@ -44,175 +46,182 @@ const router = () => {
     restore: true, // enable catchup on missed messages
   });
   return (
-    <NavigationContainer>
-      {state.isSignedIn == false ? (
-        <Stack.Navigator initialRouteName="Login">
-          <Stack.Screen
-            name="Login"
-            component={Login}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="Signup"
-            component={RegisterScreen}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="SendVerificationScreen"
-            component={SendVerificationScreen}
-          />
-          <Stack.Screen
-            name="AdminPanel"
-            component={AdminPanel}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="AdminUsers"
-            component={AdminUsers}
-            options={{ headerShown: false }}
-          />
-          <Stack.Group screenOptions={{ presentation: "modal" }}>
-            <Stack.Screen
-              name="ModalRowOptions"
-              component={ModalRowOptions}
-              options={{ headerShown: false }}
-            />
-          </Stack.Group>
-        </Stack.Navigator>
-      ) : (
-        <PubNubProvider client={pubnub}>
-          <Stack.Navigator>
-            <Stack.Screen
-              name="Tab"
-              component={BottomTabNavigator}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen name="ResultScreen" component={ResultScreen} />
-            <Stack.Screen
-              name="AdvertListScreen"
-              component={AdvertListScreen}
-            />
-            <Stack.Screen name="ChatScreen" component={ChatScreen} />
-            <Stack.Screen
-              name="ProfileSettings"
-              component={ProfileSettingsScreen}
-            />
-            <Stack.Screen
-              name="SendVerificationScreen"
-              component={SendVerificationScreen}
-            />
-            <Stack.Group screenOptions={{ presentation: "modal" }}>
+      <NavigationContainer>
+        {state.isSignedIn == false ? (
+            <Stack.Navigator initialRouteName="Login">
               <Stack.Screen
-                name="ModalChipsScreen"
-                component={ModalChipsScreen}
-                options={{ headerShown: false }}
+                  name="Login"
+                  component={Login}
+                  options={{ headerShown: false }}
               />
               <Stack.Screen
-                name="ModalLikedScreen"
-                component={ModalLikedScreen}
-                options={{ headerShown: false }}
+                  name="Signup"
+                  component={RegisterScreen}
+                  options={{ headerShown: false }}
               />
               <Stack.Screen
-                name="ModalRemoveFilmScreen"
-                component={ModalRemoveFilmScreen}
-                options={{ headerShown: false }}
+                  name="SendVerificationScreen"
+                  component={SendVerificationScreen}
               />
               <Stack.Screen
-                name="UpdateAdvertScreen"
-                component={UpdateAdvertScreen}
-                options={{ headerShown: false }}
+                  name="AdminPanel"
+                  component={AdminPanel}
+                  options={{ headerShown: false }}
               />
-            </Stack.Group>
-          </Stack.Navigator>
-        </PubNubProvider>
-      )}
-    </NavigationContainer>
+              <Stack.Screen
+                  name="AdminUsers"
+                  component={AdminUsers}
+              />
+              <Stack.Screen
+                  name="AdminAdverts"
+                  component={AdminAdverts}
+              />
+
+              <Stack.Group screenOptions={{ presentation: "modal" }}>
+                <Stack.Screen
+                    name="ModalRowOptions"
+                    component={ModalRowOptions}
+                />
+                <Stack.Screen
+                    name="AdminProfileSettingsScreen"
+                    component={AdminProfileSettingsScreen}
+                />
+              </Stack.Group>
+            </Stack.Navigator>
+        ) : (
+            <PubNubProvider client={pubnub}>
+              <Stack.Navigator>
+                <Stack.Screen
+                    name="Tab"
+                    component={BottomTabNavigator}
+                    options={{ headerShown: false }}
+                />
+                <Stack.Screen name="ResultScreen" component={ResultScreen} />
+                <Stack.Screen
+                    name="AdvertListScreen"
+                    component={AdvertListScreen}
+                />
+                <Stack.Screen name="ChatScreen" component={ChatScreen} />
+                <Stack.Screen
+                    name="ProfileSettings"
+                    component={ProfileSettingsScreen}
+                />
+                <Stack.Screen
+                    name="SendVerificationScreen"
+                    component={SendVerificationScreen}
+                />
+                <Stack.Group screenOptions={{ presentation: "modal" }}>
+                  <Stack.Screen
+                      name="ModalChipsScreen"
+                      component={ModalChipsScreen}
+                      options={{ headerShown: false }}
+                  />
+                  <Stack.Screen
+                      name="ModalLikedScreen"
+                      component={ModalLikedScreen}
+                      options={{ headerShown: false }}
+                  />
+                  <Stack.Screen
+                      name="ModalRemoveFilmScreen"
+                      component={ModalRemoveFilmScreen}
+                      options={{ headerShown: false }}
+                  />
+                  <Stack.Screen
+                      name="UpdateAdvertScreen"
+                      component={UpdateAdvertScreen}
+                      options={{ headerShown: false }}
+                  />
+                </Stack.Group>
+              </Stack.Navigator>
+            </PubNubProvider>
+        )}
+      </NavigationContainer>
   );
 };
 const BottomTabNavigator = () => {
   const Tab = createBottomTabNavigator();
   return (
-    <Tab.Navigator
-      initialRouteName="Home"
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
-      <Tab.Screen
-        name="Home"
-        component={HomeScreen}
-        options={{
-          tabBarLabel: "Home",
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="ios-home" color={color} size={size} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Search"
-        component={SearchScreen}
-        options={{
-          tabBarLabel: "Search",
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="ios-search" color={color} size={size} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Set"
-        component={SetScreen}
-        options={{
-          tabBarLabel: "Set",
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="add-circle-outline" color={color} size={size} />
-          ),
-        }}
-        initialParams={{
-          movieName: "",
-        }}
-      />
+      <Tab.Navigator
+          initialRouteName="Home"
+          screenOptions={{
+            headerShown: false,
+          }}
+      >
+        <Tab.Screen
+            name="Home"
+            component={HomeScreen}
+            options={{
+              tabBarLabel: "Home",
+              tabBarIcon: ({ color, size }) => (
+                  <Ionicons name="ios-home" color={color} size={size} />
+              ),
+            }}
+        />
+        <Tab.Screen
+            name="Search"
+            component={SearchScreen}
+            options={{
+              tabBarLabel: "Search",
+              tabBarIcon: ({ color, size }) => (
+                  <Ionicons name="ios-search" color={color} size={size} />
+              ),
+            }}
+        />
+        <Tab.Screen
+            name="Set"
+            component={SetScreen}
+            options={{
+              tabBarLabel: "Set",
+              tabBarIcon: ({ color, size }) => (
+                  <Ionicons name="add-circle-outline" color={color} size={size} />
+              ),
+            }}
+            initialParams={{
+              movieName: "",
+            }}
+        />
 
-      <Tab.Screen
-        name="InboxRoot"
-        component={TopTabNavigator}
-        options={{
-          tabBarLabel: "Inbox",
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="ios-mail" color={color} size={size} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Profile"
-        component={ProfileScreen}
-        options={{
-          tabBarLabel: "Profile",
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="person-circle-outline" color={color} size={size} />
-          ),
-        }}
-        initialParams={{
-          userID: 7,
-        }}
-      />
-    </Tab.Navigator>
+        <Tab.Screen
+            name="InboxRoot"
+            component={TopTabNavigator}
+            options={{
+              tabBarLabel: "Inbox",
+              tabBarIcon: ({ color, size }) => (
+                  <Ionicons name="ios-mail" color={color} size={size} />
+              ),
+            }}
+        />
+        <Tab.Screen
+            name="Profile"
+            component={ProfileScreen}
+            options={{
+              tabBarLabel: "Profile",
+              tabBarIcon: ({ color, size }) => (
+                  <Ionicons name="person-circle-outline" color={color} size={size} />
+              ),
+            }}
+            initialParams={{
+              userID: 7,
+            }}
+        />
+      </Tab.Navigator>
   );
 };
 
 const TopTabNavigator = () => {
   const TopTab = createMaterialTopTabNavigator();
   return (
-    <TopTab.Navigator
-      initialRouteName="Inbox"
-      screenOptions={{
-        headerShown: false,
-        tabBarLabelStyle: { fontSize: 12 },
-      }}
-      style={styles.TopTabStyle}
-    >
-      <TopTab.Screen name="Inbox" component={InboxScreen} />
-      <TopTab.Screen name="ChatScreens" component={ChatScreens} />
-    </TopTab.Navigator>
+      <TopTab.Navigator
+          initialRouteName="Inbox"
+          screenOptions={{
+            headerShown: false,
+            tabBarLabelStyle: { fontSize: 12 },
+          }}
+          style={styles.TopTabStyle}
+      >
+        <TopTab.Screen name="Inbox" component={InboxScreen} />
+        <TopTab.Screen name="ChatScreens" component={ChatScreens} />
+      </TopTab.Navigator>
   );
 };
 
