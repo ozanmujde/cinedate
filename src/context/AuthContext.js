@@ -28,23 +28,7 @@ const signIn =
     }
   };
 
-const confirmEmail =
-  (dispatch) =>
-  async ({ email, code }) => {
-    try {
-      const response = await Auth.confirmSignUp(email, code);
-      console.log("confirm response", response);
-      alert("You have successfully registered!");
-      dispatch({ type: "confirmemail", payload: response });
-    } catch (err) {
-      console.log(err);
-      alert("Can not confirm email, please check the code");
-      dispatch({
-        type: "add_error",
-        payload: "Something went wrong with confirm",
-      });
-    }
-  };
+
 
 const authReducer = (state, action) => {
   switch (action.type) {
@@ -55,8 +39,6 @@ const authReducer = (state, action) => {
     case "signup":
       console.log("signup");
       return { ...state, isSignedIn: false, isSignUp: true };
-    case "confirmemail":
-      return { ...state, isConfirmed: true };
     default:
       return state;
   }
@@ -103,11 +85,10 @@ const signout = (dispatch) => {
 
 export const { Provider, Context } = createDataContext(
   authReducer,
-  { signIn, signout, signUp, confirmEmail },
+  { signIn, signout, signUp },
   {
     isSignedIn: false,
     isSignUp: false,
-    isConfirmed: false,
     errorMessage: "",
     userID: 0,
   }
