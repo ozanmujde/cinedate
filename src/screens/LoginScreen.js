@@ -50,24 +50,23 @@ const Login = ({ navigation }) => {
             onHaveAccountPress={() => {
               navigation.navigate("Signup");
             }}
-            haveAccountText={"Don't have an accont? Sign Up."}
+            haveAccountText={"Don't have an account? Sign Up."}
             disableSocialButtons={true}
-        />
-
-        <SocialIcon
-            title='Log in as Admin'
-            button
-            type=''
-            onPress={() => {
-              navigation.navigate("AdminPanel");
-            }}
         />
         <SocialIcon
             title='Confirm Your Email'
             button
-            type=''
+            type='google'
             onPress={() => {
               navigation.navigate("SendVerificationScreen");
+            }}
+        />
+        <SocialIcon
+            title='Log in as Admin'
+            button
+            type='google'
+            onPress={() => {
+              navigation.navigate("AdminPanel");
             }}
         />
 

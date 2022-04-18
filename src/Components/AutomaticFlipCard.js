@@ -25,7 +25,6 @@ const AutomaticFlipCard = ({ advert, navigation, movieID, isDetailScreen, isMyAd
   if(isDetailScreen !== true) {
     isDetailScreen = false;
   }
-  console.log("movieID", movieID);
 
   let date = advert.Date.split(" ")[0];
   var pattern = /(\d{2})\.(\d{2})\.(\d{4})/;
