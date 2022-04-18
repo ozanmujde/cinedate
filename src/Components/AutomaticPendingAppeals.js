@@ -116,8 +116,8 @@ const AutomaticPendingAppeals = ({advert, navigation, movieID, pendingStatus, is
     //   "PendingRequests": advert.PendingRequests,
     // })
 
-    console.log(advert.AdvertID, userId, username);
-    axios.put('https://wlobby-backend.herokuapp.com/accept/user/?AdvertID=' + advert.AdvertID + "&UserID=" + userId)
+    console.log("ACCEPT USER", advert.AdvertID, userId)
+    axios.post('https://wlobby-backend.herokuapp.com/accept/user/?AdvertID=' + advert.AdvertID + "&UserID=" + userId)
         .then((response) => {
           console.log(response.data);
       if(response.data.Status === "Success") {
@@ -131,11 +131,17 @@ const AutomaticPendingAppeals = ({advert, navigation, movieID, pendingStatus, is
   }
 
   function rejectUser(userId, username) {
-    axios.put('https://wlobby-backend.herokuapp.com/reject/user/?AdvertID=' + advert.AdvertID + "&UserID=" + userId)
+    console.log("REJECT USER", advert.AdvertID, userId)
+    axios.post('https://wlobby-backend.herokuapp.com/reject/user/?AdvertID=' + advert.AdvertID + "&UserID=" + userId)
         .then((response) => {
           console.log(response.data);
           if(response.data.Status === "Success") {
-            alert("Oh! You rejected " + username + " from your party :(");
+            if(username) {
+              alert("Oh! You rejected " + username + " from your party :(");
+            }
+            else {
+              alert("You won't watch this beautiful movie with " + advert.OwnerUsername + "!");
+            }
           }
           else {
             alert("An error occured");
@@ -145,6 +151,7 @@ const AutomaticPendingAppeals = ({advert, navigation, movieID, pendingStatus, is
   }
 
   const renderLeftActions = (props, userId, username) => {
+    console.log("RENDER LEFT ACTIONS", userId, username);
     return (
         <View style={{flexDirection: 'row'}}>
           {
@@ -167,7 +174,7 @@ const AutomaticPendingAppeals = ({advert, navigation, movieID, pendingStatus, is
                   </TouchableOpacity>
                   <TouchableOpacity>
                     <IconButton icon="alpha-x-circle-outline" style={{backgroundColor: 'red'}}
-                                onPress={() => getSubTitle(userId, username)}/>
+                                onPress={() => rejectUser(userId, username)}/>
 
                   </TouchableOpacity>
                 </>
@@ -276,7 +283,7 @@ const AutomaticPendingAppeals = ({advert, navigation, movieID, pendingStatus, is
                                             title={isLoading ? "Loading..." : movieInfo.original_title}
                                             subtitle={getSubTitle()}
                                             left={(props) => handleLeft(props)}
-                                            right={(props) => renderLeftActions(props)}
+                                            right={(props) => renderLeftActions(props, state.userID)}
                                 />
                               </TouchableOpacity>
                               : null
