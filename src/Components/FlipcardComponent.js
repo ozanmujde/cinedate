@@ -7,7 +7,7 @@ import {
   TouchableHighlight,
   TouchableOpacity,
   View,
-  ScrollView,
+  ScrollView, Alert,
 } from "react-native";
 import FlipCard from "react-native-flip-card-plus";
 import {
@@ -167,17 +167,34 @@ export default class FlipcardComponent extends Component {
                   style={styles.button}
                   icon="account-plus"
                   mode="contained"
-                  disabled={this.props.isMyAdvert !== 0 ? Object.keys(this.props.advert.AttendeeIDs).includes("7") : false}
+                  disabled={this.props.isMyAdvert !== 0 ? Object.keys(this.props.advert.AttendeeIDs).includes("7") || Object.keys(this.props.advert.PendingRequests).includes("7"): false}
                   onPress={() => {
                     if (this.props.advert.OwnerID !== 7) {
-                      const appeal = [
-                        {
-                          filmName: this.props.filmName,
-                          ownerName: this.props.advert.OwnerUsername,
-                        },
-                      ];
-                      this.sendAppeal()
-                      alert("Your appeal has been sent to the owner");
+                      console.log(Object.keys(this.props.advert.AttendeeIDs).length >= Number(this.props.advert.Quota))
+                      if(Object.keys(this.props.advert.AttendeeIDs).length >= Number(this.props.advert.Quota)){
+                        Alert.alert("Quota is full");
+                      }
+                      else{
+                        Alert.alert(
+                          "Appeal",
+                          "Are you sure you want to appeal?",
+                          [
+                            {
+                              text: "Cancel",
+                              onPress: () => console.log("Cancel Pressed"),
+                              style: "cancel",
+                            },
+                            {
+                              text: "Yes",
+                              onPress: () => {
+                                this.sendAppeal()
+                                alert("Your appeal has been sent to the owner");
+                              },
+                            },
+                          ],
+                          { cancelable: false }
+                        );
+                      }
                     } else {
                       // console.log("film name: " + this.props.filmName);
                       this.props.navigation.navigate("UpdateAdvertScreen", {movieName: this.props.filmName, advert: this.props.advert, date: this.props.date, time: this.props.time});

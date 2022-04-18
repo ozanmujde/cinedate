@@ -1,6 +1,6 @@
 import {getAdverts, getUsers} from "../hooks/wlobbyGetters";
 import React, {useEffect} from "react";
-import {KeyboardAvoidingView, SafeAreaView, StyleSheet} from "react-native";
+import {Alert, KeyboardAvoidingView, SafeAreaView, StyleSheet} from "react-native";
 import {Button, Card, List, TextInput} from "react-native-paper";
 import {useNavigation} from "@react-navigation/native";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
@@ -78,7 +78,9 @@ const AdminPanel = () => {
                   </Card.Content>
                 </Card> : null
           }
+
         </KeyboardAwareScrollView>
+
       </SafeAreaView>
   );
 };
@@ -106,5 +108,11 @@ const styles = StyleSheet.create({
   textInput: {
     marginTop: 10,
     backgroundColor: "#fff",
-  }
+  },
+  buttonDelete: {
+    marginTop: 10,
+    marginHorizontal: 20,
+    borderRadius: 10,
+    backgroundColor: "#ff0000",
+  },
 });

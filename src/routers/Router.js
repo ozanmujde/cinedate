@@ -31,6 +31,7 @@ import UpdateAdvertScreen from "../screens/UpdateAdvertScreen";
 import AdminPanel from "../screens/AdminPanel";
 import AdminUsers from "../screens/AdminUsers";
 import AdminAdverts from "../screens/AdminAdverts";
+import AdminProfileSettingsScreen from "../screens/AdminProfileSettingsScreen";
 
 const router = () => {
   const { state } = useContext(AuthContext);
@@ -75,11 +76,15 @@ const router = () => {
                   name="AdminAdverts"
                   component={AdminAdverts}
               />
+
               <Stack.Group screenOptions={{ presentation: "modal" }}>
                 <Stack.Screen
                     name="ModalRowOptions"
                     component={ModalRowOptions}
-                    options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                    name="AdminProfileSettingsScreen"
+                    component={AdminProfileSettingsScreen}
                 />
               </Stack.Group>
             </Stack.Navigator>

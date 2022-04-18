@@ -34,7 +34,6 @@ const UpdateAdvertScreen = ({ route: { params } }) => {
 
   const handleChangeDate = (text) => {
     setDate(text);
-    console.log("asdasdasda", date);
   };
 
   const onDismiss = React.useCallback(() => {

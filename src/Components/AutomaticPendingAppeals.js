@@ -19,7 +19,6 @@ const AutomaticPendingAppeals = ({advert, navigation, movieID, pendingStatus, is
     isLoading,
   ] = useResults();
 
-  console.log("adasdqad", advert.OwnerID);
   useEffect(() => {
     getMovieDetails(movieID);
     getSubTitle();
@@ -167,7 +166,7 @@ const AutomaticPendingAppeals = ({advert, navigation, movieID, pendingStatus, is
                   </TouchableOpacity>
                   <TouchableOpacity>
                     <IconButton icon="alpha-x-circle-outline" style={{backgroundColor: 'red'}}
-                                onPress={() => rejectUser(userId, username)}/>
+                                onPress={() => getSubTitle(userId, username)}/>
 
                   </TouchableOpacity>
                 </>
@@ -227,17 +226,19 @@ const AutomaticPendingAppeals = ({advert, navigation, movieID, pendingStatus, is
     navigation.navigate("Profile", {userID});
   }
 
-  let subtitle = "";
+  const [subTitle, setSubTitle] = React.useState("");
 
+  useEffect(() => {
+    getSubTitle();
+  })
   function getSubTitle() {
-
     axios.get('https://wlobby-backend.herokuapp.com/get/user/?UserID=' + advert.OwnerID)
         .then(res => {
-          console.log(res.data.Item.Username);
-          subtitle = res.data.Item.Username;
+          console.log("here",res.data.Item.Username);
+          setSubTitle(res.data.Item.Username);
           return res.data.Item.Username;
         })
-    return subtitle;
+    return subTitle;
   }
 
   return (
@@ -263,7 +264,7 @@ const AutomaticPendingAppeals = ({advert, navigation, movieID, pendingStatus, is
                       <TouchableOpacity onPress={() => function1()}>
                         <Card.Title style={{borderWidth: .5, borderColor: "black"}}
                                     title={isLoading ? "Loading..." : movieInfo.original_title}
-                                    subtitle={"monica"}
+                                    subtitle={subTitle}
                                     left={(props) => handleLeft(props)}
                                     right={(props) => renderLeftActions(props)}
                         />

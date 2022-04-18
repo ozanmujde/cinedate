@@ -1,9 +1,10 @@
 import {getAdverts, getUsers} from "../hooks/wlobbyGetters";
 import React, {useEffect} from "react";
-import {SafeAreaView, StyleSheet} from "react-native";
-import {Card, DataTable, Provider} from "react-native-paper";
+import {Alert, SafeAreaView, StyleSheet} from "react-native";
+import {Button, Card, DataTable, Provider} from "react-native-paper";
 import {useNavigation} from "@react-navigation/native";
 import {ScrollView} from "moti";
+import axios from "axios";
 
 const numberOfItemsPerPageList = [10, 20, 50];
 
@@ -23,6 +24,7 @@ const items = [
 ];
 
 const AdminUsers = ({ route: { params } }) => {
+  const users = params.users
   const [page, setPage] = React.useState(0);
   const [numberOfItemsPerPage, onItemsPerPageChange] = React.useState(numberOfItemsPerPageList[0]);
   const from = page * numberOfItemsPerPage;
@@ -32,6 +34,26 @@ const AdminUsers = ({ route: { params } }) => {
     setPage(0);
   }, [numberOfItemsPerPage]);
 
+  function handleDeleteAllUsers() {
+    Alert.alert(
+        "ALL Users Will Be Deleted",
+        "Are you sure you want to delete ALL users?",
+        [
+          {
+            text: "Yes",
+            onPress: () => {
+              params.users.map(user => {
+                axios.post(`https://wlobby-backend.herokuapp.com/delet/users/?UserID=${user.UserID}`);
+              })
+            },
+          },
+          {
+            text: "No",
+          },
+        ]
+    );
+
+  }
 
   return (
       <Provider>
@@ -49,7 +71,7 @@ const AdminUsers = ({ route: { params } }) => {
           {
             params.users.slice(page * numberOfItemsPerPage,
             page * numberOfItemsPerPage + numberOfItemsPerPage).map(user => (
-                <DataTable.Row onPress={() => navigation.navigate("ModalRowOptions", {user})}>
+                <DataTable.Row onPress={() => navigation.navigate("ModalRowOptions", {userData: user,usersData: users})}>
                   <DataTable.Cell>{user.Username}</DataTable.Cell>
                   <DataTable.Cell>{user.Email}</DataTable.Cell>
                   <DataTable.Cell>{user.Age}</DataTable.Cell>
@@ -71,6 +93,10 @@ const AdminUsers = ({ route: { params } }) => {
               selectPageDropdownLabel={'Rows per page'}
           />
         </DataTable>
+        <Button style={styles.buttonDelete} icon="delete-outline" mode="contained"
+                onPress={() => handleDeleteAllUsers()}>
+          DELETE ALL USERS
+        </Button>
       </ScrollView>
       </SafeAreaView>
       </Provider>
@@ -97,18 +123,10 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     borderRadius: 10
   },
-  fab: {
-    position: "absolute",
-    margin: 16,
-    right: 0,
-    bottom: 0,
-    backgroundColor: "#6200ed",
-    // shadowColor: "#6200ed",
-    // shadowOffset: {
-    //   width: 0,
-    //   height: 0,
-    // },
-    // shadowOpacity: 0.35,
-    // shadowRadius: 20,
+  buttonDelete: {
+    marginTop: 10,
+    marginHorizontal: 20,
+    borderRadius: 10,
+    backgroundColor: "#ff0000",
   },
 });
