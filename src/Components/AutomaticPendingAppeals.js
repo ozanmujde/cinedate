@@ -1,9 +1,10 @@
 import {LogBox, TouchableOpacity, View} from "react-native";
-import React, {useEffect} from "react";
+import React, {useEffect,useContext} from "react";
 import useResults from "../hooks/useResults";
 import {Avatar, Card, IconButton} from "react-native-paper";
 import tmdb from "../api/tmdb";
 import axios from "axios";
+import {Context as AuthContext} from "../context/AuthContext";
 
 let result;
 LogBox.ignoreAllLogs()
@@ -18,7 +19,7 @@ const AutomaticPendingAppeals = ({advert, navigation, movieID, pendingStatus, is
     moviesInfos,
     isLoading,
   ] = useResults();
-
+  const {state} = useContext(AuthContext);
   useEffect(() => {
     getMovieDetails(movieID);
     getSubTitle();
@@ -234,7 +235,6 @@ const AutomaticPendingAppeals = ({advert, navigation, movieID, pendingStatus, is
   function getSubTitle() {
     axios.get('https://wlobby-backend.herokuapp.com/get/user/?UserID=' + advert.OwnerID)
         .then(res => {
-          console.log("here",res.data.Item.Username);
           setSubTitle(res.data.Item.Username);
           return res.data.Item.Username;
         })
@@ -270,7 +270,7 @@ const AutomaticPendingAppeals = ({advert, navigation, movieID, pendingStatus, is
                         />
                       </TouchableOpacity>
                       : isMyAdvert === 1
-                          ? advert.OwnerID !== 7 ?
+                          ? advert.OwnerID !== state.userID ?
                               <TouchableOpacity onPress={() => function1()}>
                                 <Card.Title style={{borderWidth: .5, borderColor: "black"}}
                                             title={isLoading ? "Loading..." : movieInfo.original_title}

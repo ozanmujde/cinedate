@@ -28,10 +28,12 @@ const ProfileScreen = ({ route: { params } }) => {
   const userID = params.userID;
   const navigation = useNavigation();
   const generator = new AvatarGenerator();
+  const { state } = useContext(AuthContext);
   const [getUserData, userData, errorMessage] = getUsers();
   const [refreshing, setRefreshing] = useState(false);
   useEffect(() => {
     getUserData(userID);
+    // console.log(userData);
   }, [userID, userData]);
 
   const onRefresh = (userID) => {
@@ -57,7 +59,7 @@ const ProfileScreen = ({ route: { params } }) => {
           refreshControl={
             <RefreshControl
               refreshing={refreshing}
-              onRefresh={() => onRefresh(7)}
+              onRefresh={() => onRefresh(state.userID)}
             />
           }
         >
@@ -142,8 +144,7 @@ const ProfileScreen = ({ route: { params } }) => {
           >
             Sign Out
           </Button>
-          {/* TODO: Burasi auth la degismeli */}
-          {userID === 7 ? (
+          {userID === state.userID ? (
             <Button
               style={styles.button}
               icon="cog-outline"

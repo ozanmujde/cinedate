@@ -41,7 +41,7 @@ const router = () => {
   const pubnub = new PubNub({
     publishKey: "pub-c-db5f1d5b-6ae2-49d4-a3de-78fa20d8843b",
     subscribeKey: "sub-c-ac9d8622-a6cd-11ec-94c0-bed45dbe0fe1",
-    uuid: "Ozan",
+    uuid: state.userID.toString(),
     autoNetworkDetection: true, // enable for non-browser environment automatic reconnection
     restore: true, // enable catchup on missed messages
   });
@@ -139,6 +139,7 @@ const router = () => {
   );
 };
 const BottomTabNavigator = () => {
+  const { state } = useContext(AuthContext);
   const Tab = createBottomTabNavigator();
   return (
       <Tab.Navigator
@@ -201,7 +202,7 @@ const BottomTabNavigator = () => {
               ),
             }}
             initialParams={{
-              userID: 7,
+              userID: state.userID,
             }}
         />
       </Tab.Navigator>

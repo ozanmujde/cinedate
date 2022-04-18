@@ -15,7 +15,7 @@ const signIn =
         // console.log("item", item);
         // console.log("email", email);
         if (item.Email === email) {
-          dispatch({ type: "signin", payload: item });
+          dispatch({ type: "signin", payload: item.UserID });
         }
       });
       // dispatch({ type: "signin", payload: "response" });

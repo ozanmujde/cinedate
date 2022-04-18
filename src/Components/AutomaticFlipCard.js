@@ -1,11 +1,11 @@
 import { View, Text } from "react-native";
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import FlipcardComponent from "./FlipcardComponent";
 import useResults from "../hooks/useResults";
 import {Time} from "react-native-gifted-chat";
-
+import { Context as AuthContext } from "../context/AuthContext";
 const AutomaticFlipCard = ({ advert, navigation, movieID, isDetailScreen, isMyAdvert }) => {
-
+  const { state } = useContext(AuthContext);
   useEffect(() => {
     getMovieDetails(movieID);
     console.log("movieID", movieID);
@@ -44,6 +44,7 @@ const AutomaticFlipCard = ({ advert, navigation, movieID, isDetailScreen, isMyAd
         filmName={isLoading ? "" : movieInfo.original_title}
         advert={advert}
         filmImage={uri}
+        userID={state.userID}
         isDetailScreen={isDetailScreen}
         navigation={navigation}
         isMyAdvert={isMyAdvert}

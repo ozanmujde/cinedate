@@ -1,20 +1,22 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { Avatar } from "react-native-elements";
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import Users from "../../../assets/Users";
 import { getUsers } from "../../hooks/wlobbyGetters";
 import { SvgUri } from "react-native-svg";
 import { useNavigation } from "@react-navigation/native";
+import { Context as AuthContext } from "../../context/AuthContext";
 const TEMP_IMAGE =
   "https://avataaars.io/?accessoriesType=Prescription02&avatarStyle=Circle&clotheColor=Red&clotheType=Hoodie&eyeType=Squint&eyebrowType=FlatNatural&facialHairColor=BlondeGolden&facialHairType=MoustacheFancy&hairColor=BlondeGolden&hatColor=PastelYellow&mouthType=Serious&skinColor=DarkBrown&topType=LongHairStraight";
 const ChatHeader = (props) => {
   const channelId = props.channelId;
   const navigation = useNavigation();
+  const { state } = useContext(AuthContext);
   const [getUserData, userData, errorMessage] = getUsers();
-  const myID = 7; //TODO: AUth gelince degistir
+  const myID = state.userID;
   const tmp = channelId.split("c");
   // console.log(generator.generateRandomAvatar());
-  let otherID = tmp[0] == myID ? tmp[1] : tmp[0];
+  let otherID = tmp[0] === myID.toString() ? tmp[1] : tmp[0];
   // console.log("other", otherID);
   useEffect(() => {
     getUserData(otherID);

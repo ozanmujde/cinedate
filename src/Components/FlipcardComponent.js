@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { Component, useState,useContext } from "react";
 import {
   Image,
   Pressable,
@@ -31,6 +31,7 @@ export default class FlipcardComponent extends Component {
     };
     this.card = React.createRef();
     this.footer = React.createRef();
+    this.userID = props.userID
     // console.log(this.props.advert);
   }
   componentDidUpdate(props) {
@@ -42,7 +43,7 @@ export default class FlipcardComponent extends Component {
     return text.length > 20 ? `${text.substr(0, 20)}...` : text;
   }
   sendAppeal() {
-    axios.post('https://wlobby-backend.herokuapp.com/join/advert/?AdvertID=' + this.props.advert.AdvertID + '&UserID=7')
+    axios.post('https://wlobby-backend.herokuapp.com/join/advert/?AdvertID=' + this.props.advert.AdvertID + `&UserID=${this.userID}`)
         .then(function (response) {
           console.log(response.data);
         })
@@ -167,9 +168,9 @@ export default class FlipcardComponent extends Component {
                   style={styles.button}
                   icon="account-plus"
                   mode="contained"
-                  disabled={this.props.isMyAdvert !== 0 ? Object.keys(this.props.advert.AttendeeIDs).includes("7") || Object.keys(this.props.advert.PendingRequests).includes("7"): false}
+                  disabled={this.props.isMyAdvert !== 0 ? Object.keys(this.props.advert.AttendeeIDs).includes(this.userID.toString()) || Object.keys(this.props.advert.PendingRequests).includes(this.userID.toString()): false}
                   onPress={() => {
-                    if (this.props.advert.OwnerID !== 7) {
+                    if (this.props.advert.OwnerID !== this.userID) {
                       console.log(Object.keys(this.props.advert.AttendeeIDs).length >= Number(this.props.advert.Quota))
                       if(Object.keys(this.props.advert.AttendeeIDs).length >= Number(this.props.advert.Quota)){
                         Alert.alert("Quota is full");
@@ -201,7 +202,7 @@ export default class FlipcardComponent extends Component {
                     }
                   }}
                 >
-                  {this.props.advert.OwnerID === 7 ? (
+                  {this.props.advert.OwnerID === this.userID ? (
                     "Update The Advert"
                   ) : (
                     <>

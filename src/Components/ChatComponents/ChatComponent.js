@@ -1,13 +1,15 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect,useContext } from "react";
 import { GiftedChat, Send } from "react-native-gifted-chat";
 import PubNub from "pubnub";
 import { PubNubProvider, usePubNub } from "pubnub-react";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { View, Platform } from "react-native";
+import {Context as AuthContext} from '../../context/AuthContext';
 import Users from "../../../assets/Users";
 
 const ChatComponent = (props) => {
   const pubnub = usePubNub();
+  const { state } = useContext(AuthContext);
   const str = props.channelId;
   // console.log(props);
   const [messages, setMessages] = useState([]);
@@ -56,8 +58,8 @@ const ChatComponent = (props) => {
     //   uuids: ["Ozan"],
     // });
     // pubnub.objects.removeMemberships({
-    //   channels: ["4c7", "7c7"],
-    //   uuids: ["Ozan"],
+    //   channels: ["149c152", "149c7"],
+    //   uuids: [state.userID.toString()],
     // });
     return () => {
       pubnub.removeListener(listener);
@@ -117,7 +119,7 @@ const ChatComponent = (props) => {
         messages={messages}
         onSend={sendMessage}
         user={{
-          _id: Platform.OS === "ios" ? 1 : 0,
+          _id: state.userId,
         }}
         sendOnEnter={true}
         style={{
