@@ -57,9 +57,17 @@ const Login = ({ navigation }) => {
         <SocialIcon
             title='Log in as Admin'
             button
-            type='google'
+            type=''
             onPress={() => {
               navigation.navigate("AdminPanel");
+            }}
+        />
+        <SocialIcon
+            title='Confirm Your Email'
+            button
+            type=''
+            onPress={() => {
+              navigation.navigate("SendVerificationScreen");
             }}
         />
 
