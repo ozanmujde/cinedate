@@ -135,7 +135,7 @@ const SetScreen = ({ route: { params } }) => {
         style={styles.logo}
       />
       <Card
-        style={{ width: "90%", height: "90%", backgroundColor: "lightgray" }}
+        style={{ width: "90%", height: "90%" }}
       >
         <Card.Content>
           <KeyboardAwareScrollView
@@ -331,6 +331,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     marginTop: 20,
-    backgroundColor: "#fff",
+    backgroundColor: "rgba(231,164,164,0.29)",
   },
 });
