@@ -35,7 +35,7 @@ const Login = ({ navigation }) => {
         <LoginScreen
             logoImageSource={require("../../assets/Wlobby-logos_transparent.png")}
             logoImageStyle={{ width: 300, height: 300, marginBottom: -80 }}
-            loginButtonStyle={{ backgroundColor: "#6200ed" }}
+            loginButtonStyle={{ backgroundColor: "#9952ff" }}
 
             onEmailChange={(text) => {
               onChangeEmail(text);
@@ -56,7 +56,7 @@ const Login = ({ navigation }) => {
         <SocialIcon
             title='Confirm Your Email'
             button
-            type='google'
+            style={{backgroundColor: '#6200ed'}}
             onPress={() => {
               navigation.navigate("SendVerificationScreen");
             }}
@@ -64,7 +64,7 @@ const Login = ({ navigation }) => {
         <SocialIcon
             title='Log in as Admin'
             button
-            type='google'
+            style={{backgroundColor: '#6200ed'}}
             onPress={() => {
               navigation.navigate("AdminPanel");
             }}
