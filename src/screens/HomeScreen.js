@@ -5,13 +5,14 @@ import {
   StyleSheet,
   Animated,
 } from "react-native";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useContext } from "react";
 import AutomaticFlipCard from "../Components/AutomaticFlipCard";
 import { FAB } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { getAdverts } from "../hooks/wlobbyGetters";
 import LoadingIndicatior from "../Components/LoadingIndicatior";
 import ChatHeader from "../Components/ChatComponents/ChatHeader";
+import { Context as AuthContext } from "../context/AuthContext";
 import { Image, View } from "moti";
 const ITEM_SIZE = 280 + 20 * 3;
 
@@ -30,10 +31,12 @@ const HomeScreen = () => {
       ownerName: "Sara",
     },
   ];
+  const { state } = useContext(AuthContext);
 
   const [getAdvertsData, adverts, errorMessage, loading] = getAdverts();
   const scrollY = useRef(new Animated.Value(0)).current;
   const [films, setFilms] = React.useState([]);
+  console.log("userID", state.userID);
 
   useEffect(() => {
     getAdvertsData();
@@ -112,7 +115,7 @@ const HomeScreen = () => {
                     advert={item}
                     navigation={navigation}
                     movieID={item.FilmID}
-                    isMyAdvert={item.OwnerID === 7 ? 0: 1}
+                    isMyAdvert={item.OwnerID === 7 ? 0 : 1}
                   />
                 </Animated.View>
               );

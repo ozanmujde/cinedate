@@ -96,14 +96,17 @@ const RegisterScreen = () => {
     function handleSubmit() {
         setUserName((name.toLowerCase() + surname.toLowerCase() + Math.floor(Math.random() * 100)).toString());
         if(email !== "" && name !== "" && surname !== "" && location !== "" && sex !== "" && randomAvatar !== "") {
-            var flag = true; //true means email has not registered yet
+            let flag = true; //true means email has not registered yet
             // console.log(randomAvatar,sex,email,bio,name,surname,age,name.toLowerCase() + surname.toLowerCase() + Math.floor(Math.random() * 100));
 
             axios.post('https://wlobby-backend.herokuapp.com/get/users/').then((response) => {
                 for (var i = 0; i <response.data.Items.length; i++) {
                     var user = response.data.Items[i];
                     var emailDataBase=user.Email;
+                    // console.log("emaildatabase",emailDataBase);
+                    // console.log("email",email);
                     if (emailDataBase===email){
+                        console.log("email already registered",emailDataBase);
                         flag=false;
                     }
 
