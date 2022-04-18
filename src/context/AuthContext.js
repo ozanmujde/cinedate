@@ -77,11 +77,21 @@ const signUp = (dispatch) =>
     }
   };
 
-const signout = (dispatch) => {
-  return () => {
-    dispatch({ type: "signout", payload: {} });
+const signout = (dispatch) => async () => {
+      try {
+          const response = await Auth.signOut();
+          dispatch({type: "signout", payload: {}});
+
+      }catch (err){
+          alert(err);
+          dispatch({
+              type: "add_error",
+              payload: "Something went wrong with sign up",
+          });
+      }
+
   };
-};
+
 
 export const { Provider, Context } = createDataContext(
   authReducer,

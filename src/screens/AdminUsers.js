@@ -43,7 +43,8 @@ const AdminUsers = ({ route: { params } }) => {
             text: "Yes",
             onPress: () => {
               params.users.map(user => {
-                axios.post(`https://wlobby-backend.herokuapp.com/delet/users/?UserID=${user.UserID}`);
+                axios.post(`https://wlobby-backend.herokuapp.com/delete/users/?UserID=${user.UserID}`);
+
               })
             },
           },
