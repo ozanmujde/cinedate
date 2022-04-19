@@ -32,6 +32,7 @@ import AdminPanel from "../screens/AdminPanel";
 import AdminUsers from "../screens/AdminUsers";
 import AdminAdverts from "../screens/AdminAdverts";
 import AdminProfileSettingsScreen from "../screens/AdminProfileSettingsScreen";
+import ModalRowOptionsAdvert from "../screens/ModalRowOptionsAdvert";
 
 const router = () => {
   const { state } = useContext(AuthContext);
@@ -81,6 +82,15 @@ const router = () => {
                 <Stack.Screen
                     name="ModalRowOptions"
                     component={ModalRowOptions}
+                />
+                <Stack.Screen
+                    name="ModalRowOptionsAdvert"
+                    component={ModalRowOptionsAdvert}
+                    options={{title:'Advert',
+                      headerTintColor: '#fff',
+                      headerTitleStyle: {
+                        fontWeight: 'bold',
+                      }}}
                 />
                 <Stack.Screen
                     name="AdminProfileSettingsScreen"

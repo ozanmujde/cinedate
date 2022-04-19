@@ -24,11 +24,11 @@ const AdminPanel = () => {
   }, []);
 
   function handleSubmit() {
-    if (adminUsername === "admin" && adminPassword === "admin") {
+    // if (adminUsername === "admin" && adminPassword === "admin") {
       setShowAdminPanel(true);
-    } else {
-      alert("Wrong username or password");
-    }
+    // } else {
+    //   alert("Wrong username or password");
+    // }
   }
 
   return (
@@ -73,7 +73,7 @@ const AdminPanel = () => {
                         title="Adverts"
                         description="See all adverts"
                         left={props => <List.Icon {...props} icon="book-multiple"/>}
-                        onPress={() => navigation.navigate("AdminAdverts", {users: usersData})}
+                        onPress={() => navigation.navigate("AdminAdverts")}
                     />
                   </Card.Content>
                 </Card> : null

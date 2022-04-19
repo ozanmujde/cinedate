@@ -1,11 +1,13 @@
 import {getAdverts, getUsers} from "../hooks/wlobbyGetters";
-import React, {useEffect} from "react";
-import {SafeAreaView, StyleSheet, View} from "react-native";
-import {Card, DataTable, Provider} from "react-native-paper";
+import React, {useEffect, useLayoutEffect} from "react";
+import {SafeAreaView, StyleSheet, Text, View} from "react-native";
+import {Button, Card, DataTable, Provider} from "react-native-paper";
 import {useNavigation} from "@react-navigation/native";
 import {ScrollView} from "moti";
 import axios from "axios";
 import DataTableCell from "react-native-paper/src/components/DataTable/DataTableCell";
+import useResults from "../hooks/useResults";
+import tmdb from "../api/tmdb";
 
 const numberOfItemsPerPageList = [10, 20, 50];
 
@@ -24,14 +26,16 @@ const items = [
   },
 ];
 
-const AdminAdverts = ({ route: { params } }) => {
+const AdminAdverts = () => {
   const [page, setPage] = React.useState(0);
   const [numberOfItemsPerPage, onItemsPerPageChange] = React.useState(numberOfItemsPerPageList[0]);
   const from = page * numberOfItemsPerPage;
   const to = Math.min((page + 1) * numberOfItemsPerPage, items.length);
 
-
-  let adverts = [];
+  useLayoutEffect(() => {
+    getadverts().then(r => console.log(adverts.length));
+  }, []);
+  const [adverts, setAdverts] = React.useState([]);
   async function getadverts() {
     try {
       const res = await axios.get(
@@ -39,22 +43,54 @@ const AdminAdverts = ({ route: { params } }) => {
       );
       res.data.Items.map(item => {
         if (!adverts.includes(item)) {
-          adverts.push(item);
+          setAdverts(adverts => [...adverts, item]);
         }
       });
     } catch (error) {
       console.log(error);
     }
-
     return adverts;
   }
-  useEffect(() => {
-    getadverts();
-  }, []);
+
   React.useEffect(() => {
     setPage(0);
   }, [numberOfItemsPerPage]);
 
+  const [
+    searchMovieApi,
+    errorMessage,
+    results,
+    getMovieDetails,
+    getMoviesDetails,
+    movieInfo,
+    moviesInfos,
+    isLoading,
+  ] = useResults();
+
+  function handleDeleteAllAdverts() {
+    adverts.map(advert => {
+      axios.post(
+          "https://wlobby-backend.herokuapp.com/delete/advert/" + advert.AdvertID)
+          .then(res => console.log(res.data));
+    });
+  }
+  const navigation = useNavigation();
+
+   function handleRender(advert) {
+    return (
+        <View>
+        <DataTable.Row onPress={() => navigation.navigate("ModalRowOptionsAdvert", {advertData: advert})}>
+          <DataTable.Cell>{advert.AdvertID}</DataTable.Cell>
+          <DataTable.Cell >{advert.AttendeePreference}</DataTable.Cell>
+          <DataTable.Cell numeric>{advert.FilmID}</DataTable.Cell>
+          <DataTable.Cell numeric>{advert.OwnerID}</DataTable.Cell>
+          <DataTable.Cell numeric style={{marginRight: 10}}>{advert.Quota}</DataTable.Cell>
+          <DataTable.Cell numeric>{advert.Date.split(" ")[0]}</DataTable.Cell>
+          <DataTable.Cell numeric>{advert.Date.split(" ")[1]}</DataTable.Cell>
+        </DataTable.Row>
+        </View>
+    )
+  }
 
   return (
       <Provider>
@@ -72,17 +108,7 @@ const AdminAdverts = ({ route: { params } }) => {
               </DataTable.Header>
               {
                 adverts.slice(page * numberOfItemsPerPage,
-                    page * numberOfItemsPerPage + numberOfItemsPerPage).map(advert => (
-                    <DataTable.Row onPress={() => console.log("pressed")}>
-                      <DataTable.Cell>{advert.AdvertID}</DataTable.Cell>
-                      <DataTable.Cell>{advert.AttendeePreference}</DataTable.Cell>
-                      <DataTable.Cell>{advert.FilmID}</DataTable.Cell>
-                      <DataTable.Cell>{advert.OwnerID}</DataTable.Cell>
-                      <DataTable.Cell numeric>{advert.Quota}</DataTable.Cell>
-                      <DataTable.Cell>{advert.Date.split(" ")[0]}</DataTable.Cell>
-                      <DataTable.Cell>{advert.Date.split(" ")[1]}</DataTable.Cell>
-                    </DataTable.Row>
-                ))
+                    page * numberOfItemsPerPage + numberOfItemsPerPage).map(advert => handleRender(advert))
               }
               <DataTable.Pagination
                   page={page}
@@ -96,6 +122,10 @@ const AdminAdverts = ({ route: { params } }) => {
                   selectPageDropdownLabel={'Rows per page'}
               />
             </DataTable>
+            <Button style={styles.buttonDelete} icon="delete-outline" mode="contained"
+                    onPress={() => handleDeleteAllAdverts()}>
+              DELETE ALL Adverts
+            </Button>
           </ScrollView>
         </SafeAreaView>
       </Provider>
@@ -122,18 +152,10 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     borderRadius: 10
   },
-  fab: {
-    position: "absolute",
-    margin: 16,
-    right: 0,
-    bottom: 0,
-    backgroundColor: "#6200ed",
-    // shadowColor: "#6200ed",
-    // shadowOffset: {
-    //   width: 0,
-    //   height: 0,
-    // },
-    // shadowOpacity: 0.35,
-    // shadowRadius: 20,
+  buttonDelete: {
+    marginTop: 10,
+    marginHorizontal: 20,
+    borderRadius: 10,
+    backgroundColor: "#ff0000",
   },
 });

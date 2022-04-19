@@ -8,8 +8,6 @@ const AutomaticFlipCard = ({ advert, navigation, movieID, isDetailScreen, isMyAd
   const { state } = useContext(AuthContext);
   useEffect(() => {
     getMovieDetails(movieID);
-    console.log("movieID", movieID);
-    console.log("movieInfo", movieInfo);
   }, [movieID]);
   const [
     searchMovieApi,
